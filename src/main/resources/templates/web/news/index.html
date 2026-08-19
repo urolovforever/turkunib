@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{web/fragments/layout :: layout (~{::content}, 'TIU TURKUNIB :: Latest News', 'news', ~{})}">
+<head>
+    <meta charset="UTF-8">
+    <title>TIU TURKUNIB - Latest News</title>
+</head>
+<body>
+<div th:fragment="content">
+
+    <th:block th:replace="~{web/fragments/hero-banner :: hero-banner(${banners})}"></th:block>
+
+    <!-- News -->
+    <section class="news-section" th:if="${news != null and !#lists.isEmpty(news)}">
+        <div class="container">
+            <div class="row mb-5">
+                <div class="col">
+                    <h2 class="h2-bigger" th:text="#{main.news.latest.news}">Latest News</h2>
+                </div>
+            </div>
+
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4 me-2">
+                <div class="col mb-5" th:each="item : ${news.content}">
+                    <div class="card h-100">
+                        <a th:href="@{'/' + ${lang} + '/news/' + ${item.id()} + '/' + ${item.slug()}}">
+                            <img th:src="${item.image().url}" class="card-img-top" th:alt="${item.title()}">
+                        </a>
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <a class="stretched-link text-decoration-none"
+                                   th:href="@{'/' + ${lang} + '/news/' + ${item.id()} + '/' + ${item.slug()}}"
+                                   th:text="${item.title()}"></a>
+                            </h5>
+                            <hr>
+                            <p class="card-text" th:text="${item.description()}"></p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="badge text-bg-brand" th:text="${item.category().translation().title()}">Sciences</span>
+                                <span class="text-muted small ms-2" th:text="${#temporals.format(item.createdAt(), 'MMM dd, yyyy')}">Jan 20, 2025</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row my-3">
+                <div class="col d-flex justify-content-end align-items-center">
+                    <th:block th:replace="~{web/fragments/pagination :: pagination-web(${news}, ${'/' + lang + '/news/'})}"></th:block>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <th:block th:replace="~{web/fragments/student-testimonials :: student-testimonials('margin-top-95')}"></th:block>
+
+</div>
+
+</body>
+</html>

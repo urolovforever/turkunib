@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{admin/fragments/layout :: layout (~{::content}, 'TIU TURKUNIB :: Image Management', 'media', ~{::pageScripts})}">
+<head>
+    <meta charset="UTF-8">
+    <title>TIU TURKUNIB - Image Management</title>
+</head>
+<body>
+<div th:fragment="content">
+    <h1 class="h3 mb-4 text-gray-800 ">Image Management</h1>
+
+    <th:block th:replace="~{admin/fragments/message :: message(${error}, ${success})}"></th:block>
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <div>
+            <button id="uploadOpenBtn" class="btn btn-primary border-primary shadow-sm" data-toggle="modal" data-target="#uploadModal">
+                <i class="fas fa-upload mr-1"></i> Upload Images
+            </button>
+        </div>
+    </div>
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Manage Images</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover table-bordered table-sm align-middle mb-0">
+                    <thead class="bg-light">
+                    <tr>
+                        <th class="font-weight-bold" style="min-width: 60px;">#</th>
+                        <th class="font-weight-bold" style="min-width: 120px;">Preview</th>
+                        <th class="font-weight-bold" style="min-width: 320px;">Name</th>
+                        <th class="font-weight-bold" style="min-width: 140px;">Author</th>
+                        <th class="font-weight-bold" style="min-width: 160px;">Created</th>
+                        <th class="font-weight-bold text-center" style="min-width: 120px;">Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="item : ${page.content}">
+                        <td th:text="${item.id}"></td>
+                        <td>
+                            <a th:href="${item.url}" target="_blank" rel="noopener">
+                                <img th:src="${item.url}" alt="preview" class="img-thumbnail" style="width:64px;height:64px;object-fit:cover;">
+                            </a>
+                        </td>
+                        <td>
+                            <ul class="list-unstyled mb-0">
+                                <li>
+                                    <span class="badge badge-light">File name:
+                                        <span th:text="${#strings.abbreviate(item.imageName, 65)}"></span>
+                                    </span>
+                                </li>
+                                <li>
+                                    <span class="badge badge-light">Image type:
+                                        <span th:text="${item.imageContentType}"></span>
+                                    </span>
+                                </li>
+                                <li>
+                                    <span class="badge badge-light">Belong to module:
+                                        <span th:text="${item.createdByModule}"></span>
+                                    </span>
+                                </li>
+                                <li>
+                                    <span class="badge badge-light">Size:
+                                        <span th:text="${item.humanReadableSize}"></span>
+                                    </span>
+                                </li>
+                            </ul>
+                        </td>
+                        <td th:if="${item.author}" th:text="${item.author.fullName}"></td>
+                        <td th:text="${#temporals.format(item.createdAt, 'yyyy-MM-dd HH:mm')}"></td>
+                        <td class="text-center">
+                            <a th:href="${item.url}" target="_blank" rel="noopener" class="btn btn-link p-0 mx-1" title="Open"><i class="fas fa-external-link-alt text-primary"></i></a>
+                            <form th:action="@{/admin/media/images/delete/{id}(id=${item.id})}"
+                                  method="post" class="d-inline"
+                                  onsubmit="return confirm('Delete this image permanently?');">
+                                <input type="hidden" name="_method" value="delete"/>
+                                <input type="hidden" th:if="${_csrf != null}"
+                                       th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                                <button type="submit" class="btn btn-link p-0 mx-1" title="Delete"><i class="fas fa-trash text-danger"></i></button>
+                            </form>
+                        </td>
+                    </tr>
+
+                    <tr th:if="${#lists.isEmpty(page.content)}">
+                        <td colspan="6" class="text-center text-muted py-4">No images found.</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div th:replace="~{admin/fragments/pagination :: pagination(${page}, '/admin/media/images/')}"></div>
+
+            <div class="modal fade" id="uploadModal" tabindex="-1" role="dialog" aria-labelledby="uploadModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <form th:action="@{/admin/media/images/upload}" method="post" enctype="multipart/form-data">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="uploadModalLabel">Upload Images</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+
+                            <div class="modal-body">
+                                <input type="hidden" th:if="${_csrf != null}"
+                                       th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+
+                                <div class="form-group">
+                                    <label for="files">Select files</label>
+                                    <input id="files" name="files" type="file" class="form-control-file" multiple required>
+                                    <small class="form-text text-muted">You can select multiple images.</small>
+                                </div>
+
+                                <div id="preview" class="d-flex flex-wrap"></div>
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-outline-secondary border-secondary shadow-sm" data-dismiss="modal">Cancel</button>
+                                <button type="submit" class="btn btn-primary border-primary shadow-sm">Upload Selected Images</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<th:block th:fragment="pageScripts">
+    <script>
+        $(function () {
+            var $filesInput = $('#files');
+            var $preview = $('#preview');
+            if ($filesInput.length === 0 || $preview.length === 0) return;
+
+            $filesInput.on('change', function () {
+                $preview.empty();
+                $.each(this.files, function (_, file) {
+                    if (!file.type || file.type.indexOf('image') !== 0) return;
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        var $img = $('<img>')
+                            .addClass('img-thumbnail mr-2 mb-2')
+                            .css({ width: '72px', height: '72px', objectFit: 'cover' })
+                            .attr('src', e.target.result)
+                            .attr('alt', 'selected image preview');
+                        $preview.append($img);
+                    };
+                    reader.readAsDataURL(file);
+                });
+            });
+        });
+    </script>
+</th:block>
+</body>
+</html>

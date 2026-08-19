@@ -1,0 +1,192 @@
+/* === DARK CORPORATE SIDEBAR === */
+
+:root {
+    --sb-bg-start: #1c1f2a;
+    --sb-bg-end:   #252b3b;
+    --sb-text:     #e4e6eb;
+    --sb-muted:    #a0a5b5;
+    --sb-line:     rgba(255,255,255,0.08);
+    --sb-white:    #ffffff;
+    --sb-accent:   #4a90e2;   /* корпоративный акцент (синий) */
+    --sb-hover:    rgba(255,255,255,0.08);
+    --sb-active:   rgba(74,144,226,0.15);
+    --sb-radius:   10px;
+}
+
+/* Sidebar Background */
+.sidebar,
+#accordionSidebar {
+    background: linear-gradient(180deg, var(--indigo), var(--sb-bg-end)) !important;
+    color: var(--sb-text);
+}
+
+/* Brand */
+.sidebar .sidebar-brand {
+    color: var(--sb-white) !important;
+    text-transform: uppercase;
+    font-weight: 800;
+    font-size: 1rem;
+    padding: 1rem 1rem .5rem 1rem;
+}
+
+/* Divider */
+.sidebar hr.sidebar-divider {
+    border-top: 1px solid var(--sb-line);
+    margin: .5rem 1rem;
+}
+
+/* Section headings */
+.sidebar .sidebar-heading {
+    color: var(--sb-muted);
+    font-weight: 700;
+    font-size: .7rem;
+    letter-spacing: .05em;
+    margin: 0 0 .3rem 0;
+}
+
+/* Nav items */
+.sidebar .nav-item .nav-link {
+    color: #f7f7f7 !important;
+    padding: 0.30rem 1rem;
+    border-radius: var(--sb-radius);
+    font-weight: 600;
+    align-items: center;
+    gap: .6rem;
+    transition: all .2s ease;
+}
+
+.sidebar .nav-link i {
+    font-size: 1rem;
+    opacity: .85;
+    transition: all .2s ease;
+}
+
+/* Hover / Active */
+.sidebar .nav-item .nav-link:hover {
+    background: var(--sb-hover);
+    color: var(--sb-white) !important;
+}
+
+.sidebar .nav-item.active > .nav-link {
+    background: var(--sb-active);
+    color: var(--sb-accent) !important;
+    font-weight: 700;
+    border-left: 3px solid var(--sb-accent);
+}
+
+.sidebar-header-block {
+    background-color: #5928b1;
+    box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+    margin-bottom: 2.3em;
+}
+
+/* Submenu */
+.sidebar .nav-item .collapse .collapse-inner {
+    background: #2b3142;
+    border-radius: var(--sb-radius);
+}
+
+.sidebar .collapse .collapse-item {
+    padding: .45rem .6rem;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all .2s ease;
+}
+
+.sidebar .collapse .collapse-item:hover {
+    background: rgba(74,144,226,0.1);
+    color: var(--sb-accent) !important;
+}
+
+.sidebar .collapse .collapse-item.active {
+    background: rgba(74,144,226,0.2);
+    color: var(--sb-accent) !important;
+    font-weight: 600;
+}
+
+/* Toggle button */
+.sidebar .rounded-circle.border-0 {
+    background: rgba(255,255,255,0.08);
+    color: var(--sb-white);
+    transition: background .2s;
+}
+.sidebar .rounded-circle.border-0:hover {
+    background: rgba(255,255,255,0.15);
+}
+@media (min-width: 768px) {
+    .sidebar {
+        width: 18rem !important
+    }
+}
+
+/* Card Body */
+.card-body {
+    color: #000 !important;
+}
+.card-body table {
+    color: #000 !important;
+    font-size: 0.875rem;
+}
+.card-body .form-control {
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+    color: #000c64;
+}
+.card-body .form-control:focus {
+    color: #000c64;
+    background-color: #fff;
+    border-color: #bac8f3;
+    outline: 0;
+    box-shadow: 0 0 0 .2rem rgba(78, 115, 223, .25) !important;
+}
+.border-bottom-dotted {
+    border-bottom: 1px dotted #99b4c0;
+}
+.badge-light-blue {
+    color: #0016a0;
+    width: 100%;
+}
+.text-black-100 {
+    color: #000 !important;
+}
+.inline-tabs .nav-tabs {
+    margin-bottom: 1rem;
+}
+.inline-tabs .nav-tabs {
+    border-bottom: 1px solid #dee2e6;
+}
+.inline-tabs .nav {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    padding-left: 0;
+    margin-bottom: 0;
+    list-style: none;
+}
+.inline-tabs .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link {
+    color: #495057;
+}
+.inline-tabs .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+    color: #224abe;
+    background-color: #fff!important;
+    border-color: #dee2e6 #dee2e6 #fff!important;
+}
+.inline-tabs .nav-tabs .nav-link {
+    margin-bottom: -1px;
+    background-color: transparent;
+    border: 1px solid transparent;
+    border-top-left-radius: .25rem;
+    border-top-right-radius: .25rem;
+}
+.inline-tabs .nav-link {
+    display: block;
+    padding: .2rem 1rem;
+}
+.show-info-list {
+    font-size: 1.2rem;
+}
+.bg-login-image {
+    background: url('../img/login_image_uz.jpg');
+    background-position: center;
+    background-size: cover;
+}

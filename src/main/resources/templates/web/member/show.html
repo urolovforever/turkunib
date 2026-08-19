@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{web/fragments/layout :: layout (~{::content}, ${'University members'}, 'members', ~{::pageScripts})}">
+<head>
+    <meta charset="UTF-8">
+    <title>TIU TURKUNIB - Latest News</title>
+</head>
+<body>
+<div th:fragment="content">
+
+    <th:block th:replace="~{web/fragments/hero-banner :: hero-banner(${banners})}"></th:block>
+
+    <!-- Member Universities -->
+    <section class="member-universities-section">
+        <div class="container">
+            <div class="row mb-5">
+                <div class="col">
+                    <h2 class="h2-bigger" th:text="#{page.member.title}">Member Universities</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <ul class="list-inline">
+                        <li class="list-inline-item">
+                            <a href="#" th:data-id="0" onclick="return changeMemberCountry(this.getAttribute('data-id'), event)" class="memberCountryLink btn btn-outline-brand shadow-sm" th:text="#{page.member.countries.all}">All</a>
+                        </li>
+                        <li class="list-inline-item" th:each="country : ${countries}">
+                            <a href="#" th:data-id="${country.id()}" id="memberCountryLink" onclick="return changeMemberCountry(this.getAttribute('data-id'), event)" class="memberCountryLink btn btn-outline-brand shadow-sm" th:text="${country.name()}">Azerbaijan</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col flex-column">
+                    <div class="img-thumbnail shadow-sm" id="YMapId" style="width: 100%; min-height: 500px"></div>
+                </div>
+            </div>
+            <div class="row mt-5">
+                <div class="col">
+                    <h3 th:text="#{page.member.university.directory}">University Directory</h3>
+                    <p class="lead mb-5" th:text="#{page.member.university.directory.description}">Browse our comprehensive list of member universities.</p>
+
+                    <div class="country-group mb-5" id="memberUniversitiesList"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- What we offer -->
+    <section class="py-5 bg-light we-offer-section">
+        <div class="container">
+            <div class="row mb-5">
+                <div class="col">
+                    <h2 class="h2-bigger" th:text="#{page.member.offer.title}">Membership Benefits</h2>
+                </div>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="card card-cta h-100">
+                        <div class="card-body">
+                            <div class="d-flex align-items-start gap-3">
+                                <div>
+                                    <h4 class="mb-3">
+                                        <i class="bi bi-arrow-left-right me-2"></i>
+                                        <span th:text="#{main.offer.exchange}"></span>
+                                    </h4>
+                                    <p class="mb-0" th:text="#{main.offer.exchange.description}">Experience education in different Turkic countries through our Orhun Exchange Program.</p>
+                                    <p class="mt-2 mb-1">
+                                        <a href="#" class="text-decoration-none d-inline-flex align-items-center">
+                                            <span th:text="#{main.various.learn.more}"></span>
+                                            <i class="bi bi-arrow-right ms-auto"></i>
+                                        </a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card card-cta h-100">
+                        <div class="card-body">
+                            <div class="d-flex align-items-start gap-3">
+                                <div>
+                                    <h4 class="mb-3">
+                                        <i class="bi bi-people me-2"></i>
+                                        <span th:text="#{main.offer.research}"></span>
+                                    </h4>
+                                    <p class="mb-0" th:text="#{main.offer.research.description}">Connect with researchers across Turkic universities for joint projects and publications.</p>
+                                    <p class="mt-2 mb-1">
+                                        <a href="#" class="text-decoration-none d-inline-flex align-items-center">
+                                            <span th:text="#{main.various.learn.more}"></span>
+                                            <i class="bi bi-arrow-right ms-auto"></i>
+                                        </a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card card-cta h-100">
+                        <div class="card-body">
+                            <div class="d-flex align-items-start gap-3">
+                                <div>
+                                    <h4 class="mb-3">
+                                        <i class="bi bi-mortarboard me-2"></i>
+                                        <span th:text="#{main.offer.faculty}"></span>
+                                    </h4>
+                                    <p class="mb-0" th:text="#{main.offer.faculty.description}">Enhance teaching and research skills through workshops, seminars, and exchange programs.</p>
+                                    <p class="mt-2 mb-1">
+                                        <a href="#" class="text-decoration-none d-inline-flex align-items-center">
+                                            <span th:text="#{main.various.learn.more}"></span>
+                                            <i class="bi bi-arrow-right ms-auto"></i>
+                                        </a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row pt-title mb-5">
+                <div class="col">
+                    <h2 class="h2-bigger" th:text="#{page.member.join.title}">How to join</h2>
+                </div>
+            </div>
+            <div class="row pb-end-150">
+                <div class="col-md-4">
+                    <div class="card card-cta h-100">
+                        <div class="card-body">
+                            <div class="d-flex align-items-start gap-3">
+                                <div>
+                                    <h4 class="mb-3">
+                                        <i class="bi bi-card-list me-2"></i>
+                                        <span th:text="#{page.member.join.step-one}"></span>
+                                    </h4>
+                                    <p class="mb-0" th:text="#{page.member.join.step-one.description}">Complete and submit the membership application form along with required documentation including accreditation status, institutional profile, and letter of intent.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card card-cta h-100">
+                        <div class="card-body">
+                            <div class="d-flex align-items-start gap-3">
+                                <div>
+                                    <h4 class="mb-3">
+                                        <i class="bi bi-chat-right-text me-2"></i>
+                                        <span th:text="#{page.member.join.step-two}"></span>
+                                    </h4>
+                                    <p class="mb-0" th:text="#{page.member.join.step-two.description}">Our membership committee reviews your application, evaluates eligibility criteria, and may schedule a site visit to assess facilities and programs.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card card-cta h-100">
+                        <div class="card-body">
+                            <div class="d-flex align-items-start gap-3">
+                                <div>
+                                    <h4 class="mb-3">
+                                        <i class="bi bi-check-square me-2"></i>
+                                        <span th:text="#{page.member.join.step-three}"></span>
+                                    </h4>
+                                    <p class="mb-0" th:text="#{page.member.join.step-three.description}">The board makes a final decision on the membership application. Upon approval, your institution will be formally invited to join TURKUNIB as a member university.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <th:block th:replace="~{web/fragments/application-form :: application-form('bg-color-light-gray')}"></th:block>
+
+</div>
+
+<th:block th:fragment="pageScripts">
+
+    <script th:src="@{'https://api-maps.yandex.ru/2.1/?apikey=' + ${yandexApiKey} + '&lang=en_US'}" type="text/javascript"></script>
+    <script th:inline="javascript">
+        const pointsObj = /*[[${membersByCountry}]]*/ {};
+        const pointsData = new Map(Object.entries(pointsObj));
+
+        ymaps.ready(function () {
+            changeMemberCountry('0');
+        });
+
+        let myMap;
+
+        function changeMemberCountry(countryId, e) {
+            if (e && e.preventDefault) e.preventDefault();
+
+            if (!myMap) {
+                myMap = new ymaps.Map('YMapId', {
+                    center: [41.2995, 69.2401],
+                    zoom: 3,
+                    controls: ['zoomControl']
+                }, {
+                    suppressMapOpenBlock: true
+                });
+                myMap.behaviors.disable('scrollZoom');
+            }
+
+            myMap.geoObjects.removeAll();
+
+            // Normalizes different URL formats to a safe, clickable absolute URL
+            // Examples:
+            //  - "univ-silkroad.uz"           -> "https://univ-silkroad.uz"
+            //  - "www.samdu.uz/en"            -> "https://www.samdu.uz/en"
+            //  - "https://nordicuniversity.org/" -> unchanged
+            const normalizeUrl = (raw) => {
+                if (!raw) return '#';
+                let url = String(raw).trim();
+
+                // Already absolute with scheme
+                const lower = url.toLowerCase();
+                if (lower.startsWith('http://') || lower.startsWith('https://')) {
+                    try { return encodeURI(url); } catch (e) { return url; }
+                }
+
+                // Protocol-relative
+                if (url.startsWith('//')) {
+                    try { return encodeURI(url); } catch (e) { return url; }
+                }
+
+                // Starts with www. -> assume https
+                if (lower.startsWith('www.')) {
+                    url = 'https://' + url;
+                    try { return encodeURI(url); } catch (e) { return url; }
+                }
+
+                // Looks like a bare domain or domain with path (contains a dot, no spaces)
+                if (url.indexOf(' ') === -1 && url.includes('.')) {
+                    url = 'https://' + url;
+                    try { return encodeURI(url); } catch (e) { return url; }
+                }
+
+                // Fallback: return as-is (encoded if possible)
+                try { return encodeURI(url); } catch (e) { return url; }
+            };
+
+            const addPlacemark = (member) => {
+                if (member && member.latitude && member.longitude) {
+                    const placemark = new ymaps.Placemark(
+                        [member.latitude, member.longitude],
+                        {
+                            balloonContent:
+                                '<strong>' + member.name + '</strong><br>' +
+                                (member.city ? member.city + '<br>' : '') +
+                                (member.address ? member.address + '<br>' : '') +
+                                (member.additionalInfo ? '<small class="text-muted">' + member.additionalInfo + '</small><br>' : '') +
+                                '<a href="/' + ((window.location.pathname.split('/').filter(Boolean)[0]) || 'en') + '/members/' + member.id + '">View details &rarr;</a>'
+                        },
+                        {preset: 'islands#violetDotIcon'}
+                    );
+                    myMap.geoObjects.add(placemark);
+                    return true;
+                }
+                return false;
+            };
+
+            const aggregateByCountry = (members) => {
+                const country = members[0].country;
+                let countryMembers = '';
+                members.forEach((member, index, data) => {
+                    countryMembers += addUniversities(member, index, data);
+                });
+
+                const membersHTML = '<div class="d-flex align-items-center mb-4">' +
+                    '   <img src="' + (country.image.url ? country.image.url : '') + '" alt="' + country.name + '" class="img-fluid me-3" width="32">' +
+                    '   <div>' +
+                    '       <h4 class="mb-0">' + country.name + '</h4>' +
+                    '       <small class="text-muted">' + (members.length ? members.length : 0) + ' Universities</small>' +
+                    '   </div>' +
+                    '</div>' +
+                    '<div class="card my-4">' +
+                    '   <div class="card-body">' +
+                            countryMembers +
+                    '   </div>' +
+                    '</div>'
+
+                const memberUniversitiesList = document.getElementById('memberUniversitiesList');
+                memberUniversitiesList.insertAdjacentHTML('beforeend', membersHTML);
+            };
+
+            const addUniversities = (member, index, data) => {
+                const safeUrl = normalizeUrl(member && member.url ? member.url : '');
+                const lang = (window.location.pathname.split('/').filter(Boolean)[0]) || 'en';
+                const detailUrl = '/' + lang + '/members/' + member.id;
+                return '<div class="row align-items-center ' + (parseInt(index) === data.length - 1 ? '' : 'border-bottom') + ' py-3">' +
+                    '   <div class="col-md-2">' +
+                    '       <a href="' + detailUrl + '"><img src="' + (member.image.url ? member.image.url : '') + '" alt="' + member.name + '" class="img-fluid" width="80"></a>' +
+                    '   </div>' +
+                    '   <div class="col-md-4">' +
+                    '       <h5 class="mb-1"><a href="' + detailUrl + '" class="text-decoration-none">' + member.name + '</a></h5>' +
+                    '       <p class="mb-1 text-muted small">' + (member.address ? member.address : '') + '</p>' +
+                    '       <a href="' + detailUrl + '" class="small">View details &rarr;</a>' +
+                    (safeUrl ? '       <a href="' + safeUrl + '" target="_blank" rel="noopener noreferrer" class="small ms-2">Website &#8599;</a>' : '') +
+                    '   </div>' +
+                    '   <div class="col-md-6">' +
+                    '       <div class="row text-center">' +
+                    '           <div class="col-4">' +
+                    '               <div class="border-end">' +
+                    '                   <div class="h5 mb-0">' + (member.founded ? member.founded : '-') + '</div>' +
+                    '                   <small class="text-muted">Founded</small>' +
+                    '               </div>' +
+                    '           </div>' +
+                    '           <div class="col-4">' +
+                    '               <div class="border-end">' +
+                    '                   <div class="h5 mb-0">' + (member.studentsNumber ? member.studentsNumber : '-') + '</div>' +
+                    '                   <small class="text-muted">Students</small>' +
+                    '               </div>' +
+                    '           </div>' +
+                    '           <div class="col-4">' +
+                    '               <div>' +
+                    '                   <div class="h5 mb-0">' + (member.facultiesNumber ? member.facultiesNumber : '-') + '</div>' +
+                    '                   <small class="text-muted">Faculties</small>' +
+                    '               </div>' +
+                    '           </div>' +
+                    '       </div>' +
+                    '   </div>' +
+                    '</div>';
+            }
+
+            const memberUniversitiesList = document.getElementById('memberUniversitiesList');
+            while (memberUniversitiesList.firstChild) {
+                memberUniversitiesList.removeChild(memberUniversitiesList.firstChild);
+            }
+
+            if (countryId === '0') {
+                pointsData.forEach((members) => members.forEach(addPlacemark));
+                pointsData.forEach((members) => aggregateByCountry(members));
+            } else {
+                const members = pointsData.get(countryId);
+                members && members.forEach(addPlacemark);
+                members && aggregateByCountry(members);
+            }
+
+            const bounds = myMap.geoObjects.getBounds();
+            if (bounds) {
+                myMap.setBounds(bounds, {checkZoomRange: true, zoomMargin: 50}).then(() => {
+                    if (myMap.getZoom() > 20) {
+                        myMap.setZoom(17);
+                    }
+                });
+            } else {
+                myMap.setCenter([41.2995, 69.2401], 3);
+            }
+
+            return false;
+        }
+    </script>
+</th:block>
+
+</body>
+</html>

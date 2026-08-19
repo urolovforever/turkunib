@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Application Form</title>
+</head>
+<body>
+<th:block th:fragment="application-form(cssClasses)">
+    <!-- Bottom Form Section -->
+    <section class="bottom-form-caption-section container-fluid d-flex align-items-center" th:classappend="${cssClasses}">
+        <div class="container">
+            <div class="row">
+                <div class="col text-center">
+                    <h1 class="h1-caption">FORM</h1>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="bottom-form-section container-fluid d-flex align-items-center">
+        <div class="container text-center">
+            <h4 class="mb-3" th:text="#{bottom.application.form.slogan}">Are you ready to take the next step toward your future?</h4>
+            <a th:href="@{/{lang}/application/form(lang=${lang})}" class="btn btn-dark apply-link mt-4">
+                <span th:text="#{bottom.application.form.form-text}"> Application form</span>
+                <i class="bi bi-arrow-right"></i>
+            </a>
+        </div>
+    </section>
+</th:block>
+</body>
+</html>

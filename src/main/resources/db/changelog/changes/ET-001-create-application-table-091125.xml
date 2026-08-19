@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="ET-001-create-application-table-091125" author="Ruslan Skaldin">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="applications"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="applications">
+            <column name="id" type="bigint unsigned" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="full_name" type="varchar(512)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="student_id" type="varchar(256)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="institution" type="varchar(512)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="department" type="varchar(512)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="phone_number" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="author_id" type="bigint unsigned">
+                <constraints nullable="true"/>
+            </column>
+
+            <column name="updated_at" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+
+            <column name="created_at" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="applications"
+                                 baseColumnNames="author_id"
+                                 referencedTableName="users"
+                                 referencedColumnNames="id"
+                                 onDelete="SET NULL"
+                                 onUpdate="CASCADE"
+                                 constraintName="fk_applications_author_id_users_id"/>
+    </changeSet>
+</databaseChangeLog>

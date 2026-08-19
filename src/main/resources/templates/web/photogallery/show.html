@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{web/fragments/layout :: layout (~{::content}, ${'Photo Gallery :: '}, 'photos', ~{::pageScripts})}">
+<head>
+    <meta charset="UTF-8">
+    <title>TIU TURKUNIB - Photo Gallery</title>
+</head>
+<body>
+<div th:fragment="content">
+
+    <th:block th:replace="~{web/fragments/hero-banner :: hero-banner(${banners})}"></th:block>
+
+    <!-- Show PhotoGallery Section -->
+    <div class="photo-gallery-section container-fluid">
+        <div class="container">
+            <!-- Gallery Header -->
+            <div class="row mb-5">
+                <div class="col-12">
+                    <h2 th:text="${photogallery.title()}" class="h1 mb-4"></h2>
+                    <p th:text="${photogallery.description()}" class="lead text-muted"></p>
+                </div>
+            </div>
+
+            <!-- Gallery Grid -->
+            <div class="row g-4">
+                <div th:each="item : ${photogallery.images()}" class="col-12 col-md-6 col-lg-4">
+                    <a th:href="${item.url}" data-fslightbox="gallery">
+                        <div class="gallery-item" style="height: 300px;">
+                            <img th:src="${item.url}" th:alt="${photogallery.title()}" alt="TURKUNIB gallery" style="height: 100%; object-fit: cover;">
+                            <div class="overlay"></div>
+                            <div class="caption">
+                                <div class="d-flex gap-2">
+                                    <span th:text="${item.getImageName()}" class="badge rounded-pill badge-soft"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <th:block th:replace="~{web/fragments/application-form :: application-form('margin-top-150')}"></th:block>
+
+</div>
+<th:block th:fragment="pageScripts">
+    <script th:src="@{/resources/web/js/fslightbox.js}"></script>
+    <script>
+        const lightbox = new FsLightbox();
+    </script>
+
+</th:block>
+
+</body>
+</html>

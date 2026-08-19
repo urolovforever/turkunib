@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="ET-024-create-key-date-i18n-table-170626" author="tiu">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="key_date_i18n"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="key_date_i18n">
+            <column name="id" type="bigint unsigned" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="key_date_id" type="bigint unsigned">
+                <constraints nullable="false"/>
+            </column>
+            <column name="locale" type="varchar(10)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="title" type="varchar(512)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="description" type="text">
+                <constraints nullable="true"/>
+            </column>
+            <column name="updated_at" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+            <column name="created_at" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="key_date_i18n"
+                                 baseColumnNames="key_date_id"
+                                 referencedTableName="key_dates"
+                                 referencedColumnNames="id"
+                                 onDelete="CASCADE"
+                                 onUpdate="CASCADE"
+                                 constraintName="fk_key_date_i18n_key_date"/>
+
+        <addUniqueConstraint tableName="key_date_i18n"
+                             columnNames="key_date_id,locale"
+                             constraintName="uk_key_date_i18n_key_date_locale"/>
+
+        <createIndex tableName="key_date_i18n" indexName="idx_key_date_i18n_locale">
+            <column name="locale"/>
+        </createIndex>
+    </changeSet>
+</databaseChangeLog>

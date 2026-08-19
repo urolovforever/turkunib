@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{web/fragments/layout :: layout (~{::content}, 'TURKUNIB — Turkic Universities Union | Orhun Exchange Program', 'index', ~{::pageScripts})}">
+<head>
+    <meta charset="UTF-8">
+    <title>TIU TURKUNIB - Main Page</title>
+</head>
+<body>
+<div th:fragment="content">
+
+    <th:block th:replace="~{web/fragments/hero-banner :: hero-banner(${banners})}"></th:block>
+
+    <!-- About -->
+    <section class="about-section py-5">
+        <div class="container">
+            <div class="row g-4 align-items-center">
+                <div class="col-lg-5">
+                    <h2 th:text="#{main.about.program}" class="h2-bigger">About the Program</h2>
+                    <p class="lead fst-italic" th:text="#{main.about.program.tagline}">Connecting Turkic Universities for a Stronger Future</p>
+                </div>
+                <div class="col-lg-7">
+                    <p th:text="#{main.about.program.p1}"></p>
+                    <p th:text="#{main.about.program.p2}"></p>
+                    <p th:text="#{main.about.program.p3}"></p>
+                    <p th:text="#{main.about.program.p4}"></p>
+                    <a th:text="#{main.about.program.overview}" class="btn-page-link p-0" th:href="@{/{lang}/about-us(lang=${lang})}">Program Overview</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- What we offer -->
+    <section class="py-5 bg-light we-offer-section">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="card card-cta h-100">
+                        <div class="card-body">
+                            <div class="d-flex align-items-start gap-3">
+                                <div>
+                                    <h4 class="mb-3">
+                                        <i class="bi bi-arrow-left-right me-2"></i>
+                                        <span th:text="#{main.offer.exchange}"></span>
+                                    </h4>
+                                    <p class="mb-0" th:text="#{main.offer.exchange.description}"></p>
+                                    <p class="mt-2 mb-1">
+                                        <a th:href="@{/{lang}/orhun(lang=${lang})}" class="text-decoration-none d-inline-flex align-items-center">
+                                            <span th:text="#{main.various.learn.more}"></span>
+                                            <i class="bi bi-arrow-right ms-auto"></i>
+                                        </a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card card-cta h-100">
+                        <div class="card-body">
+                            <div class="d-flex align-items-start gap-3">
+                                <div>
+                                    <h4 class="mb-3">
+                                        <i class="bi bi-people me-2"></i>
+                                        <span th:text="#{main.offer.research}"></span>
+                                    </h4>
+                                    <p class="mb-0" th:text="#{main.offer.research.description}"></p>
+                                    <p class="mt-2 mb-1">
+                                        <a th:href="@{/{lang}/about-us(lang=${lang})} + '#goals'" class="text-decoration-none d-inline-flex align-items-center">
+                                            <span th:text="#{main.various.learn.more}"></span>
+                                            <i class="bi bi-arrow-right ms-auto"></i>
+                                        </a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card card-cta h-100">
+                        <div class="card-body">
+                            <div class="d-flex align-items-start gap-3">
+                                <div>
+                                    <h4 class="mb-3">
+                                        <i class="bi bi-mortarboard me-2"></i>
+                                        <span th:text="#{main.offer.faculty}"></span>
+                                    </h4>
+                                    <p class="mb-0" th:text="#{main.offer.faculty.description}"></p>
+                                    <p class="mt-2 mb-1">
+                                        <a th:href="@{/{lang}/about-us(lang=${lang})} + '#goals'" class="text-decoration-none d-inline-flex align-items-center">
+                                            <span th:text="#{main.various.learn.more}"></span>
+                                            <i class="bi bi-arrow-right ms-auto"></i>
+                                        </a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats -->
+    <th:block th:replace="~{web/fragments/stats-overview :: stats-overview()}"></th:block>
+
+    <!-- News -->
+    <section class="news-section" th:if="${news != null and !#lists.isEmpty(news)}">
+        <div class="container">
+            <div class="row mb-5">
+                <div class="col">
+                    <h2 class="h2-bigger" th:text="#{main.news.latest.news}">Latest News</h2>
+                </div>
+                <div class="col carousel-dark d-flex justify-content-end align-items-center gap-2">
+                    <button class="btn btn-outline-brand shadow-sm" type="button" data-bs-target="#newsCarousel"
+                            data-bs-slide="prev" aria-label="Previous">
+                        <i class="bi bi-arrow-left"></i>
+                    </button>
+                    <button class="btn btn-outline-brand shadow-sm" type="button" data-bs-target="#newsCarousel"
+                            data-bs-slide="next" aria-label="Next">
+                        <i class="bi bi-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="carousel slide" id="newsCarousel">
+                <div class="carousel-inner">
+                    <th:block th:each="newsChunk, chunkIter : ${T(com.google.common.collect.Lists).partition(news, 4)}">
+                        <div class="carousel-item pt-2" th:classappend="${chunkIter.index == 0} ? 'active'">
+                            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4 me-2">
+                                <div class="col" th:each="item : ${newsChunk}">
+                                    <div class="card h-100">
+                                        <a th:href="@{'/' + ${lang} + '/news/' + ${item.id()} + '/' + ${item.slug()}}">
+                                            <img th:src="${item.image().url}" class="card-img-top" th:alt="${item.title()}">
+                                        </a>
+                                        <div class="card-body">
+                                            <h5 class="card-title">
+                                                <a class="stretched-link text-decoration-none"
+                                                   th:href="@{'/' + ${lang} + '/news/' + ${item.id()} + '/' + ${item.slug()}}"
+                                                   th:text="${item.title()}"></a>
+                                            </h5>
+                                            <hr>
+                                            <p class="card-text" th:text="${item.description()}"></p>
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <span class="badge text-bg-brand" th:text="${item.category().translation().title()}">Sciences</span>
+                                                <span class="text-muted small ms-2" th:text="${#temporals.format(item.createdAt(), 'MMM dd, yyyy')}">Jan 20, 2025</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </th:block>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col d-flex justify-content-end align-items-center">
+                    <a class="btn-page-link mt-4" th:href="@{'/' + ${lang} + '/news/'}" th:text="#{main.news.view.all}">View all news</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Apply -->
+    <section class="apply-section container-fluid">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3">
+                    <h2 class="h2-bigger" th:text="#{main.apply.exchange.program}">Exchange Program</h2>
+                </div>
+                <div class="col-lg-6 fs-5" th:text="#{main.apply.description}"></div>
+                <div class="col-lg-3 text-end">
+                    <a th:href="@{/{lang}/application/form(lang=${lang})}" class="btn btn-dark apply-link">
+                        <span th:text="#{main.apply.application.form}"></span>
+                        <i class="bi bi-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Member Universities -->
+    <section class="member-universities-section" th:if="${countries != null and !#lists.isEmpty(countries)}">
+        <div class="container">
+            <div class="row mb-5">
+                <div class="col">
+                    <h2 class="h2-bigger" th:text="#{main.members.title}">Our Member Universities</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <ul class="list-inline">
+                        <li class="list-inline-item">
+                            <a href="#" th:data-id="0" onclick="return changeMemberCountry(this.getAttribute('data-id'), event)" class="memberCountryLink btn btn-outline-brand shadow-sm" th:text="#{main.members.countries.all}">All</a>
+                        </li>
+                        <li class="list-inline-item" th:each="country : ${countries}">
+                            <a href="#" th:data-id="${country.id()}" id="memberCountryLink" onclick="return changeMemberCountry(this.getAttribute('data-id'), event)" class="memberCountryLink btn btn-outline-brand shadow-sm" th:text="${country.name()}">Azerbaijan</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col flex-column">
+                    <div class="img-thumbnail shadow-sm" id="YMapId" style="width: 100%; min-height: 500px"></div>
+                </div>
+            </div>
+            <div class="row mt-4">
+                <div class="col d-flex justify-content-end align-items-center">
+                    <a class="btn-page-link" th:href="@{'/' + ${lang} + '/members'}" th:text="#{main.members.view.more}">View more information</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Events -->
+    <section class="events-section" th:if="${events != null and !#lists.isEmpty(events)}">
+        <div class="container">
+            <div class="row mb-5">
+                <div class="col">
+                    <h2 class="h2-bigger" th:text="#{main.events.title}">Upcoming Events</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div th:each="event: ${events}" class="col-12 col-md-6 col-xl-4 py-1">
+                    <a th:href="@{'/' + ${lang} + '/events/' + ${event.id()} + '/' + ${event.slug()}}" class="card-link">
+                        <div class="card h-100 shadow-sm">
+                            <div class="card-body d-flex flex-column">
+                                <div class="d-flex align-items-start justify-content-between mb-2">
+                                    <h2 th:text="${event.title()}" class="h5 me-2"></h2>
+                                    <span th:text="${event.format}" class="badge text-bg-info text-white text-wrap">online</span>
+                                </div>
+                                <div class="event-meta mb-2 text-muted">
+                                    <span th:text="${#temporals.format(event.startAt, 'dd MMM. yyyy, HH:mm')}"></span> —
+                                    <span th:text="${#temporals.format(event.endAt, 'dd MMM. yyyy, HH:mm')}"></span>
+                                </div>
+                                <div class="mb-2"><strong th:text="#{main.events.place}">Place:</strong> <span th:text="${event.placeName}">-</span>
+                                </div>
+                                <div class="mb-2"><strong th:text="#{main.events.organizer}">Organizer:</strong>
+                                    <span th:text="${event.organizer}">-</span></div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="row mt-4">
+                <div class="col d-flex justify-content-end align-items-center">
+                    <a class="btn-page-link" th:href="@{'/' + ${lang} + '/events/'}" th:text="#{main.events.view.more}">View more events</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Photo Gallery -->
+    <section class="photo-gallery-section" th:if="${photoGalleries != null and !#lists.isEmpty(photoGalleries)}">
+        <div class="container">
+            <div class="row mb-5">
+                <div class="col">
+                    <h2 class="h2-bigger" th:text="#{main.photo.gallery.title}">Photo Gallery</h2>
+                </div>
+            </div>
+            <div class="row g-3">
+                <div th:each="item : ${photoGalleries}" class="col-12 col-sm-6 col-lg-4 col-xl-4">
+                    <a th:href="@{'/' + ${lang} + '/photos/' + ${item.id()} + '/' + ${item.slug()}}">
+                        <figure class="gallery-item shadow-sm" style="aspect-ratio:1200/900">
+                            <img th:src="${item.previewImage.url}" loading="lazy" th:alt="${item.title()}" data-index="0" data-bound="1">
+                            <div class="overlay"></div>
+                            <figcaption class="caption">
+                                <div class="d-flex justify-content-between align-items-end">
+                                    <div>
+                                        <div th:text="${item.title()}" class="fw-semibold">-</div>
+                                    </div>
+                                    <span class="badge badge-soft" th:text="${#temporals.format(item.createdAt(), 'dd MMM. yyyy, HH:mm')}"></span>
+                                </div>
+                            </figcaption>
+                        </figure>
+                    </a>
+                </div>
+            </div>
+            <div class="row mt-4">
+                <div class="col d-flex justify-content-end align-items-center">
+                    <a class="btn-page-link" th:href="@{'/' + ${lang} + '/photos'}" th:text="#{main.photo.gallery.view.more}">More Photo Galleries</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <th:block th:replace="~{web/fragments/student-testimonials :: student-testimonials('margin-top-95')}"></th:block>
+
+</div>
+
+<th:block th:fragment="pageScripts">
+
+    <script th:src="@{'https://api-maps.yandex.ru/2.1/?apikey=' + ${yandexApiKey} + '&lang=en_US'}" type="text/javascript"></script>
+    <script th:inline="javascript">
+        const pointsObj = /*[[${membersByCountry}]]*/ {};
+        const pointsData = new Map(Object.entries(pointsObj));
+
+        ymaps.ready(function () {
+            changeMemberCountry('0');
+        });
+
+        let myMap;
+
+        function changeMemberCountry(countryId, e) {
+            if (e && e.preventDefault) e.preventDefault();
+
+            if (!myMap) {
+                myMap = new ymaps.Map('YMapId', {
+                    center: [41.2995, 69.2401],
+                    zoom: 3,
+                    controls: ['zoomControl']
+                }, {
+                    suppressMapOpenBlock: true
+                });
+                myMap.behaviors.disable('scrollZoom');
+            }
+
+            myMap.geoObjects.removeAll();
+
+            const addPlacemark = (member) => {
+                if (member && member.latitude && member.longitude) {
+                    const placemark = new ymaps.Placemark(
+                        [member.latitude, member.longitude],
+                        {
+                            balloonContent:
+                                '<strong>' + member.name + '</strong><br>' +
+                                (member.city ? member.city + '<br>' : '') +
+                                (member.address ? member.address + '<br>' : '') +
+                                (member.additionalInfo ? '<small class="text-muted">' + member.additionalInfo + '</small>' : '')
+
+                        },
+                        {preset: 'islands#violetDotIcon'}
+                    );
+                    myMap.geoObjects.add(placemark);
+                    return true;
+                }
+                return false;
+            };
+
+            if (countryId === '0') {
+                pointsData.forEach((members) => members.forEach(addPlacemark));
+            } else {
+                const members = pointsData.get(countryId);
+                members && members.forEach(addPlacemark);
+            }
+
+            const bounds = myMap.geoObjects.getBounds();
+            if (bounds) {
+                myMap.setBounds(bounds, {checkZoomRange: true, zoomMargin: 50}).then(() => {
+                    if (myMap.getZoom() > 20) {
+                        myMap.setZoom(17);
+                    }
+                });
+            } else {
+                myMap.setCenter([41.2995, 69.2401], 3);
+            }
+
+            return false;
+        }
+    </script>
+</th:block>
+</body>
+</html>

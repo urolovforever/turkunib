@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{web/fragments/layout :: layout (~{::content}, 'TURKUNIB :: Research & Collaboration', 'research', ~{})}">
+<head>
+    <meta charset="UTF-8">
+    <title>TIU TURKUNIB - Research Projects</title>
+</head>
+<body>
+<div th:fragment="content">
+
+    <th:block th:replace="~{web/fragments/hero-banner :: hero-banner(${banners})}"></th:block>
+
+    <section class="py-5">
+        <div class="container">
+            <div class="row mb-4">
+                <div class="col">
+                    <h1 class="h2-bigger" th:text="#{page.research.title}">Research &amp; Academic Collaboration</h1>
+                    <p class="text-muted" th:text="#{page.research.intro}">Joint research projects carried out by member universities of the Turkic Universities Union.</p>
+                </div>
+            </div>
+
+            <!-- Status filter -->
+            <div class="mb-4">
+                <a th:href="@{/{lang}/research/(lang=${lang})}"
+                   th:classappend="${activeStatus == null} ? 'active'"
+                   class="memberCountryLink btn btn-outline-brand btn-sm shadow-sm me-1 mb-1" th:text="#{common.all}">All</a>
+                <a th:each="s : ${statuses}"
+                   th:href="@{/{lang}/research/(lang=${lang}, status=${s.name()})}"
+                   th:classappend="${activeStatus != null and activeStatus.name() == s.name()} ? 'active'"
+                   class="memberCountryLink btn btn-outline-brand btn-sm shadow-sm me-1 mb-1"
+                   th:switch="${s.name()}">
+                    <span th:case="'PLANNED'" th:text="#{page.research.status.planned}">Planned</span>
+                    <span th:case="'ONGOING'" th:text="#{page.research.status.ongoing}">Ongoing</span>
+                    <span th:case="'COMPLETED'" th:text="#{page.research.status.completed}">Completed</span>
+                </a>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-md-6" th:each="p : ${projects}">
+                    <div class="card border-1 shadow-sm h-100">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <span class="badge" th:switch="${p.status.name()}"
+                                      th:classappend="${p.status.name() == 'COMPLETED'} ? 'bg-success' : (${p.status.name() == 'PLANNED'} ? 'bg-secondary' : 'bg-warning text-dark')">
+                                    <span th:case="'PLANNED'" th:text="#{page.research.status.planned}">Planned</span>
+                                    <span th:case="'ONGOING'" th:text="#{page.research.status.ongoing}">Ongoing</span>
+                                    <span th:case="'COMPLETED'" th:text="#{page.research.status.completed}">Completed</span>
+                                </span>
+                                <small class="text-muted"
+                                       th:if="${p.startYear != null}">
+                                    <span th:text="${p.startYear}">2024</span><span th:if="${p.endYear != null}" th:text="'–' + ${p.endYear}">–2026</span>
+                                </small>
+                            </div>
+                            <h2 class="h5" th:text="${p.title}">Project title</h2>
+                            <p class="text-muted small mb-2" th:if="${p.subjectArea}">
+                                <i class="bi bi-tag me-1"></i><span th:text="${p.subjectArea}">Subject area</span>
+                            </p>
+                            <p th:if="${p.description}" th:text="${p.description}"></p>
+                            <p class="small mb-3" th:if="${p.participatingUniversities}">
+                                <i class="bi bi-building me-1 text-brand"></i>
+                                <span class="text-muted" th:text="${p.participatingUniversities}">Universities</span>
+                            </p>
+                            <a th:href="@{/{lang}/research/{id}(lang=${lang},id=${p.id})}" class="btn btn-sm btn-outline-brand" th:text="#{common.view-details}">View details</a>
+                        </div>
+                    </div>
+                </div>
+                <div th:if="${projects == null or projects.isEmpty()}" class="col-12">
+                    <div class="text-center text-muted py-5">
+                        <i class="bi bi-diagram-3 fs-1 d-block mb-3"></i>
+                        <span th:text="#{page.research.empty}">No research projects published yet.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</div>
+
+</body>
+</html>

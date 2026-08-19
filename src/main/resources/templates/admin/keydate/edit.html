@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{admin/fragments/layout :: layout (~{::content}, 'TIU TURKUNIB :: Edit Date', 'key-dates', ~{})}">
+<head>
+    <meta charset="UTF-8">
+    <title>TIU TURKUNIB - Edit Date</title>
+</head>
+<body>
+<div th:fragment="content">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h3 text-gray-800 mb-0">Edit Date</h1>
+        <a th:href="@{/admin/key-dates/}" class="btn btn-outline-secondary border-secondary shadow-sm">Back to list</a>
+    </div>
+
+    <th:block th:replace="~{admin/fragments/message :: message(${error}, ${success})}"></th:block>
+
+    <div class="card shadow">
+        <div class="card-body">
+            <form method="post" th:action="@{|/admin/key-dates/update/${keyDate.id}|}">
+                <div class="form-group">
+                    <label for="title">Title</label>
+                    <input type="text" class="form-control" id="title" name="title" th:value="${keyDate.title}" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label for="eventDate">Date</label>
+                        <input type="date" class="form-control" id="eventDate" name="eventDate" required
+                               th:value="${#temporals.format(keyDate.eventDate, 'yyyy-MM-dd')}">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="endDate">End date</label>
+                        <input type="date" class="form-control" id="endDate" name="endDate"
+                               th:value="${keyDate.endDate != null} ? ${#temporals.format(keyDate.endDate, 'yyyy-MM-dd')} : ''">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="type">Type</label>
+                        <select class="form-control" id="type" name="type">
+                            <option th:each="t : ${types}" th:value="${t.name()}" th:text="${t.name()}" th:selected="${t == keyDate.type}"></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea class="form-control" id="description" name="description" rows="2" th:text="${keyDate.description}"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary shadow-sm">Save changes</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

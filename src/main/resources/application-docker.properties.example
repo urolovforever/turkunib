@@ -1,0 +1,47 @@
+spring.application.name=Turkic Universities
+spring.datasource.driver-class-name=org.mariadb.jdbc.Driver
+spring.liquibase.enabled=true
+spring.liquibase.change-log=classpath:/db/changelog/changelog-master.xml
+spring.datasource.url=jdbc:mariadb://mariadb:3306/turkunib?useUnicode=true&characterEncoding=utf8&allowPublicKeyRetrieval=true&useSSL=false
+spring.datasource.username=rush
+spring.datasource.password=CHANGE_ME
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MariaDBDialect
+spring.jackson.default-property-inclusion=non_null
+
+spring.servlet.multipart.max-file-size=50MB
+spring.servlet.multipart.max-request-size=50MB
+app.upload.dir=/app/uploads
+
+spring.data.web.pageable.default-page-size=15
+spring.data.web.pageable.max-page-size=100
+
+app.yandex.api.key=CHANGE_ME
+
+spring.batch.job.enabled=false
+spring.batch.jdbc.initialize-schema=never
+
+spring.ai.openai.api-key=CHANGE_ME
+# gpt-4o-mini - free model. Default for Spring AI
+# gpt-4.1 - best, payable, gpt-4o is cheaper and faster.
+spring.ai.openai.chat.options.model=gpt-4o-mini
+spring.ai.openai.chat.options.temperature=0.0
+#spring.ai.openai.chat.options.max-tokens=2000
+
+spring.messages.basename=messages
+spring.messages.encoding=UTF-8
+# For development, set to false
+spring.thymeleaf.cache=true
+
+# Auth flows (password reset / activation links in e-mails)
+app.base-url=${APP_BASE_URL:https://turkunib.org}
+app.activation.enabled=${APP_ACTIVATION_ENABLED:false}
+app.mail.from=${APP_MAIL_FROM:TURKUNIB <noreply@turkunib.org>}
+# SMTP comes from SPRING_MAIL_HOST / SPRING_MAIL_USERNAME / SPRING_MAIL_PASSWORD
+# environment variables set in docker-compose; without them e-mail links are
+# written to the container log instead.
+spring.mail.port=587
+spring.mail.properties.mail.smtp.auth=true
+spring.mail.properties.mail.smtp.starttls.enable=true
+spring.mail.properties.mail.smtp.connectiontimeout=10000
+spring.mail.properties.mail.smtp.timeout=10000
+spring.mail.properties.mail.smtp.writetimeout=10000

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Message</title>
+</head>
+<body>
+
+<!-- Фрагмент для обычных сообщений об ошибках и успехе -->
+<div th:fragment="message(error, success)">
+    <div th:if="${error}" class="alert alert-danger border-danger shadow-sm" role="alert">
+        <h4 class="alert-heading">
+            Something Went Wrong
+        </h4>
+        <p th:text="${error}" class="mb-0"></p>
+    </div>
+
+    <div th:if="${success}" class="alert alert-success border-success shadow-sm" role="alert">
+        <h4 class="alert-heading">
+            Success
+        </h4>
+        <p th:text="${success}" class="mb-0"></p>
+    </div>
+</div>
+
+<!-- Комбинированный фрагмент: обычные сообщения + валидация -->
+<div th:fragment="message-with-validation(error, success)">
+    <!-- Обычные сообщения об ошибках -->
+    <div th:if="${error}" class="alert alert-danger border-danger shadow-sm" role="alert">
+        <h4 class="alert-heading">
+            Error
+        </h4>
+        <p th:text="${error}" class="mb-0"></p>
+    </div>
+
+    <!-- Глобальные ошибки валидации -->
+    <div th:if="${#fields.hasAnyErrors()} and ${#fields.hasGlobalErrors()}"
+         class="alert alert-danger border-danger shadow-sm"
+         role="alert">
+        <h4 class="alert-heading">
+            Validation Errors
+        </h4>
+        <ul class="mb-0 pl-4">
+            <li th:each="err : ${#fields.globalErrors()}" th:text="${err}">Global error</li>
+        </ul>
+    </div>
+
+    <!-- Summary всех полевых ошибок (если нет глобальных) -->
+    <div th:if="${#fields.hasAnyErrors()} and ${#fields.hasErrors('*')} and not ${#fields.hasGlobalErrors()} and not ${error}"
+         class="alert alert-warning border-warning shadow-sm"
+         role="alert">
+        <h4 class="alert-heading">
+            Please Check Your Input
+        </h4>
+        <p class="mb-2">The following fields have errors:</p>
+        <ul class="mb-0 pl-4">
+            <li th:each="err : ${#fields.detailedErrors()}"
+                th:text="${err.fieldName + ': ' + err.message}">
+                Field: Error message
+            </li>
+        </ul>
+    </div>
+
+    <!-- Сообщение об успехе -->
+    <div th:if="${success}" class="alert alert-success border-success shadow-sm" role="alert">
+        <h4 class="alert-heading">
+            Success
+        </h4>
+        <p th:text="${success}" class="mb-0"></p>
+    </div>
+</div>
+
+</body>
+</html>

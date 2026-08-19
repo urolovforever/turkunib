@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org" th:fragment="layout (template, title, menu, scripts)">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="${title}">Turkunib</title>
+
+    <!-- SEO -->
+    <meta name="description"
+          th:attr="content=${metaDescription} ?: 'The Turkic Universities Union (TURKUNIB) connects leading universities across the Turkic world through the Orhun Exchange Program, joint research and academic cooperation.'">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="TURKUNIB — Turkic Universities Union">
+    <meta property="og:title" th:attr="content=${title}">
+    <meta property="og:description"
+          th:attr="content=${metaDescription} ?: 'The Turkic Universities Union (TURKUNIB) connects leading universities across the Turkic world through the Orhun Exchange Program, joint research and academic cooperation.'">
+    <meta property="og:image" th:attr="content=@{/resources/web/img/logo-tiu.png}">
+    <meta name="twitter:card" content="summary">
+
+    <!-- Bootstrap 5 CSS -->
+    <link th:href="@{/resources/web/css/bootstrap.min.css}" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link th:href="@{/resources/web/css/turkunib.css}" rel="stylesheet">
+</head>
+<body>
+<a id="top"></a>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg site-navbar" data-fade-on-scroll style="margin: 0 !important; padding: 0 !important;">
+    <div class="container-fluid align-items-center" style="height: 86px; padding: 0 !important;">
+        <!-- Brand -->
+        <a th:href="@{/{lang}(lang=${lang})}" class="navbar-brand d-flex align-items-center gap-2" style="padding: 0;">
+            <img th:src="@{/resources/web/img/turkunib-logo-2.svg}" alt="Organization of Turkic States" style="height: 86px;">
+        </a>
+
+        <!-- Toggler -->
+        <button class="navbar-toggler shadow-none border-0 icon-btn" type="button" data-bs-toggle="collapse"
+                data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-list"></i>
+        </button>
+
+        <!-- Menu -->
+        <div class="collapse navbar-collapse bg-white" id="mainNav" style="padding: 19px 15px 16px 20px">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center">
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/{lang}(lang=${lang})}" th:text="#{template.menu.top.home}">Home</a>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" th:text="#{template.menu.top.about-us}">About Us</a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" th:href="@{/{lang}/about-us(lang=${lang})}" th:text="#{template.menu.top.about-us}">About Us</a></li>
+                        <li><a class="dropdown-item" th:href="@{/{lang}/members/(lang=${lang})}" th:text="#{template.menu.top.members}">Members</a></li>
+                        <li><a class="dropdown-item" th:href="@{/{lang}/leadership(lang=${lang})}" th:text="#{footer.about.leadership}">Leadership</a></li>
+                        <li><a class="dropdown-item" th:href="@{/{lang}/directive(lang=${lang})}" th:text="#{template.menu.top.directive}">Founding Directive</a></li>
+                        <li><a class="dropdown-item" th:href="@{/{lang}/student-council(lang=${lang})}" th:text="#{template.menu.top.student-council}">Student Council</a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/{lang}/membership(lang=${lang})}" th:text="#{template.menu.top.membership}">Membership</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/{lang}/orhun(lang=${lang})}" th:text="#{template.menu.top.orhun-process}">Orhun Exchange Program</a>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" th:text="#{template.menu.top.news}">News</a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" th:href="@{/{lang}/news/(lang=${lang})}" th:text="#{template.menu.top.news}">News</a></li>
+                        <li><a class="dropdown-item" th:href="@{/{lang}/events/(lang=${lang})}" th:text="#{template.menu.top.events}">Events</a></li>
+                        <li><a class="dropdown-item" th:href="@{/{lang}/photos/(lang=${lang})}" th:text="#{template.menu.top.photos}">Photos</a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/{lang}/contact-us(lang=${lang})}" th:text="#{template.menu.top.contacts}">Contacts</a>
+                </li>
+
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-globe2"></i>
+                    </a>
+                    <ul class="dropdown-menu" th:with="uri=${request.getServletPath()}, tail=${#strings.substringAfter(uri, '/' + lang)}">
+                        <li><a class="dropdown-item" th:classappend="${lang == 'en' ? 'active' : ''}" th:href="@{/en{tail}(tail=${tail})}">English</a></li>
+                        <li><a class="dropdown-item" th:classappend="${lang == 'uz' ? 'active' : ''}" th:href="@{/uz{tail}(tail=${tail})}">Uzbek</a></li>
+                        <li><a class="dropdown-item" th:classappend="${lang == 'tr' ? 'active' : ''}" th:href="@{/tr{tail}(tail=${tail})}">Turkish</a></li>
+                        <li><a class="dropdown-item" th:classappend="${lang == 'kz' ? 'active' : ''}" th:href="@{/kz{tail}(tail=${tail})}">Kazakh</a></li>
+                        <li><a class="dropdown-item" th:classappend="${lang == 'kg' ? 'active' : ''}" th:href="@{/kg{tail}(tail=${tail})}">Kyrgyz</a></li>
+                        <li><a class="dropdown-item" th:classappend="${lang == 'hg' ? 'active' : ''}" th:href="@{/hg{tail}(tail=${tail})}">Hungarian</a></li>
+                        <li><a class="dropdown-item" th:classappend="${lang == 'az' ? 'active' : ''}" th:href="@{/az{tail}(tail=${tail})}">Azerbaijani</a></li>
+                    </ul>
+                </li>
+            </ul>
+
+            <!-- Right-side icons (desktop) -->
+            <div class="d-none d-lg-flex align-items-center gap-2 ms-3 nav-icons">
+                <a th:href="@{/{lang}/student-dashboard(lang=${lang})}" class="icon-btn" aria-label="User Dashboard"><i class="bi bi-person-circle"></i></a>
+            </div>
+
+            <!-- Search -->
+            <form class="d-flex align-items-center gap-1 ms-3 nav-icons" role="search"
+                  th:action="@{/{lang}/search(lang=${lang})}" method="get">
+                <input type="search" name="q" class="form-control form-control-sm" style="max-width:170px;"
+                       th:placeholder="#{search.placeholder}" placeholder="Search..." aria-label="Search">
+                <button class="icon-btn" type="submit" aria-label="Search"><i class="bi bi-search"></i></button>
+            </form>
+        </div>
+    </div>
+</nav>
+
+<main id="content">
+
+    <th:block th:insert="${template}"/>
+
+</main>
+
+<!-- Footer -->
+<footer class="border-top">
+    <div class="first-footer container-fluid">
+        <div class="container d-flex flex-column flex-md-row justify-content-between gap-3">
+            <ul class="list-unstyled mb-0">
+                <li class="first-footer-caption" th:text="#{footer.about.title}">About TURKUNIB</li>
+                <li><a class="text-decoration-none" th:href="@{/{lang}/about-us(lang=${lang})} + '#mission-vision'" th:text="#{footer.about.mission}">Mission &amp; Vision</a></li>
+                <li><a class="text-decoration-none" th:href="@{/{lang}/about-us(lang=${lang})} + '#history'" th:text="#{footer.about.history}">History</a></li>
+                <li><a class="text-decoration-none" th:href="@{/{lang}/membership(lang=${lang})}" th:text="#{footer.about.membership}">Membership</a></li>
+                <li><a class="text-decoration-none" th:href="@{/{lang}/directive(lang=${lang})}" th:text="#{footer.about.directive}">Founding Directive</a></li>
+                <li><a class="text-decoration-none" th:href="@{/{lang}/leadership(lang=${lang})}" th:text="#{footer.about.leadership}">Leadership</a></li>
+                <li><a class="text-decoration-none" th:href="@{/{lang}/strategic-plan(lang=${lang})}" th:text="#{footer.about.strategic}">Strategic Plan</a></li>
+                <li><a class="text-decoration-none" th:href="@{/{lang}/annual-reports(lang=${lang})}" th:text="#{footer.about.reports}">Annual Reports</a></li>
+            </ul>
+
+            <ul class="list-unstyled mb-0">
+                <li class="first-footer-caption" th:text="#{footer.programs.title}">Programs</li>
+                <li><a class="text-decoration-none" th:href="@{/{lang}/orhun(lang=${lang})}" th:text="#{footer.programs.orkhun}">Orhun Exchange Program</a></li>
+                <li><a class="text-decoration-none" th:href="@{/{lang}/student-council(lang=${lang})}" th:text="#{footer.programs.council}">Student Council</a></li>
+                <li><a class="text-decoration-none" th:href="@{/{lang}/calendar/(lang=${lang})}" th:text="#{footer.programs.calendar}">Academic Calendar</a></li>
+                <li><a class="text-decoration-none" th:href="@{/login}" th:text="#{footer.programs.portal}">Student Portal</a></li>
+            </ul>
+
+            <ul class="list-unstyled mb-0">
+                <li class="first-footer-caption" th:text="#{footer.resources.title}">Resources</li>
+                <li><a class="text-decoration-none" th:href="@{/{lang}/publications/(lang=${lang})}" th:text="#{footer.resources.publications}">Publications &amp; Reports</a></li>
+                <li><a class="text-decoration-none" th:href="@{/{lang}/research/(lang=${lang})}" th:text="#{footer.resources.research}">Research Projects</a></li>
+                <li><a class="text-decoration-none" th:href="@{/{lang}/webinars/(lang=${lang})}" th:text="#{footer.resources.webinars}">Workshops &amp; Webinars</a></li>
+                <li><a class="text-decoration-none" th:href="@{/{lang}/news/(lang=${lang})}" th:text="#{footer.resources.news}">News</a></li>
+                <li><a class="text-decoration-none" th:href="@{/{lang}/faq/(lang=${lang})}" th:text="#{footer.resources.faq}">FAQ</a></li>
+            </ul>
+
+            <ul class="list-unstyled mb-0">
+                <li><img th:src="@{/resources/web/img/logo-tiu.png}" alt="Tashkent International University Logo" width="130"></li>
+                <li>Tashkent International University</li>
+                <li>100114, Toshkent, Kichik halqa yo'li ko‘chasi, 7-uy</li>
+                <li><a href="mailto:info@tiu.uz" style="text-transform: none!important;">info@tiu.uz</a></li>
+                <li class="fw-semibold">+998 95 131-55-55</li>
+            </ul>
+        </div>
+
+        <!--/* Newsletter subscribe form hidden for now (no email-sending system yet). Backend + /admin/newsletter still active.
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-7 col-lg-5 text-center">
+                    <div class="first-footer-caption mb-2">Newsletter</div>
+                    <p class="small mb-2">Subscribe to receive TURKUNIB news and announcements.</p>
+                    <div th:if="${newsletterSuccess}" class="alert alert-success py-2 small" th:text="${newsletterSuccess}"></div>
+                    <div th:if="${newsletterError}" class="alert alert-danger py-2 small" th:text="${newsletterError}"></div>
+                    <form method="post" th:action="@{/{lang}/newsletter/subscribe(lang=${lang})}" class="input-group">
+                        <input type="email" name="email" class="form-control" placeholder="you@example.com" required>
+                        <button type="submit" class="btn btn-outline-light">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        */-->
+
+        <div class="container d-flex flex-column flex-md-row justify-content-center first-footer-social">
+            <ul class="list-inline list-unstyled">
+                <li class="list-inline-item">
+                    <a class="text-decoration-none" href="https://www.facebook.com/people/Tashkent-International-University-TIU/100095487825640/">
+                        <i class="bi bi-facebook"></i>
+                    </a>
+                </li>
+                <li class="list-inline-item">
+                    <a class="text-decoration-none" href="https://t.me/tiu_edu">
+                        <i class="bi bi-telegram"></i>
+                    </a>
+                </li>
+                <li class="list-inline-item">
+                    <a class="text-decoration-none" href="https://www.youtube.com/@TIU_UZB">
+                        <i class="bi bi-youtube"></i>
+                    </a>
+                </li>
+                <li class="list-inline-item">
+                    <a class="text-decoration-none" href="https://www.instagram.com/tiuofficial/?igsh=cGIwc3UwZ3RsMDdi">
+                        <i class="bi bi-instagram"></i>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="second-footer container-fluid text-center">
+        <div class="container d-flex flex-column flex-md-row align-items-center justify-content-between gap-3">
+            <small class="text-muted" th:text="#{footer.copyright}">© 2025 Organization of Turkic States. Turkic Universities Union</small>
+            <ul class="list-inline mb-0">
+                <li class="list-inline-item me-3">
+                    <a class="text-decoration-none" th:href="@{/{lang}/cookies(lang=${lang})}" th:text="#{footer.cookies}">Cookies</a>
+                </li>
+                <li class="list-inline-item me-3">
+                    <a class="text-decoration-none" th:href="@{/{lang}/terms-and-conditions(lang=${lang})}" th:text="#{footer.terms}">Terms &amp; Conditions</a>
+                </li>
+                <li class="list-inline-item">
+                    <a class="text-decoration-none" th:href="@{/{lang}/contact-us(lang=${lang})}" th:text="#{footer.contact}">Contact Us</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</footer>
+
+<!-- Bootstrap JS (bundle includes Popper) -->
+<script th:src="@{/resources/web/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/resources/web/js/site.js}"></script>
+
+<!-- Page level plugins -->
+<th:block th:replace="${scripts} ?: ~{}"></th:block>
+
+</body>
+</html>

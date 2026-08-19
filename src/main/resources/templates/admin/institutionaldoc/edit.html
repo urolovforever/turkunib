@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{admin/fragments/layout :: layout (~{::content}, 'TIU TURKUNIB :: Edit Document', 'institutional-docs', ~{})}">
+<head>
+    <meta charset="UTF-8">
+    <title>TIU TURKUNIB - Edit Document</title>
+</head>
+<body>
+<div th:fragment="content">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h3 text-gray-800 mb-0">Edit Document</h1>
+        <a th:href="@{/admin/institutional-documents/}" class="btn btn-outline-secondary border-secondary shadow-sm">Back to list</a>
+    </div>
+
+    <th:block th:replace="~{admin/fragments/message :: message(${error}, ${success})}"></th:block>
+
+    <div class="card shadow">
+        <div class="card-body">
+            <form method="post" th:action="@{|/admin/institutional-documents/update/${document.id}|}" enctype="multipart/form-data">
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="section">Section</label>
+                        <select class="form-control" id="section" name="section" required>
+                            <option th:each="s : ${sections}" th:value="${s.name()}" th:text="${s.name()}" th:selected="${s == document.section}"></option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="documentYear">Year</label>
+                        <input type="number" class="form-control" id="documentYear" name="documentYear" min="1900" max="2100" th:value="${document.documentYear}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="title">Title</label>
+                    <input type="text" class="form-control" id="title" name="title" th:value="${document.title}" required>
+                </div>
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea class="form-control" id="description" name="description" rows="2" th:text="${document.description}"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="file">File (PDF) <small class="text-muted">Leave empty to keep the current file.</small></label>
+                    <input type="file" class="form-control-file" id="file" name="file">
+                    <small th:if="${document.file != null}" class="form-text">
+                        Current: <a th:href="@{|/uploads${document.file.filePath}${document.file.fileFileName}|}" target="_blank" th:text="${document.file.fileFileName}">file</a>
+                    </small>
+                </div>
+                <button type="submit" class="btn btn-primary shadow-sm">Save changes</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

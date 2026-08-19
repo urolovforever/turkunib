@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="ET-001-create-news-categories-i18n-table-230925" author="Ruslan Skaldin">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="news_categories_i18n"/>
+            </not>
+        </preConditions>
+
+        <!-- Create a news_categories_i18n table -->
+        <createTable tableName="news_categories_i18n">
+            <column name="id" type="bigint unsigned" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="category_id" type="bigint unsigned">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="locale" type="varchar(10)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="title" type="varchar(512)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="slug" type="varchar(512)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="description" type="text">
+                <constraints nullable="true"/>
+            </column>
+
+            <column name="updated_at" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+
+            <column name="created_at" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+
+        <addUniqueConstraint tableName="news_categories_i18n"
+                             columnNames="category_id,locale"
+                             constraintName="uk_news_categories_i18n_category_locale"/>
+
+        <!-- Индекс для быстрого поиска по названию -->
+        <createIndex tableName="news_categories_i18n" indexName="idx_news_categories_i18n_title">
+            <column name="title"/>
+        </createIndex>
+
+        <!-- FK на news_category -->
+        <addForeignKeyConstraint baseTableName="news_categories_i18n"
+                                 baseColumnNames="category_id"
+                                 referencedTableName="news_categories"
+                                 referencedColumnNames="id"
+                                 onDelete="CASCADE"
+                                 onUpdate="CASCADE"
+                                 constraintName="fk_news_categories_i18n_category"/>
+
+    </changeSet>
+</databaseChangeLog>

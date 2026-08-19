@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="ET-023-create-leadership-member-i18n-table-170626" author="tiu">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="leadership_member_i18n"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="leadership_member_i18n">
+            <column name="id" type="bigint unsigned" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="leadership_member_id" type="bigint unsigned">
+                <constraints nullable="false"/>
+            </column>
+            <column name="locale" type="varchar(10)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="position" type="varchar(512)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="organization" type="varchar(512)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="bio" type="text">
+                <constraints nullable="true"/>
+            </column>
+            <column name="updated_at" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+            <column name="created_at" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="leadership_member_i18n"
+                                 baseColumnNames="leadership_member_id"
+                                 referencedTableName="leadership_members"
+                                 referencedColumnNames="id"
+                                 onDelete="CASCADE"
+                                 onUpdate="CASCADE"
+                                 constraintName="fk_leadership_member_i18n_leadership_member"/>
+
+        <addUniqueConstraint tableName="leadership_member_i18n"
+                             columnNames="leadership_member_id,locale"
+                             constraintName="uk_leadership_member_i18n_member_locale"/>
+
+        <createIndex tableName="leadership_member_i18n" indexName="idx_leadership_member_i18n_locale">
+            <column name="locale"/>
+        </createIndex>
+    </changeSet>
+</databaseChangeLog>

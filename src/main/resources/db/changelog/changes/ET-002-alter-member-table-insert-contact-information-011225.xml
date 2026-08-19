@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="ET-002-alter-member-table-insert-contact-information-011225" author="Ruslan Skaldin">
+        <preConditions onFail="MARK_RAN">
+            <tableExists tableName="members"/>
+            <not>
+                <columnExists tableName="members" columnName="additional_info"/>
+            </not>
+        </preConditions>
+
+        <addColumn tableName="members">
+            <column name="additional_info" type="text">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+    </changeSet>
+
+</databaseChangeLog>

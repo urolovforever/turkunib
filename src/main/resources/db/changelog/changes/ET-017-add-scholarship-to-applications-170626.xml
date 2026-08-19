@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="ET-017-add-scholarship-to-applications-170626" author="tiu">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <columnExists tableName="applications" columnName="scholarship_id"/>
+            </not>
+        </preConditions>
+
+        <addColumn tableName="applications">
+            <column name="scholarship_id" type="bigint unsigned">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+
+        <addForeignKeyConstraint baseTableName="applications"
+                                 baseColumnNames="scholarship_id"
+                                 referencedTableName="scholarships"
+                                 referencedColumnNames="id"
+                                 onDelete="SET NULL"
+                                 onUpdate="CASCADE"
+                                 constraintName="fk_applications_scholarship_id_scholarships_id"/>
+    </changeSet>
+
+</databaseChangeLog>

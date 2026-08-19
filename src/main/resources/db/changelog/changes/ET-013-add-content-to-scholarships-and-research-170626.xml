@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="ET-013-add-content-to-scholarships-170626" author="tiu">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <columnExists tableName="scholarships" columnName="content"/>
+            </not>
+        </preConditions>
+        <addColumn tableName="scholarships">
+            <column name="content" type="text">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="ET-013-add-content-to-research-projects-170626" author="tiu">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <columnExists tableName="research_projects" columnName="content"/>
+            </not>
+        </preConditions>
+        <addColumn tableName="research_projects">
+            <column name="content" type="text">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+    </changeSet>
+
+</databaseChangeLog>

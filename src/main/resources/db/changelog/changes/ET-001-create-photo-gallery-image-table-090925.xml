@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="ET-001-create-photo-gallery-image-table-090925" author="Ruslan Skaldin">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="photo_gallery_image"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="photo_gallery_image">
+            <column name="id" type="bigint unsigned" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="gallery_id" type="bigint unsigned">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="image_id" type="bigint unsigned">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="photo_gallery_image"
+                                 baseColumnNames="gallery_id"
+                                 referencedTableName="photo_gallery"
+                                 referencedColumnNames="id"
+                                 onDelete="CASCADE"
+                                 onUpdate="CASCADE"
+                                 constraintName="fk_pg_image_gallery"/>
+
+        <addForeignKeyConstraint baseTableName="photo_gallery_image"
+                                 baseColumnNames="image_id"
+                                 referencedTableName="images"
+                                 referencedColumnNames="id"
+                                 onDelete="CASCADE"
+                                 onUpdate="CASCADE"
+                                 constraintName="fk_pg_image_image"/>
+
+    </changeSet>
+</databaseChangeLog>

@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{web/fragments/layout :: layout (~{::content}, 'TIU TURKUNIB :: Founding Directive', 'staticpage', ~{::pageScripts})}">
+<head>
+    <meta charset="UTF-8">
+    <title>TIU TURKUNIB - Founding Directive</title>
+</head>
+<body>
+<div th:fragment="content">
+
+    <th:block th:replace="~{web/fragments/hero-banner :: hero-banner(${banners})}"></th:block>
+
+    <!-- Intro -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 mx-auto">
+                    <h1 class="h2-bigger mb-3" th:text="#{page.directive.title}">Directive on the Establishment of the Turkic University Union and Higher Education Area</h1>
+                    <p class="lead text-muted mb-4" th:text="#{page.directive.intro}">
+                        The founding document of the Turkic Universities Union (TURKUNIB), regulating the structure,
+                        working principles and fields of activity of the Union and establishing the Higher Education
+                        Area of the Organization of Turkic States.
+                    </p>
+                    <div class="d-flex flex-wrap align-items-center gap-3">
+                        <a class="btn btn-outline-brand" th:href="@{/resources/web/files/directive/turkunib-founding-directive-en.pdf}" target="_blank">
+                            <i class="bi bi-file-earmark-pdf me-1"></i><span th:text="#{page.directive.download}">Download the official document (PDF)</span>
+                        </a>
+                        <span class="text-muted small fst-italic" th:text="#{page.directive.amendnote}">
+                            Amended by the Decision of the 9th Meeting of the Ministers of Education of the Organization of Turkic States Member States, dated 8 June 2026.
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Directive body with TOC sidebar -->
+    <section class="pb-5">
+        <div class="container">
+            <div class="row g-4">
+
+                <!-- Sidebar: table of contents -->
+                <div class="col-lg-4 col-xl-3">
+                    <button class="btn btn-outline-brand w-100 d-lg-none mb-3" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#directiveTocCollapse" aria-expanded="false" aria-controls="directiveTocCollapse">
+                        <i class="bi bi-list-ul me-1"></i><span th:text="#{page.directive.toc}">Table of Contents</span>
+                    </button>
+                    <div class="collapse d-lg-block directive-toc-wrap" id="directiveTocCollapse">
+                        <nav id="directiveToc" class="directive-toc card shadow-sm p-3">
+                            <div class="fw-bold text-uppercase small mb-2 d-none d-lg-block" th:text="#{page.directive.toc}">Table of Contents</div>
+                            <nav class="nav nav-pills flex-column">
+                                <a class="nav-link" href="#directive-part-1"><span th:text="#{page.directive.part1}">Part I</span> — <span th:text="#{page.directive.part1.title}">Purpose, Scope, Reference and Definitions</span></a>
+                                <nav class="nav nav-pills flex-column">
+                                    <a class="nav-link directive-toc-sub" href="#directive-article-1"><span th:text="#{page.directive.art.n(1)} + ' — '">Art. 1 — </span><span th:text="#{page.directive.art1.title}">Purpose</span></a>
+                                    <a class="nav-link directive-toc-sub" href="#directive-article-2"><span th:text="#{page.directive.art.n(2)} + ' — '">Art. 2 — </span><span th:text="#{page.directive.art2.title}">Scope</span></a>
+                                    <a class="nav-link directive-toc-sub" href="#directive-article-3"><span th:text="#{page.directive.art.n(3)} + ' — '">Art. 3 — </span><span th:text="#{page.directive.art3.title}">Reference</span></a>
+                                    <a class="nav-link directive-toc-sub" href="#directive-article-4"><span th:text="#{page.directive.art.n(4)} + ' — '">Art. 4 — </span><span th:text="#{page.directive.art4.title}">Definitions</span></a>
+                                    <a class="nav-link directive-toc-sub" href="#directive-article-5"><span th:text="#{page.directive.art.n(5)} + ' — '">Art. 5 — </span><span th:text="#{page.directive.art5.title}">Founding Members</span></a>
+                                </nav>
+                                <a class="nav-link" href="#directive-part-2"><span th:text="#{page.directive.part2}">Part II</span> — <span th:text="#{page.directive.part2.title}">Structure of the Union</span></a>
+                                <nav class="nav nav-pills flex-column">
+                                    <a class="nav-link directive-toc-sub" href="#directive-article-6"><span th:text="#{page.directive.art.n(6)} + ' — '">Art. 6 — </span><span th:text="#{page.directive.art6.title}">Organizational Structure</span></a>
+                                    <a class="nav-link directive-toc-sub" href="#directive-article-7"><span th:text="#{page.directive.art.n(7)} + ' — '">Art. 7 — </span><span th:text="#{page.directive.art7.title}">Objectives of the Union</span></a>
+                                </nav>
+                                <a class="nav-link" href="#directive-part-3"><span th:text="#{page.directive.part3}">Part III</span> — <span th:text="#{page.directive.part3.title}">Working Principles, Financial Resources, Membership</span></a>
+                                <nav class="nav nav-pills flex-column">
+                                    <a class="nav-link directive-toc-sub" href="#directive-article-8"><span th:text="#{page.directive.art.n(8)} + ' — '">Art. 8 — </span><span th:text="#{page.directive.art8.title}">Working Principles</span></a>
+                                    <a class="nav-link directive-toc-sub" href="#directive-article-9"><span th:text="#{page.directive.art.n(9)} + ' — '">Art. 9 — </span><span th:text="#{page.directive.art9.title}">Financial Resources of the Union</span></a>
+                                    <a class="nav-link directive-toc-sub" href="#directive-article-10"><span th:text="#{page.directive.art.n(10)} + ' — '">Art. 10 — </span><span th:text="#{page.directive.art10.title}">Membership to the Union</span></a>
+                                </nav>
+                                <a class="nav-link" href="#directive-part-4"><span th:text="#{page.directive.part4}">Part IV</span> — <span th:text="#{page.directive.part4.title}">Higher Education Area, Implementation and Exchange Programs</span></a>
+                                <nav class="nav nav-pills flex-column">
+                                    <a class="nav-link directive-toc-sub" href="#directive-article-11"><span th:text="#{page.directive.art.n(11)} + ' — '">Art. 11 — </span><span th:text="#{page.directive.art11.title}">Turkic World Higher Education Area</span></a>
+                                    <a class="nav-link directive-toc-sub" href="#directive-article-12"><span th:text="#{page.directive.art.n(12)} + ' — '">Art. 12 — </span><span th:text="#{page.directive.art12.title}">Processes for Implementation</span></a>
+                                    <a class="nav-link directive-toc-sub" href="#directive-article-13"><span th:text="#{page.directive.art.n(13)} + ' — '">Art. 13 — </span><span th:text="#{page.directive.art13.title}">Student and Academic Staff Mobility</span></a>
+                                </nav>
+                                <a class="nav-link" href="#directive-part-5"><span th:text="#{page.directive.part5}">Part V</span> — <span th:text="#{page.directive.part5.title}">Other Provisions</span></a>
+                                <nav class="nav nav-pills flex-column">
+                                    <a class="nav-link directive-toc-sub" href="#directive-article-14"><span th:text="#{page.directive.art.n(14)} + ' — '">Art. 14 — </span><span th:text="#{page.directive.art14.title}">Issues for Which There Are No Provisions</span></a>
+                                    <a class="nav-link directive-toc-sub" href="#directive-article-15"><span th:text="#{page.directive.art.n(15)} + ' — '">Art. 15 — </span><span th:text="#{page.directive.art15.title}">Languages of the Directive</span></a>
+                                    <a class="nav-link directive-toc-sub" href="#directive-article-16"><span th:text="#{page.directive.art.n(16)} + ' — '">Art. 16 — </span><span th:text="#{page.directive.art16.title}">Validity</span></a>
+                                    <a class="nav-link directive-toc-sub" href="#directive-article-17"><span th:text="#{page.directive.art.n(17)} + ' — '">Art. 17 — </span><span th:text="#{page.directive.art17.title}">Implementation</span></a>
+                                </nav>
+                            </nav>
+                        </nav>
+                    </div>
+                </div>
+
+                <!-- Directive text -->
+                <div class="col-lg-8 col-xl-9 directive-body">
+
+                    <!-- PART I -->
+                    <h2 class="h2-bigger directive-part-heading" id="directive-part-1">
+                        <span class="text-brand d-block" th:text="#{page.directive.part1}">Part I</span>
+                        <span th:text="#{page.directive.part1.title}">Purpose, Scope, Reference and Definitions</span>
+                    </h2>
+
+                    <article id="directive-article-1" class="directive-article">
+                        <h3><span th:text="#{page.directive.article.n(1)}">Article 1</span> — <span th:text="#{page.directive.art1.title}">Purpose</span></h3>
+                        <p th:text="#{page.directive.art1.p1}">(1) The purpose of this Directive is to create the Higher Education Area of the Organization of Turkic States by improving cooperation in higher education among the Organization of Turkic States Member States.</p>
+                        <p th:text="#{page.directive.art1.p2}">(2) This Directive also intends to regulate structure, working principles and field of activities for the Turkic University Union established under the auspices of the Organization of Turkic States.</p>
+                    </article>
+
+                    <article id="directive-article-2" class="directive-article">
+                        <h3><span th:text="#{page.directive.article.n(2)}">Article 2</span> — <span th:text="#{page.directive.art2.title}">Scope</span></h3>
+                        <p th:text="#{page.directive.art2.p1}">(1) This Directive comprises procedures and principles of cooperation in higher education area to be made between the member universities of the Organization of Turkic States Turkic University Union.</p>
+                    </article>
+
+                    <article id="directive-article-3" class="directive-article">
+                        <h3><span th:text="#{page.directive.article.n(3)}">Article 3</span> — <span th:text="#{page.directive.art3.title}">Reference</span></h3>
+                        <p th:text="#{page.directive.art3.intro}">(1) This Directive has been prepared subject to the decisions taken at:</p>
+                        <ul class="directive-ref-list">
+                            <li th:text="#{page.directive.art3.ref1}">the Second Summit of the Organization of Turkic States held in Bishkek on August 23, 2012;</li>
+                            <li th:text="#{page.directive.art3.ref2}">the Meeting of Organization of Turkic States Ministers of Education held in Colpan-Ata on August 10, 2012;</li>
+                            <li th:text="#{page.directive.art3.ref3}">the Preparatory Meeting of Organization of Turkic States Turkic University Union held in Istanbul on 28-29 March 2012;</li>
+                            <li th:text="#{page.directive.art3.ref4}">the First General Assembly of the Turkic Universities Union held in Erzurum on October 16-17, 2014;</li>
+                            <li th:text="#{page.directive.art3.ref5}">the Third Meeting of Education Ministers held in Baku on November 28, 2014;</li>
+                            <li th:text="#{page.directive.art3.ref6}">the Fourth Meeting of Education Ministers held in Astana on September 5, 2015;</li>
+                            <li th:text="#{page.directive.art3.ref7}">the Fifth Meeting of Education Ministers held in Bishkek on March 15, 2019;</li>
+                            <li th:text="#{page.directive.art3.ref8}">the Sixth Meeting of Education Ministers held in Istanbul on November 4, 2021;</li>
+                            <li th:text="#{page.directive.art3.ref9}">the Seventh Meeting of Education Ministers held in Samarkand on June 14, 2023;</li>
+                            <li th:text="#{page.directive.art3.ref10}">the Sixth General Assembly of the Turkic Universities Union of the Organization of Turkic States held in Turkistan on November 23, 2022.</li>
+                        </ul>
+                    </article>
+
+                    <article id="directive-article-4" class="directive-article">
+                        <h3><span th:text="#{page.directive.article.n(4)}">Article 4</span> — <span th:text="#{page.directive.art4.title}">Definitions</span></h3>
+                        <p th:text="#{page.directive.art4.intro}">(1) For the purpose of this Directive:</p>
+                        <ul>
+                            <li th:text="#{page.directive.art4.def1}">Organization of Turkic States means the Cooperation Council of Turkic Speaking States;</li>
+                            <li th:text="#{page.directive.art4.def2}">Organization of Turkic States Summit means Annual Meeting of the Heads of State of the Member States;</li>
+                            <li th:text="#{page.directive.art4.def3}">Organization of Turkic States Ministers of Education Meeting means the meeting where Ministers of Education convene. The President of Council of Higher Education of Turkey also takes part when the issues related to the Union are discussed;</li>
+                            <li th:text="#{page.directive.art4.def4}">Secretariat means the Secretariat of the Organization of Turkic States;</li>
+                            <li th:text="#{page.directive.art4.def5}">Senior Officials of the Organization of Turkic States Ministers of Education means the group composed of national experts appointed by the Ministry of Education of the Member States;</li>
+                            <li th:text="#{page.directive.art4.def6}">Union means the Turkic University Union established under the auspices of the Organization of Turkic States;</li>
+                            <li th:text="#{page.directive.art4.def7}">Union of the General Assembly refers to the Committee formed with the participation of Rectors of the Member Universities or their representatives, as well as the Secretary-General of the Organization of Turkic States or his representative;</li>
+                            <li th:text="#{page.directive.art4.def8}">TCHEA means Organization of Turkic States Higher Education Area.</li>
+                        </ul>
+                    </article>
+
+                    <article id="directive-article-5" class="directive-article">
+                        <h3><span th:text="#{page.directive.article.n(5)}">Article 5</span> — <span th:text="#{page.directive.art5.title}">Founding Members</span></h3>
+                        <p th:text="#{page.directive.art5.p1}">(1) Founding members of the Union are the following 15 universities from four member states.</p>
+                        <div class="table-responsive">
+                            <table class="table table-bordered align-middle shadow-sm mb-3 directive-members-table">
+                                <thead class="table-light">
+                                <tr>
+                                    <th style="width: 30%" th:text="#{page.directive.art5.country}">Country</th>
+                                    <th th:text="#{page.directive.art5.university}">University</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr><td rowspan="3" class="fw-semibold" th:text="#{page.directive.country.az}">Azerbaijan</td><td>Azerbaijan Architecture and Construction University</td></tr>
+                                <tr><td>Azerbaijan Medical University</td></tr>
+                                <tr><td>Baku State University</td></tr>
+                                <tr><td rowspan="4" class="fw-semibold" th:text="#{page.directive.country.kz}">Kazakhstan</td><td>Ahmet Yesevi University</td></tr>
+                                <tr><td>Al-Farabi Kazakh National University</td></tr>
+                                <tr><td>L. N. Gumilyov Eurasian National University</td></tr>
+                                <tr><td>Nazarbayev University</td></tr>
+                                <tr><td rowspan="4" class="fw-semibold" th:text="#{page.directive.country.kg}">Kyrgyzstan</td><td>K. Karasayev Bishkek Humanitarian University</td></tr>
+                                <tr><td>Kyrgyzstan-Turkey Manas University</td></tr>
+                                <tr><td>International University of Kyrgyzstan</td></tr>
+                                <tr><td>Yusuf Balasagun Kyrgyz National University</td></tr>
+                                <tr><td rowspan="4" class="fw-semibold" th:text="#{page.directive.country.tr}">Türkiye</td><td>Atatürk University</td></tr>
+                                <tr><td>Ege University</td></tr>
+                                <tr><td>Eskişehir Osmangazi University</td></tr>
+                                <tr><td>Istanbul University</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <a class="btn-page-link" th:href="@{/{lang}/members/(lang=${lang})}" th:text="#{page.directive.art5.memberslink}">View the current member universities of the Union</a>
+                    </article>
+
+                    <!-- PART II -->
+                    <h2 class="h2-bigger directive-part-heading" id="directive-part-2">
+                        <span class="text-brand d-block" th:text="#{page.directive.part2}">Part II</span>
+                        <span th:text="#{page.directive.part2.title}">Structure of the Union</span>
+                    </h2>
+
+                    <article id="directive-article-6" class="directive-article">
+                        <h3><span th:text="#{page.directive.article.n(6)}">Article 6</span> — <span th:text="#{page.directive.art6.title}">Organizational Structure</span></h3>
+                        <p th:text="#{page.directive.art6.p1}">(1) The Union consists of universities from member and observer states of the Organization of Turkic States and related communities.</p>
+
+                        <h4 th:text="#{page.directive.art6.chairmanship}">Chairmanship of the Union</h4>
+                        <p th:text="#{page.directive.art6.p2}">(2) Chairman of the Union is the Secretary General of the Organization of the Turkic States.</p>
+                        <p th:text="#{page.directive.art6.p3}">(3) The chairmanship-in-office is elected by simple majority for two years at the Meeting of the General Assembly among the member universities on a voluntary basis or with the proposal of other participants.</p>
+                        <p th:text="#{page.directive.art6.p4}">(4) Chairman of the Union performs his duties in coordination with Rector of Chair University-in-office in charge of academic affairs.</p>
+                        <p th:text="#{page.directive.art6.p5}">(5) Duties of Chair University-in-office are:</p>
+                        <ul>
+                            <li th:text="#{page.directive.art6.duty1}">to host the meeting of the General Assembly of the Union and implement decisions taken at the General Assembly;</li>
+                            <li th:text="#{page.directive.art6.duty2}">to provide necessary cooperation and communication in coordination with the Secretariat among the members of the Union during the chairmanship.</li>
+                        </ul>
+                        <p th:text="#{page.directive.art6.p6}">(6) Rector of Chair University-in-Office, in relation to his duties, shall be able to be invited to meeting of the Organization of the Turkic States Ministers of Education and/or the Organization of the Turkic States Summit.</p>
+
+                        <h4 th:text="#{page.directive.art6.assembly}">General Assembly</h4>
+                        <p th:text="#{page.directive.art6.p7}">(7) General Assembly of Turkic Universities Union consists of university representatives from member countries. The member university representatives are the Rector, the relevant Vice Rector and one representative from the internationalization unit.</p>
+
+                        <h4 th:text="#{page.directive.art6.board}">The Board of Directors</h4>
+
+                        <h4 th:text="#{page.directive.art6.secretariat}">The Secretariat</h4>
+
+                        <h4 th:text="#{page.directive.art6.subcommittees}">Sub-Committees</h4>
+                        <p th:text="#{page.directive.art6.subcommittees.intro}">To fulfill the prioritized activities determined by the General Assembly, seven executive committees have been established:</p>
+                        <ul>
+                            <li th:text="#{page.directive.art6.committee1}">Turkic World Higher Education Databank</li>
+                            <li th:text="#{page.directive.art6.committee2}">Education-Teaching Committee</li>
+                            <li th:text="#{page.directive.art6.committee3}">Scientific Committee</li>
+                            <li th:text="#{page.directive.art6.committee4}">Turkic World Education Portal</li>
+                            <li th:text="#{page.directive.art6.committee5}">Higher Education Quality Assurance Board</li>
+                            <li th:text="#{page.directive.art6.committee6}">Sports-Culture Committee</li>
+                            <li th:text="#{page.directive.art6.committee7}">Student Council</li>
+                        </ul>
+
+                        <h4 th:text="#{page.directive.art6.contactgroup}">Contact Group</h4>
+                        <p th:text="#{page.directive.art6.p8}">(8) The Organization of Turkic States appoints a Deputy Secretary-General while the member universities appoint a Vice-Rector together with a representative in charge of the Union activities to take part in the Contact Group.</p>
+                        <p th:text="#{page.directive.art6.p9}">(9) The duty of the Contact Group is to co-ordinate the implementation of the Union decisions.</p>
+                        <p th:text="#{page.directive.art6.p10}">(10) The Contact Group meets at least twice a year.</p>
+
+                        <h4 th:text="#{page.directive.art6.studentcouncil}">Student Council</h4>
+                        <p th:text="#{page.directive.art6.p11}">(11) Student Council of the Union is composed of students elected from the Member Universities of the Union.</p>
+                        <p th:text="#{page.directive.art6.p12}">(12) A Directive is prepared by the Union for establishment of the Student Council, duties and responsibilities and other issues.</p>
+                    </article>
+
+                    <article id="directive-article-7" class="directive-article">
+                        <h3><span th:text="#{page.directive.article.n(7)}">Article 7</span> — <span th:text="#{page.directive.art7.title}">Objectives of the Union</span></h3>
+                        <p th:text="#{page.directive.art7.intro}">Based on the common history, culture and language, with the aim of developing friendship and cooperation among Turkic speaking peoples and raising the level of education in order to ensure cooperation between higher education institutions of the Member States, the following objectives are to be realized:</p>
+                        <ul>
+                            <li th:text="#{page.directive.art7.obj1}">Having courses of common civilization, through the implementation of appropriate educational standards with modern scientific level in all member universities, and thus educating generations with a common identity and cultural awareness;</li>
+                            <li th:text="#{page.directive.art7.obj2}">Synchronizing higher education programs in compliance with the international accreditation standards;</li>
+                            <li th:text="#{page.directive.art7.obj3}">Establishing and implementing training programs for academic staff;</li>
+                            <li th:text="#{page.directive.art7.obj4}">Encouraging exchange of students and academic staff and making the necessary adjustments thereto;</li>
+                            <li th:text="#{page.directive.art7.obj5}">Forming a common credit transfer system;</li>
+                            <li th:text="#{page.directive.art7.obj6}">Ensuring recognition of higher education programs among the member universities and providing an appropriate basis for the recognition of each other's certification equivalence of the member universities;</li>
+                            <li th:text="#{page.directive.art7.obj7}">Benefiting from comparative superiorities of universities in certain areas;</li>
+                            <li th:text="#{page.directive.art7.obj8}">Implementing applicable cooperative education and research projects and programs, and making publications in this field;</li>
+                            <li th:text="#{page.directive.art7.obj9}">Cooperating in social and cultural fields;</li>
+                            <li th:text="#{page.directive.art7.obj10}">Providing special scholarships for students who conduct studies on the Turkic world;</li>
+                            <li th:text="#{page.directive.art7.obj11}">Ensuring information sharing about academic studies and projects on the Turkic world electronically, and transmitting addresses of the relevant studies carried out by universities to the Secretariat website to provide them with a link on the Organization of Turkic States website;</li>
+                            <li th:text="#{page.directive.art7.obj12}">Establishing an independent "Higher Education Quality Assurance Board" to serve for the quality assurance of external evaluation and accreditation processes of the member universities of the Union and supporting its activities;</li>
+                            <li th:text="#{page.directive.art7.obj13}">Establishing the Higher Education Databank for Organization of Turkic States members;</li>
+                            <li th:text="#{page.directive.art7.obj14}">Establishing the Turkic World Index and domain indexes;</li>
+                            <li th:text="#{page.directive.art7.obj15}">Establishing the Turkic World Education Portal;</li>
+                            <li th:text="#{page.directive.art7.obj16}">Establishing the Turkic Higher Education Area.</li>
+                        </ul>
+                    </article>
+
+                    <!-- PART III -->
+                    <h2 class="h2-bigger directive-part-heading" id="directive-part-3">
+                        <span class="text-brand d-block" th:text="#{page.directive.part3}">Part III</span>
+                        <span th:text="#{page.directive.part3.title}">Working Principles of the Union, Financial Resources, Membership</span>
+                    </h2>
+
+                    <article id="directive-article-8" class="directive-article">
+                        <h3><span th:text="#{page.directive.article.n(8)}">Article 8</span> — <span th:text="#{page.directive.art8.title}">Working Principles</span></h3>
+                        <p th:text="#{page.directive.art8.p1}">(1) Decisions of the Union are taken by simple majority at the meeting of the General Assembly where Rector or representatives of the Rector of the member universities of the Union and Secretary General of the Organization of Turkic States or his representatives shall participate.</p>
+                        <p th:text="#{page.directive.art8.p2}">(2) The secretarial work of the Union is carried out by Secretariat of the Organization of Turkic States in cooperation with the Chair University-in-Office.</p>
+                        <p th:text="#{page.directive.art8.p3}">(3) Institutional structure, working procedures and principles with practices in financial matters of the Union are determined according to the directives to be prepared upon the decision taken with simple majority by the member universities of the Union.</p>
+                        <p th:text="#{page.directive.art8.p4}">(4) Decisions taken for implementation and directives prepared by the Union enter into force after their approval at the Turkic Council Ministers of Education Meeting where the President of the Higher Education Council of Turkey shall also participate.</p>
+                        <p th:text="#{page.directive.art8.p5}">(5) Activities of the Union shall be monitored by Senior Officials of the Organization of Turkic States Ministers of Education including a representative of the Presidency of the Higher Education Council. The purpose of the abovementioned group is:</p>
+                        <ul>
+                            <li th:text="#{page.directive.art8.wp1}">to follow up projects planned to be implemented in the process;</li>
+                            <li th:text="#{page.directive.art8.wp2}">to ensure necessary coordination between the Member States;</li>
+                            <li th:text="#{page.directive.art8.wp3}">to carry out solutions to the problems that may arise in the process;</li>
+                            <li th:text="#{page.directive.art8.wp4}">to carry out activities in order to increase the level of acceptability and applicability between the parties of the process;</li>
+                            <li th:text="#{page.directive.art8.wp5}">to study for necessary national legislative changes for the solution of problems experienced at the national level and provide support by making recommendations to the relevant authorities.</li>
+                        </ul>
+                    </article>
+
+                    <article id="directive-article-9" class="directive-article">
+                        <h3><span th:text="#{page.directive.article.n(9)}">Article 9</span> — <span th:text="#{page.directive.art9.title}">Financial Resources of the Union</span></h3>
+                        <p th:text="#{page.directive.art9.intro}">(1) All expenses of higher education activities to be undertaken by the Union are funded from the resources stated below:</p>
+                        <ul>
+                            <li th:text="#{page.directive.art9.fin1}">The financial resources of the member universities;</li>
+                            <li th:text="#{page.directive.art9.fin2}">Resources provided by the "Turkish Scientific Research Fund" to be established, as well as resources from national or international institutions;</li>
+                            <li th:text="#{page.directive.art9.fin3}">Additional resources that shall be provided on a project basis from universities of the Member States;</li>
+                            <li th:text="#{page.directive.art9.fin4}">Resources allocated from the budgets of Organization of the Turkic States members.</li>
+                        </ul>
+                    </article>
+
+                    <article id="directive-article-10" class="directive-article">
+                        <h3><span th:text="#{page.directive.article.n(10)}">Article 10</span> — <span th:text="#{page.directive.art10.title}">Membership to the Union</span></h3>
+                        <p th:text="#{page.directive.art10.p1}">(1) Nomination applications are made to the Secretariat of Turkic Council with written reasons. Admission to membership and termination of membership are decided by simple majority at the meeting of the General Assembly to be held with the participation of at least two thirds of members of the Union, after receiving views of the member universities through the contact group.</p>
+                        <a class="btn-page-link" th:href="@{/{lang}/membership(lang=${lang})}" th:text="#{page.directive.art10.membershiplink}">Learn more about the membership procedure</a>
+                    </article>
+
+                    <!-- PART IV -->
+                    <h2 class="h2-bigger directive-part-heading" id="directive-part-4">
+                        <span class="text-brand d-block" th:text="#{page.directive.part4}">Part IV</span>
+                        <span th:text="#{page.directive.part4.title}">Turkic Council Higher Education Area, Processes for Implementation and Exchange Programs</span>
+                    </h2>
+
+                    <article id="directive-article-11" class="directive-article">
+                        <h3><span th:text="#{page.directive.article.n(11)}">Article 11</span> — <span th:text="#{page.directive.art11.title}">Turkic World Higher Education Area</span></h3>
+                        <p th:text="#{page.directive.art11.p1}">(1) TCHEA is the area established among the Member States and in which educational activities related to higher education is performed.</p>
+                        <p th:text="#{page.directive.art11.p2}">(2) TCHEA aims at achieving goals indicated in Article 7 through common platforms that the Member States will establish.</p>
+                    </article>
+
+                    <article id="directive-article-12" class="directive-article">
+                        <h3><span th:text="#{page.directive.article.n(12)}">Article 12</span> — <span th:text="#{page.directive.art12.title}">Processes for Implementation</span></h3>
+                        <p th:text="#{page.directive.art12.p1}">(1) In the framework of the Turkic World Higher Education Area the Member States of the Union need to harmonize the following items on the areas of cooperation:</p>
+                        <ul>
+                            <li th:text="#{page.directive.art12.item1}">Exchange programs for student and academic staff;</li>
+                            <li th:text="#{page.directive.art12.item2}">Legislation in force in their countries with regard to the opening joint certificate programs of associate, bachelor and graduate degrees implemented through formal, distance or open education.</li>
+                        </ul>
+                        <p th:text="#{page.directive.art12.p2}">(2) In the framework of the cooperation to be carried out, the following items are supported by the Senior Officials of the Organization of Turkic States Ministers of Education that shall include a representative from the Presidency of Higher Education Council of Turkey:</p>
+                        <ul>
+                            <li th:text="#{page.directive.art12.sup1}">Ensuring certificate equivalence given by the member universities of the Union and other official scientific institutions;</li>
+                            <li th:text="#{page.directive.art12.sup2}">The utilization and promotion of tools for establishing and disseminating the Turkic World Higher Education Area are encouraged through the support of a representative from the Turkish Higher Education Council Presidency, as well as through the Senior Officials of Turkish Education Ministers.</li>
+                        </ul>
+                    </article>
+
+                    <article id="directive-article-13" class="directive-article">
+                        <h3><span th:text="#{page.directive.article.n(13)}">Article 13</span> — <span th:text="#{page.directive.art13.title}">Student and Academic Staff Mobility</span></h3>
+                        <p th:text="#{page.directive.art13.p1}">(1) Students from other member universities are accepted to the summer and winter schools that currently operate in and/or to be opened at the member universities. Facilities to be provided to students in these programs are determined on a reciprocal basis.</p>
+                        <p th:text="#{page.directive.art13.p2}">(2) Orhun Program is applied as example for the exchange of student and academic staff.</p>
+                        <p th:text="#{page.directive.art13.p3}">(3) Recognition of past education of students, student admission, education agreement and preparation of the transcript are organized according to a common credit system to be determined by the member universities.</p>
+                        <a class="btn-page-link" th:href="@{/{lang}/orhun(lang=${lang})}" th:text="#{page.directive.art13.orhunlink}">Learn more about the Orhun Exchange Program</a>
+                    </article>
+
+                    <!-- PART V -->
+                    <h2 class="h2-bigger directive-part-heading" id="directive-part-5">
+                        <span class="text-brand d-block" th:text="#{page.directive.part5}">Part V</span>
+                        <span th:text="#{page.directive.part5.title}">Other Provisions</span>
+                    </h2>
+
+                    <article id="directive-article-14" class="directive-article">
+                        <h3><span th:text="#{page.directive.article.n(14)}">Article 14</span> — <span th:text="#{page.directive.art14.title}">Issues for Which There Are No Provisions</span></h3>
+                        <p th:text="#{page.directive.art14.p1}">Changes for the settlement of the problems that may occur for implementation of this Directive can be adopted by the General Assembly with an additional document.</p>
+                    </article>
+
+                    <article id="directive-article-15" class="directive-article">
+                        <h3><span th:text="#{page.directive.article.n(15)}">Article 15</span> — <span th:text="#{page.directive.art15.title}">Languages of the Directive</span></h3>
+                        <p th:text="#{page.directive.art15.p1}">This Directive has been prepared in Azerbaijani, Kazakh, Kyrgyz, Turkish and English languages.</p>
+                    </article>
+
+                    <article id="directive-article-16" class="directive-article">
+                        <h3><span th:text="#{page.directive.article.n(16)}">Article 16</span> — <span th:text="#{page.directive.art16.title}">Validity</span></h3>
+                        <p th:text="#{page.directive.art16.p1}">Provisions of this Directive enters into effect on the date of its endorsement at the Organization of Turkic States Ministers of Education Meeting after its approval at the General Assembly of the Union.</p>
+                    </article>
+
+                    <article id="directive-article-17" class="directive-article">
+                        <h3><span th:text="#{page.directive.article.n(17)}">Article 17</span> — <span th:text="#{page.directive.art17.title}">Implementation</span></h3>
+                        <p th:text="#{page.directive.art17.p1}">Provisions of this Directive are carried out by the Secretariat in cooperation with the Chair University-in-Office.</p>
+                        <p th:text="#{page.directive.art17.p2}">This process has been identified as Orhun Program.</p>
+                        <p class="text-muted fst-italic small mb-0" th:text="#{page.directive.amendnote}">
+                            (Amended by the Decision of the 9th Meeting of the Ministers of Education of the Organization of Turkic States Member States, dated 8 June 2026)
+                        </p>
+                    </article>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+</div>
+
+<th:block th:fragment="pageScripts">
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            new bootstrap.ScrollSpy(document.body, {
+                target: '#directiveToc',
+                smoothScroll: true,
+                rootMargin: '0px 0px -70%'
+            });
+            // Collapse the mobile TOC after choosing a section
+            var tocCollapse = document.getElementById('directiveTocCollapse');
+            if (tocCollapse) {
+                tocCollapse.querySelectorAll('a.nav-link').forEach(function (a) {
+                    a.addEventListener('click', function () {
+                        if (window.getComputedStyle(document.querySelector('[data-bs-target="#directiveTocCollapse"]')).display !== 'none') {
+                            bootstrap.Collapse.getOrCreateInstance(tocCollapse).hide();
+                        }
+                    });
+                });
+            }
+        });
+    </script>
+</th:block>
+</body>
+</html>

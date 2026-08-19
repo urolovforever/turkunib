@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <!-- =======================
+         batch_job_execution_params
+         ======================= -->
+    <changeSet id="mariadb-batch-003-job-exec-params" author="Ruslan Skaldin">
+        <preConditions onFail="MARK_RAN">
+            <not><tableExists tableName="batch_job_execution_params"/></not>
+        </preConditions>
+
+        <createTable tableName="batch_job_execution_params" remarks="Job parameters">
+            <column name="JOB_EXECUTION_ID" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="PARAMETER_NAME" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="PARAMETER_TYPE" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="PARAMETER_VALUE" type="VARCHAR(2500)"/>
+            <column name="IDENTIFYING" type="CHAR(1)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="batch_job_execution_params" baseColumnNames="JOB_EXECUTION_ID"
+                                 referencedTableName="batch_job_execution" referencedColumnNames="JOB_EXECUTION_ID"
+                                 constraintName="JOB_EXEC_PARAMS_FK"/>
+
+        <createIndex tableName="batch_job_execution_params" indexName="IDX_JOB_EXEC_PARAMS_EXEC_ID">
+            <column name="JOB_EXECUTION_ID"/>
+        </createIndex>
+    </changeSet>
+
+</databaseChangeLog>

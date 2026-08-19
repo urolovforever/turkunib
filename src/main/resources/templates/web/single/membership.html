@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{web/fragments/layout :: layout (~{::content}, 'TIU TURKUNIB :: Membership', 'staticpage', ~{})}">
+<head>
+    <meta charset="UTF-8">
+    <title>TIU TURKUNIB - Membership</title>
+</head>
+<body>
+<div th:fragment="content">
+
+    <th:block th:replace="~{web/fragments/hero-banner :: hero-banner(${banners})}"></th:block>
+
+    <!-- Intro -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 mx-auto">
+                    <h1 class="h2-bigger mb-3" th:text="#{page.membership.title}">Membership to the Turkic Universities Union (TURKUNIB)</h1>
+                    <p class="lead text-muted mb-0" th:text="#{page.membership.intro}">
+                        How to become a member of TURKUNIB: membership criteria, the application procedure,
+                        and guidance on preparing the application file.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Membership Criteria -->
+    <section class="py-5 bg-light information-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 mx-auto">
+                    <h2 class="h2-bigger mb-3"><i class="bi bi-patch-check me-2"></i><span th:text="#{page.membership.criteria.title}">Membership Criteria</span></h2>
+                    <p class="mb-3" th:text="#{page.membership.criteria.intro}">A university seeking TURKUNIB membership is expected to meet the following conditions:</p>
+                    <ol class="list-group list-group-numbered shadow-sm mb-0">
+                        <li class="list-group-item" th:text="#{page.membership.criteria.item1}">Have organized activities consistent with TURKUNIB's aims and objectives,</li>
+                        <li class="list-group-item" th:text="#{page.membership.criteria.item2}">Have conducted scientific research or scholarly work related to the Turkic world,</li>
+                        <li class="list-group-item" th:text="#{page.membership.criteria.item3}">Have established concrete and measurable collaborations with universities in OTS Member States,</li>
+                        <li class="list-group-item" th:text="#{page.membership.criteria.item4}">Possess experience with exchange programs and the institutional capacity to contribute to the Orhun Exchange Program,</li>
+                        <li class="list-group-item" th:text="#{page.membership.criteria.item5}">Be ranked within the top 20% of universities in the country where the applicant operates.</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Application Procedure -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 mx-auto">
+                    <h2 class="h2-bigger mb-3"><i class="bi bi-diagram-3 me-2"></i><span th:text="#{page.membership.procedure.title}">Application Procedure</span></h2>
+                    <p class="mb-3" th:text="#{page.membership.procedure.intro}">Membership applications follow these stages:</p>
+                    <ul class="list-group shadow-sm mb-0">
+                        <li class="list-group-item d-flex align-items-start gap-2"><i class="bi bi-arrow-right-circle text-brand mt-1"></i><span th:text="#{page.membership.procedure.item1}">Candidate universities submit their applications directly to the OTS Secretariat.</span></li>
+                        <li class="list-group-item d-flex align-items-start gap-2"><i class="bi bi-arrow-right-circle text-brand mt-1"></i><span th:text="#{page.membership.procedure.item2}">The OTS Secretariat establishes a commission composed of 5 persons from Member Universities.</span></li>
+                        <li class="list-group-item d-flex align-items-start gap-2"><i class="bi bi-arrow-right-circle text-brand mt-1"></i><span th:text="#{page.membership.procedure.item3}">The commission evaluates each application against the membership criteria.</span></li>
+                        <li class="list-group-item d-flex align-items-start gap-2"><i class="bi bi-arrow-right-circle text-brand mt-1"></i><span th:text="#{page.membership.procedure.item4}">The OTS Secretariat transmits the commission's proposal to the TURKUNIB General Assembly.</span></li>
+                        <li class="list-group-item d-flex align-items-start gap-2"><i class="bi bi-arrow-right-circle text-brand mt-1"></i><span th:text="#{page.membership.procedure.item5}">Union membership is decided by simple majority at a General Assembly meeting.</span></li>
+                        <li class="list-group-item d-flex align-items-start gap-2"><i class="bi bi-arrow-right-circle text-brand mt-1"></i><span th:text="#{page.membership.procedure.item6}">Universities outside OTS Member States may be granted Observer status.</span></li>
+                        <li class="list-group-item d-flex align-items-start gap-2"><i class="bi bi-arrow-right-circle text-brand mt-1"></i><span th:text="#{page.membership.procedure.item7}">Membership is terminated after three consecutive unexcused General Assembly absences.</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Guidance for Application File and Rector's Letter -->
+    <section class="py-5 bg-light information-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 mx-auto">
+                    <h2 class="h2-bigger mb-3"><i class="bi bi-file-earmark-text me-2"></i><span th:text="#{page.membership.guidance.title}">Guidance for Application File and Rector's Letter</span></h2>
+                    <div class="card shadow-sm">
+                        <div class="card-body p-4">
+                            <p class="mb-3 d-flex align-items-start gap-2"><i class="bi bi-check2-circle text-brand mt-1"></i><span th:text="#{page.membership.guidance.item1}">Membership applications are expected to be substantiated.</span></p>
+                            <p class="mb-3 d-flex align-items-start gap-2"><i class="bi bi-check2-circle text-brand mt-1"></i><span th:text="#{page.membership.guidance.item2}">The Rector's Letter should be accompanied by a comprehensive application file.</span></p>
+                            <p class="mb-0 d-flex align-items-start gap-2"><i class="bi bi-check2-circle text-brand mt-1"></i><span th:text="#{page.membership.guidance.item3}">The application letter and accompanying documents should be addressed to the OTS Secretariat.</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</div>
+</body>
+</html>

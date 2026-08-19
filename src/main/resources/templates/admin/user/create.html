@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{admin/fragments/layout :: layout (~{::content}, 'TIU TURKUNIB :: Add New User', 'users', ~{::pageScripts})}">
+<head>
+    <meta charset="UTF-8">
+    <title>TIU TURKUNIB - Add New User</title>
+</head>
+<body>
+<div th:fragment="content">
+    <h1 class="h3 mb-4 text-gray-800 ">Adding New User</h1>
+
+    <th:block th:replace="~{admin/fragments/message :: message(${error}, ${success})}"></th:block>
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Form to Create a User</h6>
+        </div>
+        <div class="card-body">
+
+            <form th:action="@{/admin/user/create}" method="post" enctype="multipart/form-data">
+
+                <!-- CSRF (если включен Spring Security CSRF) -->
+                <input type="hidden" th:if="${_csrf != null}" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="email">Email <span class="text-danger">*</span></label>
+                        <input id="email" name="email" type="email" class="form-control" aria-describedby="emailHelp">
+                        <small id="emailHelp" class="form-text text-muted">
+                            Email address is required and will be used as the user's login identifier.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="password">Password <span class="text-danger">*</span></label>
+                        <input id="password" name="password" type="password" class="form-control" aria-describedby="passwordHelp" required>
+                        <small id="passwordHelp" class="form-text text-muted">
+                            Initial password for the user. They can change it later.
+                            Password should be at least 8 characters long.
+                        </small>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="passwordConfirmation">Confirm Password <span class="text-danger">*</span></label>
+                        <input id="passwordConfirmation" name="passwordConfirmation" type="password" class="form-control" aria-describedby="passwordConfirmationHelp" required>
+                        <small id="passwordConfirmationHelp" class="form-text text-muted">
+                            Please re-enter the password to confirm.
+                        </small>
+                        <div id="passwordMismatch" class="invalid-feedback" style="display: none;">
+                            Passwords do not match.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="firstName">First name <span class="text-danger">*</span></label>
+                        <input id="firstName" name="firstName" type="text" class="form-control" aria-describedby="firstNameHelp">
+                        <small id="firstNameHelp" class="form-text text-muted">
+                            User's first name as it will appear in the system.
+                        </small>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="lastName">Last name <span class="text-danger">*</span></label>
+                        <input id="lastName" name="lastName" type="text" class="form-control" aria-describedby="lastNameHelp">
+                        <small id="lastNameHelp" class="form-text text-muted">
+                            User's last name as it will appear in the system.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="roles">Roles <span class="text-danger">*</span></label>
+                        <select id="roles" name="roleId" class="form-control" aria-describedby="rolesHelp">
+                            <option th:each="role : ${roles}" th:value="${role.id}" th:text="${role.fullName}"></option>
+                        </select>
+                        <small id="rolesHelp" class="form-text text-muted">
+                            Assign one role to the user to define their permissions.
+                        </small>
+                    </div>
+                </div>
+
+
+                <div class="form-row">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" name="enabled" class="custom-control-input" id="enabledHelp">
+                        <label class="custom-control-label" for="enabledHelp">
+                            Enabled <span class="text-danger">*</span>
+                        </label>
+                    </div>
+                </div>
+
+                <hr/>
+                <div class="actions-bar p-3 d-flex justify-content-between">
+                    <a th:href="@{/admin/user/}" class="btn btn-outline-secondary border-secondary shadow-sm">Cancel</a>
+                    <div>
+                        <button type="submit" class="btn btn-success border-success shadow-sm">Add New User</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<th:block th:fragment="pageScripts">
+    <script>
+        $(document).ready(function () {
+            var $password = $('#password');
+            var $passwordConfirmation = $('#passwordConfirmation');
+            var $mismatchError = $('#passwordMismatch');
+            var $form = $('form');
+
+            function validatePasswords() {
+                var password = $password.val();
+                var confirmation = $passwordConfirmation.val();
+
+                if (confirmation.length > 0 && password !== confirmation) {
+                    $passwordConfirmation.addClass('is-invalid');
+                    $mismatchError.show();
+                    return false;
+                } else {
+                    $passwordConfirmation.removeClass('is-invalid');
+                    $mismatchError.hide();
+                    return true;
+                }
+            }
+
+            $password.on('input', validatePasswords);
+            $passwordConfirmation.on('input', validatePasswords);
+
+            $form.on('submit', function (e) {
+                if (!validatePasswords()) {
+                    e.preventDefault();
+                    $passwordConfirmation.focus();
+                    return false;
+                }
+
+                if ($password.val().length < 8) {
+                    e.preventDefault();
+                    alert('Password should be at least 8 characters long.');
+                    $password.focus();
+                    return false;
+                }
+            });
+        });
+    </script>
+</th:block>
+
+</body>
+</html>

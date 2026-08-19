@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="ET-001-create-photo-gallery-table-090925" author="Ruslan Skaldin">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="photo_gallery"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="photo_gallery">
+            <column name="id" type="bigint unsigned" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="image_id" type="bigint unsigned">
+                <constraints nullable="true"/>
+            </column>
+
+            <column name="enabled" type="boolean" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="author_id" type="bigint unsigned">
+                <constraints nullable="true"/>
+            </column>
+
+            <column name="updated_at" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+
+            <column name="created_at" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+
+        <createIndex tableName="photo_gallery" indexName="idx_photo_gallery_image_id">
+            <column name="image_id"/>
+        </createIndex>
+
+        <!-- FK на images -->
+        <addForeignKeyConstraint baseTableName="photo_gallery"
+                                 baseColumnNames="image_id"
+                                 referencedTableName="images"
+                                 referencedColumnNames="id"
+                                 onDelete="RESTRICT"
+                                 onUpdate="CASCADE"
+                                 constraintName="fk_photo_gallery_images"/>
+
+        <!-- FK на users -->
+        <addForeignKeyConstraint baseTableName="photo_gallery"
+                                 baseColumnNames="author_id"
+                                 referencedTableName="users"
+                                 referencedColumnNames="id"
+                                 onDelete="SET NULL"
+                                 onUpdate="CASCADE"
+                                 constraintName="fk_photo_gallery_author"/>
+
+    </changeSet>
+</databaseChangeLog>

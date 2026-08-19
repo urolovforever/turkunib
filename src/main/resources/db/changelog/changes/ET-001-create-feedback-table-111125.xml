@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="ET-001-create-feedback-table-111125" author="Ruslan Skaldin">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="feedbacks"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="feedbacks">
+            <column name="id" type="bigint unsigned" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="full_name" type="varchar(512)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="email" type="varchar(256)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="subject" type="varchar(1024)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="message" type="text">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="created_at" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+
+    </changeSet>
+</databaseChangeLog>

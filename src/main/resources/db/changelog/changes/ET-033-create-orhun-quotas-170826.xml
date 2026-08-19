@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="ET-033-create-orhun-quotas-170826" author="tiu">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="orhun_quotas"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="orhun_quotas">
+            <column name="id" type="bigint unsigned" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="member_id" type="bigint unsigned">
+                <constraints nullable="false"/>
+            </column>
+            <column name="scholarship_id" type="bigint unsigned">
+                <constraints nullable="false"/>
+            </column>
+            <column name="student_accept" type="int">
+                <constraints nullable="true"/>
+            </column>
+            <column name="student_send" type="int">
+                <constraints nullable="true"/>
+            </column>
+            <column name="teacher_accept" type="int">
+                <constraints nullable="true"/>
+            </column>
+            <column name="teacher_send" type="int">
+                <constraints nullable="true"/>
+            </column>
+            <column name="note" type="varchar(512)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="author_id" type="bigint unsigned">
+                <constraints nullable="true"/>
+            </column>
+            <column name="updated_at" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+            <column name="created_at" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="orhun_quotas"
+                                 baseColumnNames="member_id"
+                                 referencedTableName="members"
+                                 referencedColumnNames="id"
+                                 onDelete="CASCADE"
+                                 onUpdate="CASCADE"
+                                 constraintName="fk_orhun_quotas_member"/>
+
+        <addForeignKeyConstraint baseTableName="orhun_quotas"
+                                 baseColumnNames="scholarship_id"
+                                 referencedTableName="scholarships"
+                                 referencedColumnNames="id"
+                                 onDelete="CASCADE"
+                                 onUpdate="CASCADE"
+                                 constraintName="fk_orhun_quotas_scholarship"/>
+
+        <addUniqueConstraint tableName="orhun_quotas"
+                             columnNames="member_id,scholarship_id"
+                             constraintName="uk_orhun_quotas_member_scholarship"/>
+    </changeSet>
+</databaseChangeLog>

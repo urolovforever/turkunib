@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{web/fragments/layout :: layout (~{::content}, 'TURKUNIB :: Publications & Reports', 'publications', ~{})}">
+<head>
+    <meta charset="UTF-8">
+    <title>TIU TURKUNIB - Publications</title>
+</head>
+<body>
+<div th:fragment="content">
+
+    <th:block th:replace="~{web/fragments/hero-banner :: hero-banner(${banners})}"></th:block>
+
+    <section class="py-5">
+        <div class="container">
+            <div class="row mb-4">
+                <div class="col">
+                    <h1 class="h2-bigger" th:text="#{page.publication.title}">Publications &amp; Reports</h1>
+                    <p class="text-muted" th:text="#{page.publication.intro}">Academic articles, conference proceedings, reports and institutional publications of the Turkic Universities Union.</p>
+                </div>
+            </div>
+
+            <!-- Category filter -->
+            <div class="mb-4">
+                <a th:href="@{/{lang}/publications/(lang=${lang})}"
+                   th:classappend="${activeCategory == null} ? 'active'"
+                   class="memberCountryLink btn btn-outline-brand btn-sm shadow-sm me-1 mb-1" th:text="#{common.all}">All</a>
+                <a th:each="c : ${categories}"
+                   th:href="@{/{lang}/publications/(lang=${lang}, category=${c.name()})}"
+                   th:classappend="${activeCategory != null and activeCategory.name() == c.name()} ? 'active'"
+                   class="memberCountryLink btn btn-outline-brand btn-sm shadow-sm me-1 mb-1"
+                   th:switch="${c.name()}">
+                    <span th:case="'ARTICLE'" th:text="#{page.publication.cat.articles}">Articles</span>
+                    <span th:case="'REPORT'" th:text="#{page.publication.cat.reports}">Reports</span>
+                    <span th:case="'CONFERENCE_PROCEEDINGS'" th:text="#{page.publication.cat.proceedings}">Conference Proceedings</span>
+                    <span th:case="'INSTITUTIONAL_PUBLICATION'" th:text="#{page.publication.cat.institutional}">Institutional Publications</span>
+                </a>
+            </div>
+
+            <div class="list-group shadow-sm">
+                <div class="list-group-item d-flex justify-content-between align-items-center flex-wrap"
+                     th:each="p : ${publications}">
+                    <div class="me-3">
+                        <div class="d-flex align-items-center gap-2 mb-1">
+                            <span class="badge bg-light text-dark border" th:switch="${p.category.name()}">
+                                <span th:case="'ARTICLE'" th:text="#{page.publication.cat.article}">Article</span>
+                                <span th:case="'REPORT'" th:text="#{page.publication.cat.report}">Report</span>
+                                <span th:case="'CONFERENCE_PROCEEDINGS'" th:text="#{page.publication.cat.proceeding}">Conference Proceedings</span>
+                                <span th:case="'INSTITUTIONAL_PUBLICATION'" th:text="#{page.publication.cat.institutional-single}">Institutional Publication</span>
+                            </span>
+                            <span class="text-muted small" th:if="${p.publicationYear != null}" th:text="${p.publicationYear}">2025</span>
+                        </div>
+                        <div class="fw-semibold" th:text="${p.title}">Title</div>
+                        <small class="text-muted" th:if="${p.description}" th:text="${p.description}"></small>
+                    </div>
+                    <a th:if="${p.file != null}"
+                       th:href="@{|/uploads${p.file.filePath}${p.file.fileFileName}|}"
+                       class="btn btn-sm btn-outline-brand mt-2 mt-md-0" target="_blank">
+                        <i class="bi bi-download me-1"></i> <span th:text="#{common.download}">Download</span>
+                    </a>
+                </div>
+                <div th:if="${publications == null or publications.isEmpty()}" class="list-group-item text-center text-muted py-5">
+                    <i class="bi bi-journals fs-1 d-block mb-3"></i>
+                    <span th:text="#{page.publication.empty}">No publications available yet.</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</div>
+
+</body>
+</html>

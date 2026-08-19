@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{admin/fragments/layout :: layout (~{::content}, 'TIU TURKUNIB :: Create News Category', 'news', ~{::pageScripts})}">
+<head>
+    <meta charset="UTF-8">
+    <title>TIU TURKUNIB - Create News Category</title>
+</head>
+<body>
+<div th:fragment="content">
+    <h1 class="h3 mb-4 text-gray-800 ">Create News Category</h1>
+
+    <form th:object="${category}" th:action="@{/admin/news/category/create}" method="post"
+          enctype="multipart/form-data">
+        <th:block th:replace="~{admin/fragments/message :: message-with-validation(${error}, ${success})}"></th:block>
+
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Form to Create a New Category</h6>
+            </div>
+            <div class="card-body">
+
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="title">Title <span class="text-danger">*</span></label>
+                        <input id="title" th:field="*{title}" type="text"
+                               class="form-control"
+                               th:classappend="${#fields.hasErrors('title')} ? 'is-invalid' : ''"
+                               aria-describedby="titleHelp">
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></div>
+                        <small id="titleHelp" class="form-text text-muted">Main public name of the category.</small>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="slug">Slug</label>
+                        <input id="slug" th:field="*{slug}" type="text"
+                               class="form-control"
+                               th:classappend="${#fields.hasErrors('slug')} ? 'is-invalid' : ''"
+                               aria-describedby="slugHelp" readonly>
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('slug')}" th:errors="*{slug}"></div>
+                        <small id="slugHelp" class="form-text text-muted">
+                            URL-friendly slug. Auto-filled from Title.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="descriptionInput" class="text-dark">Description</label>
+                    <textarea class="form-control col-6" id="descriptionInput" th:field="*{description}"
+                              th:classappend="${#fields.hasErrors('description')} ? 'is-invalid' : ''"
+                              aria-describedby="descriptionHelp"></textarea>
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('description')}"
+                         th:errors="*{description}"></div>
+                    <small id="descriptionHelp" class="form-text text-muted">
+                        A brief summary or explanation of the category's purpose.
+                    </small>
+                </div>
+
+                <div class="form-group">
+                    <label for="attachFileInput" class="text-dark">Category Image</label>
+                    <input type="file" class="form-control col-6" id="attachFileInput" name="file"
+                           aria-describedby="imageHelp">
+                    <small id="imageHelp" class="form-text text-muted">
+                        Optional image representing the category (e.g., icon or banner).
+                    </small>
+                </div>
+
+                <hr/>
+                <div class="actions-bar p-3 d-flex justify-content-between">
+                    <a th:href="@{/admin/news/category/}" class="btn btn-outline-secondary border-secondary shadow-sm">Cancel</a>
+                    <div>
+                        <button type="submit" class="btn btn-success border-success shadow-sm">Create Category</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<th:block th:fragment="pageScripts">
+    <script async defer th:src="@{/resources/admin/js/transliteration.min.js}"></script>
+    <script>
+        $(document).ready(function () {
+            $("#title").on("input", function () {
+                $("#slug").val(slugify($(this).val()));
+            })
+        });
+    </script>
+</th:block>
+
+</body>
+</html>

@@ -1,0 +1,22 @@
+# Maxfiy konfiguratsiya (jonli parollar/kalitlar) — .example nusxalari commit qilinadi
+src/main/resources/application.properties
+src/main/resources/application-docker.properties
+
+# Asl jar qoldiqlari va dekompilyatsiya arxivlari (manba emas, lokal zaxira)
+BOOT-INF/
+META-INF/
+decompiled.tar.gz
+mappers.tar.gz
+
+# Build
+target/
+*.class
+*.jar
+
+# IDE / OS
+.idea/
+.vscode/
+.DS_Store
+
+# Yuklangan fayllar
+uploads/

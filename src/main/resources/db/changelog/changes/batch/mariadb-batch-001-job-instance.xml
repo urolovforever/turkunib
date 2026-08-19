@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <!-- =======================
+         batch_job_instance
+         ======================= -->
+    <changeSet id="spring-batch-001-job-instance" author="Ruslan Skaldin">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="batch_job_instance"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="batch_job_instance">
+            <column name="JOB_INSTANCE_ID" type="BIGINT">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="VERSION" type="BIGINT"/>
+            <column name="JOB_NAME" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="JOB_KEY" type="VARCHAR(32)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addUniqueConstraint tableName="batch_job_instance"
+                             columnNames="JOB_NAME, JOB_KEY"
+                             constraintName="JOB_INST_UN"/>
+    </changeSet>
+
+</databaseChangeLog>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="ET-016-create-key-dates-table-170626" author="tiu">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="key_dates"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="key_dates">
+            <column name="id" type="bigint unsigned" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="title" type="varchar(512)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="event_date" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="end_date" type="date">
+                <constraints nullable="true"/>
+            </column>
+            <column name="description" type="text">
+                <constraints nullable="true"/>
+            </column>
+            <column name="type" type="varchar(64)" defaultValue="EVENT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="enabled" type="boolean" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+            <column name="author_id" type="bigint unsigned">
+                <constraints nullable="true"/>
+            </column>
+            <column name="updated_at" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+            <column name="created_at" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="key_dates"
+                                 baseColumnNames="author_id"
+                                 referencedTableName="users"
+                                 referencedColumnNames="id"
+                                 onDelete="SET NULL"
+                                 onUpdate="CASCADE"
+                                 constraintName="fk_key_dates_author_id_users_id"/>
+    </changeSet>
+
+</databaseChangeLog>

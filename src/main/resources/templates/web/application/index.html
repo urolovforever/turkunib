@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{web/fragments/layout :: layout (~{::content}, ${'Application Form'}, 'form', ~{::pageScripts})}">
+<head>
+    <meta charset="UTF-8">
+    <title>TIU TURKUNIB - Application Form</title>
+</head>
+<body>
+<div th:fragment="content">
+
+    <th:block th:replace="~{web/fragments/hero-banner :: hero-banner(${banners})}"></th:block>
+
+    <!-- Orhun Exchange — Student Application Form -->
+    <section class="pt-title pb-end-150">
+        <div class="container">
+            <div class="row mb-4">
+                <div class="col-lg-10 mx-auto">
+                    <h2 class="h2-bigger mb-2" th:text="#{page.apply.student.title}">Orhun Exchange — Student Application</h2>
+                    <p class="lead text-muted" th:text="#{page.apply.student.intro}">Apply for the Orhun Exchange Program. Fill out the form and upload the required documents.</p>
+                    <div class="alert alert-info d-flex align-items-center" role="alert">
+                        <i class="bi bi-mortarboard me-2"></i>
+                        <div>
+                            <span th:text="#{page.apply.orhun.note}">This application is for the Orhun Exchange Program between TURKUNIB member universities.</span>
+                            <a th:href="@{/{lang}/application/teacher-form(lang=${lang})}" class="alert-link ms-1" th:text="#{page.apply.teacher.link}">Are you a teacher? Use the teacher application form.</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-10 mx-auto">
+                    <div class="card shadow border-1">
+                        <div class="card-body p-4 p-lg-5 brand-form">
+
+                            <th:block th:replace="~{web/fragments/message :: message(${error}, ${success})}"></th:block>
+
+                            <div th:if="${#lists.isEmpty(openRounds)}" class="alert alert-warning d-flex align-items-center" role="alert">
+                                <i class="bi bi-calendar-x me-2"></i>
+                                <span th:text="#{page.apply.closed}">Applications are currently closed. There is no open Orhun Exchange call at the moment.</span>
+                            </div>
+
+                            <form th:unless="${#lists.isEmpty(openRounds)}" method="post" th:action="@{/{lang}/application/apply(lang=${lang})}" enctype="multipart/form-data" autocomplete="on" novalidate>
+                                <input type="hidden" th:if="${_csrf != null}" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+
+                                <div class="row">
+                                    <!-- Orhun round -->
+                                    <div class="col-md-6 mb-3">
+                                        <label for="scholarshipId" class="form-label fw-semibold">
+                                            <i class="bi bi-calendar-event me-1 text-brand"></i>
+                                            <span th:text="#{page.apply.round}">Orhun Exchange round</span>
+                                        </label>
+                                        <select class="form-select form-select-lg" id="scholarshipId" name="scholarshipId" required>
+                                            <option value="" th:text="#{page.apply.round.select}">Select the round...</option>
+                                            <option th:each="r : ${openRounds}" th:value="${r.id}"
+                                                    th:selected="${selectedScholarshipId != null and r.id == selectedScholarshipId}"
+                                                    th:text="${r.deadline != null} ? ${r.title} + ' (' + #{page.apply.deadline} + ': ' + ${#temporals.format(r.deadline,'dd.MM.yyyy')} + ')' : ${r.title}">Round</option>
+                                        </select>
+                                        <div class="form-text" th:text="#{page.apply.round.help}">The Orhun Exchange call you are applying for.</div>
+                                    </div>
+
+                                    <!-- Semester -->
+                                    <div class="col-md-6 mb-3">
+                                        <label for="semester" class="form-label fw-semibold">
+                                            <i class="bi bi-calendar3 me-1 text-brand"></i>
+                                            <span th:text="#{page.apply.semester}">Semester</span>
+                                        </label>
+                                        <select class="form-select form-select-lg" id="semester" name="semester" required>
+                                            <option value="" th:text="#{page.apply.semester.select}">Select the semester...</option>
+                                            <option th:each="s : ${semesters}" th:value="${s.name()}"
+                                                    th:text="#{|page.apply.semester.${#strings.toLowerCase(s.name())}|}">Semester</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <!-- Full Name -->
+                                    <div class="col-md-6 mb-3">
+                                        <label for="fullName" class="form-label fw-semibold">
+                                            <i class="bi bi-person me-1 text-brand"></i>
+                                            <span th:text="#{page.apply.fullname}">Full name</span>
+                                        </label>
+                                        <input type="text" class="form-control form-control-lg" id="fullName" name="fullName" required maxlength="512">
+                                        <div class="form-text" th:text="#{page.apply.fullname.help}">
+                                            Enter your full legal name as it appears on official documents.
+                                        </div>
+                                    </div>
+
+                                    <!-- Student ID -->
+                                    <div class="col-md-6 mb-3">
+                                        <label for="studentId" class="form-label fw-semibold">
+                                            <i class="bi bi-card-text me-1 text-brand"></i>
+                                            <span th:text="#{page.apply.studentid}">Student ID</span>
+                                        </label>
+                                        <input type="text" class="form-control form-control-lg" id="studentId" name="studentId" required maxlength="256">
+                                        <div class="form-text" th:text="#{page.apply.studentid.help}">
+                                            Your university-issued student identification number.
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <!-- Home university -->
+                                    <div class="col-md-6 mb-3">
+                                        <label for="homeUniversityId" class="form-label fw-semibold">
+                                            <i class="bi bi-building me-1 text-brand"></i>
+                                            <span th:text="#{page.apply.homeuni}">Your university</span>
+                                        </label>
+                                        <select class="form-select mb-2 uni-country-filter" data-target="homeUniversityId"
+                                                th:attr="aria-label=#{page.apply.country}">
+                                            <option value="" th:text="#{page.apply.country.all}">All countries</option>
+                                            <option th:each="c : ${countries}" th:value="${c.id}" th:text="${c.name}">Country</option>
+                                        </select>
+                                        <select class="form-select form-select-lg" id="homeUniversityId" name="homeUniversityId" required>
+                                            <option value="" th:text="#{page.apply.institution.select}">Select your university...</option>
+                                            <option th:each="u : ${universities}" th:value="${u.id}"
+                                                    th:attr="data-country=${u.country != null ? u.country.id : ''}"
+                                                    th:text="${u.name}">University</option>
+                                        </select>
+                                        <div class="form-text" th:text="#{page.apply.homeuni.help}">The member university where you currently study. Its administration reviews your application first.</div>
+                                    </div>
+
+                                    <!-- Host university -->
+                                    <div class="col-md-6 mb-3">
+                                        <label for="hostUniversityId" class="form-label fw-semibold">
+                                            <i class="bi bi-buildings me-1 text-brand"></i>
+                                            <span th:text="#{page.apply.hostuni}">University you are applying to</span>
+                                        </label>
+                                        <select class="form-select mb-2 uni-country-filter" data-target="hostUniversityId"
+                                                th:attr="aria-label=#{page.apply.country}">
+                                            <option value="" th:text="#{page.apply.country.all}">All countries</option>
+                                            <option th:each="c : ${countries}" th:value="${c.id}" th:text="${c.name}">Country</option>
+                                        </select>
+                                        <select class="form-select form-select-lg" id="hostUniversityId" name="hostUniversityId" required>
+                                            <option value="" th:text="#{page.apply.hostuni.select}">Select the host university...</option>
+                                            <option th:each="u : ${universities}" th:value="${u.id}"
+                                                    th:attr="data-country=${u.country != null ? u.country.id : ''}"
+                                                    th:text="${u.name}">University</option>
+                                        </select>
+                                        <div class="form-text" th:text="#{page.apply.hostuni.help}">The member university where you would like to study on exchange.</div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <!-- Department -->
+                                    <div class="col-md-6 mb-3">
+                                        <label for="department" class="form-label fw-semibold">
+                                            <i class="bi bi-diagram-3 me-1 text-brand"></i>
+                                            <span th:text="#{page.apply.department}">Department</span>
+                                        </label>
+                                        <input type="text" class="form-control form-control-lg" id="department" name="department" required maxlength="512">
+                                    </div>
+
+                                    <!-- Phone Number -->
+                                    <div class="col-md-6 mb-3">
+                                        <label for="phoneNumber" class="form-label fw-semibold">
+                                            <i class="bi bi-telephone me-1 text-brand"></i>
+                                            <span th:text="#{page.apply.phone}">Phone number</span>
+                                        </label>
+                                        <input type="tel" class="form-control form-control-lg" id="phoneNumber" name="phoneNumber" required maxlength="50" pattern="^[+0-9()\-\s]{6,50}$">
+                                        <div class="invalid-feedback" th:text="#{page.apply.phone.invalid}">Please enter a valid phone number.</div>
+                                    </div>
+                                </div>
+
+                                <!-- Required documents -->
+                                <hr class="my-4">
+                                <h5 class="fw-semibold mb-1">
+                                    <i class="bi bi-file-earmark-arrow-up me-1 text-brand"></i>
+                                    <span th:text="#{page.apply.docs.title}">Required documents</span>
+                                </h5>
+                                <p class="form-text mb-3" th:text="#{page.apply.docs.help}">Upload each document as PDF or Word (max 50 MB each).</p>
+
+                                <div class="mb-3">
+                                    <label for="transcript" class="form-label fw-semibold" th:text="#{page.apply.doc.transcript}">Transcript</label>
+                                    <input type="file" class="form-control" id="transcript" name="transcript" required
+                                           accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document">
+                                    <div class="form-text" th:text="#{page.apply.doc.transcript.help}">Official academic transcript from your university.</div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="languageCert" class="form-label fw-semibold" th:text="#{page.apply.doc.langcert}">Language proficiency certificate</label>
+                                    <input type="file" class="form-control" id="languageCert" name="languageCert" required
+                                           accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document">
+                                    <div class="form-text" th:text="#{page.apply.doc.langcert.help}">A certificate proving your proficiency in the language of instruction.</div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="infoForm" class="form-label fw-semibold" th:text="#{page.apply.doc.infoform}">Student information form</label>
+                                    <input type="file" class="form-control" id="infoForm" name="infoForm" required
+                                           accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document">
+                                    <div class="form-text" th:text="#{page.apply.doc.infoform.help}">The completed Orhun Exchange student information form.</div>
+                                </div>
+
+                                <!-- Actions -->
+                                <div class="d-flex align-items-center gap-3 mt-4">
+                                    <button type="submit" class="btn btn-dark submit-btn px-4">
+                                        <i class="bi bi-send me-2"></i>
+                                        <span th:text="#{page.apply.submit}">Submit application</span>
+                                    </button>
+                                </div>
+
+                                <!-- Honeypot (anti-bot) -->
+                                <div class="visually-hidden" aria-hidden="true">
+                                    <label for="website">Website</label>
+                                    <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <th:block th:replace="~{web/fragments/student-testimonials :: student-testimonials('')}"></th:block>
+
+</div>
+
+<!-- Page level scripts -->
+<th:block th:fragment="pageScripts">
+    <script th:inline="javascript">
+        // Country filter: narrows the university dropdown to the selected country.
+        (function () {
+            'use strict';
+            document.querySelectorAll('.uni-country-filter').forEach(function (filter) {
+                var target = document.getElementById(filter.getAttribute('data-target'));
+                if (!target) return;
+                var all = Array.prototype.slice.call(target.options).map(function (o) {
+                    return { value: o.value, text: o.text, country: o.getAttribute('data-country') || '' };
+                });
+                filter.addEventListener('change', function () {
+                    var c = filter.value;
+                    var current = target.value;
+                    while (target.options.length) target.remove(0);
+                    all.forEach(function (o) {
+                        if (o.value === '' || !c || o.country === c) {
+                            var opt = document.createElement('option');
+                            opt.value = o.value;
+                            opt.text = o.text;
+                            if (o.country) opt.setAttribute('data-country', o.country);
+                            target.add(opt);
+                        }
+                    });
+                    target.value = current;
+                    if (target.value !== current) target.value = '';
+                });
+            });
+        })();
+        (function () {
+            'use strict';
+            const sameUniMsg = /*[[#{page.apply.error.samehost}]]*/ 'Home and host university cannot be the same.';
+            const forms = document.querySelectorAll('form');
+            forms.forEach(form => {
+                form.addEventListener('submit', function (event) {
+                    const home = form.querySelector('#homeUniversityId');
+                    const host = form.querySelector('#hostUniversityId');
+                    if (home && host && home.value && home.value === host.value) {
+                        host.setCustomValidity(sameUniMsg);
+                    } else if (host) {
+                        host.setCustomValidity('');
+                    }
+                    if (!form.checkValidity()) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        })();
+    </script>
+</th:block>
+
+</body>
+</html>

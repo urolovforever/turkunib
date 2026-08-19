@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="ET-001-create-ft-event-i18n-title-description-index-150925" author="Ruslan Skaldin">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <indexExists indexName="ft_event_i18n_title_description" tableName="events_i18n"/>
+            </not>
+        </preConditions>
+
+        <sql dbms="mariadb">
+            CREATE FULLTEXT INDEX ft_event_i18n_title_description ON events_i18n(title, description);
+        </sql>
+
+    </changeSet>
+</databaseChangeLog>

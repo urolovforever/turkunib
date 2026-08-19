@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{web/fragments/layout :: layout (~{::content}, 'TURKUNIB :: Search', 'search', ~{})}">
+<head>
+    <meta charset="UTF-8">
+    <title>TURKUNIB - Search</title>
+</head>
+<body>
+<div th:fragment="content">
+    <section class="py-5">
+        <div class="container">
+            <div class="row justify-content-center mb-4">
+                <div class="col-lg-8">
+                    <h1 class="h2-bigger mb-3" th:text="#{search.title}">Search</h1>
+                    <form method="get" th:action="@{/{lang}/search(lang=${lang})}" class="input-group input-group-lg">
+                        <input type="text" name="q" class="form-control" th:value="${query}"
+                               th:placeholder="#{search.placeholder}" placeholder="Search the website..." autofocus>
+                        <button class="btn btn-brand btn-outline-brand" type="submit">
+                            <i class="bi bi-search"></i> <span th:text="#{search.button}">Search</span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <!-- empty query -->
+                    <p th:if="${query == null or query.isEmpty()}" class="text-muted text-center py-4"
+                       th:text="#{search.hint}">Type at least 2 characters and press Search.</p>
+
+                    <!-- no results -->
+                    <div th:if="${query != null and !query.isEmpty() and (results == null or results.isEmpty())}"
+                         class="text-center text-muted py-5">
+                        <i class="bi bi-search fs-1 d-block mb-3"></i>
+                        <span th:text="#{search.noresults} + ' “' + ${query} + '”'">No results found for</span>
+                    </div>
+
+                    <!-- results -->
+                    <div th:if="${results != null and !results.isEmpty()}">
+                        <p class="text-muted small mb-3">
+                            <span th:text="${results.size()}">0</span>
+                            <span th:text="#{search.results.for}">results for</span>
+                            <strong th:text="'“' + ${query} + '”'"></strong>
+                        </p>
+                        <a th:each="r : ${results}" th:href="@{${r.url}}"
+                           class="d-block text-decoration-none text-reset border rounded p-3 mb-2 search-hit">
+                            <span class="badge bg-light text-secondary border mb-1" th:text="${r.type}">Type</span>
+                            <div class="fw-semibold" th:text="${r.title}">Title</div>
+                            <div class="text-muted small" th:if="${r.snippet != null and !r.snippet.isEmpty()}" th:text="${r.snippet}">Snippet</div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+</body>
+</html>

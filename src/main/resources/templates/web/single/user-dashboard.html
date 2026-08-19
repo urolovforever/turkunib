@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{web/fragments/layout :: layout (~{::content}, 'TIU TURKUNIB :: Student Panel', 'userpanel', ~{})}">
+<head>
+    <meta charset="UTF-8">
+    <title>TIU TURKUNIB - Student Panel</title>
+</head>
+<body>
+<div th:fragment="content">
+
+    <!-- Header / Intro -->
+    <section class="py-5 bg-light-blue border-bottom">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-9">
+                    <h1 class="h2-bigger mb-2" th:text="#{page.dashboard.title}">Student Panel</h1>
+                    <p class="text-muted mb-0">
+                        <span th:text="#{page.dashboard.welcome}">Welcome back,</span> <span th:text="${studentName}">Student</span>! <span th:text="#{page.dashboard.welcome.subtitle}">Here is an overview of your applications and profile.</span>
+                    </p>
+                </div>
+                <div class="col-lg-3 d-none d-lg-flex justify-content-lg-end">
+                    <a th:href="@{/{lang}/application/form(lang=${lang})}" class="btn btn-outline-brand shadow-sm me-2" th:text="#{page.dashboard.new-application}">
+                        Start New Application
+                    </a>
+                    <a th:href="@{/{lang}/application/teacher-form(lang=${lang})}" class="btn btn-outline-brand shadow-sm me-2" th:text="#{page.dashboard.new-application-teacher}">
+                        Teacher Application
+                    </a>
+                    <a th:href="@{/logout}"
+                       onclick="event.preventDefault();document.getElementById('dashLogout').submit();"
+                       class="btn btn-outline-secondary shadow-sm" th:text="#{page.dashboard.signout}">Sign out</a>
+                    <form id="dashLogout" method="post" th:action="@{/logout}" class="d-none"></form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Student Panel -->
+    <section class="static-page-content container my-5">
+
+        <!-- Quick statistics -->
+        <div class="row g-3 mb-4">
+            <div class="col-6 col-lg-3">
+                <div class="card border-1 bg-light shadow-sm h-100">
+                    <div class="card-body">
+                        <div class="text-muted small" th:text="#{page.dashboard.stats.total}">Total Applications</div>
+                        <div class="fs-4 fw-semibold" th:text="${totalCount}">0</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-lg-3">
+                <div class="card border-1 bg-light shadow-sm h-100">
+                    <div class="card-body">
+                        <div class="text-muted small" th:text="#{page.dashboard.stats.review}">Under Review</div>
+                        <div class="fs-4 fw-semibold" th:text="${submittedCount + underReviewCount}">0</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-lg-3">
+                <div class="card border-1 bg-light shadow-sm h-100">
+                    <div class="card-body">
+                        <div class="text-muted small" th:text="#{page.dashboard.stats.approved}">Approved</div>
+                        <div class="fs-4 fw-semibold text-success" th:text="${approvedCount}">0</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-lg-3">
+                <div class="card border-1 bg-light shadow-sm h-100">
+                    <div class="card-body">
+                        <div class="text-muted small" th:text="#{page.dashboard.stats.rejected}">Rejected</div>
+                        <div class="fs-4 fw-semibold" th:classappend="${rejectedCount > 0} ? 'text-danger'" th:text="${rejectedCount}">0</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-4">
+            <!-- Profile card -->
+            <div class="col-lg-4">
+                <div class="card border-1 bg-light shadow-sm">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <div class="me-3 rounded-circle bg-primary text-white d-flex align-items-center justify-content-center" style="width:48px;height:48px;">
+                                <span class="fw-bold" th:text="${studentName != null and !studentName.isBlank()} ? ${#strings.toUpperCase(#strings.substring(studentName,0,1))} : 'S'">S</span>
+                            </div>
+                            <div>
+                                <div class="fw-semibold" th:text="${studentName}">Student Name</div>
+                                <div class="text-muted small" th:text="${studentEmail}">student@example.com</div>
+                            </div>
+                        </div>
+                        <hr>
+                        <ul class="list-unstyled mb-0 small">
+                            <li><span class="text-muted" th:text="#{page.dashboard.member-since}">Member since:</span>
+                                <span th:text="${memberSince != null} ? ${#temporals.format(memberSince,'dd MMM yyyy')} : '—'">—</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Applications table -->
+            <div class="col-lg-8">
+                <div class="card border-1 shadow-sm">
+                    <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                        <h2 class="h5 mb-0" th:text="#{page.dashboard.my-applications}">My Applications</h2>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle mb-0">
+                                <thead class="table-light">
+                                <tr>
+                                    <th scope="col" th:text="#{page.dashboard.col.program}">Program</th>
+                                    <th scope="col" th:text="#{page.dashboard.col.university}">University</th>
+                                    <th scope="col" th:text="#{page.dashboard.col.submitted}">Submitted On</th>
+                                    <th scope="col" th:text="#{page.dashboard.col.status}">Status</th>
+                                    <th scope="col" class="text-end" th:text="#{page.dashboard.col.acceptance}">Acceptance</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="app : ${applications}">
+                                    <td>
+                                        <div>
+                                            <span th:text="${app.department}">Program</span>
+                                            <span th:if="${app.applicantType != null and app.applicantType.name() == 'TEACHER'}"
+                                                  class="badge bg-info text-dark ms-1" th:text="#{page.apply.type.teacher}">Teacher</span>
+                                        </div>
+                                        <small class="text-brand" th:if="${app.scholarship != null}">
+                                            <i class="bi bi-mortarboard me-1"></i><span th:text="${app.scholarship.title}">Scholarship</span><span th:if="${app.semester != null}" th:text="' — ' + #{|page.apply.semester.${#strings.toLowerCase(app.semester.name())}|}"></span>
+                                        </small>
+                                    </td>
+                                    <td>
+                                        <span th:if="${app.hostUniversity != null}" th:text="${app.hostUniversity.name}">Host university</span>
+                                        <span th:if="${app.hostUniversity == null}"
+                                              th:text="${app.matchedUniversity != null} ? ${app.matchedUniversity.name} : ${app.institution}">University</span>
+                                    </td>
+                                    <td th:text="${app.createdAt != null} ? ${#temporals.format(app.createdAt,'dd MMM yyyy')} : '—'">—</td>
+                                    <td>
+                                        <span th:switch="${app.status.name()}">
+                                            <span th:case="'SUBMITTED'" class="badge bg-secondary" th:text="#{page.dashboard.status.submitted}">Submitted</span>
+                                            <span th:case="'UNDER_REVIEW'" class="badge bg-warning text-dark" th:text="#{page.dashboard.status.review}">Under Review</span>
+                                            <span th:case="'HOME_APPROVED'" class="badge bg-info text-dark" th:text="#{page.dashboard.status.homeapproved}">Forwarded to host university</span>
+                                            <span th:case="'HOME_REJECTED'" class="badge bg-danger" th:text="#{page.dashboard.status.homerejected}">Rejected by home university</span>
+                                            <span th:case="'ACCEPTED'" class="badge bg-success" th:text="#{page.dashboard.status.accepted}">Accepted</span>
+                                            <span th:case="'APPROVED'" class="badge bg-success" th:text="#{page.dashboard.status.approved}">Approved</span>
+                                            <span th:case="'REJECTED'" class="badge bg-danger" th:text="#{page.dashboard.status.rejected}">Rejected</span>
+                                        </span>
+                                    </td>
+                                    <td class="text-end">
+                                        <a th:if="${(app.status.name() == 'APPROVED' or app.status.name() == 'ACCEPTED') and app.acceptanceDocument != null}"
+                                           th:href="@{|/uploads${app.acceptanceDocument.filePath}${app.acceptanceDocument.fileFileName}|}"
+                                           class="btn btn-sm btn-outline-brand" target="_blank">
+                                            <i class="bi bi-download me-1"></i> <span th:text="#{common.download}">Download</span>
+                                        </a>
+                                        <span th:unless="${(app.status.name() == 'APPROVED' or app.status.name() == 'ACCEPTED') and app.acceptanceDocument != null}" class="text-muted">—</span>
+                                    </td>
+                                </tr>
+                                <tr th:if="${applications == null or applications.isEmpty()}">
+                                    <td colspan="5" class="text-center text-muted py-5">
+                                        <span th:text="#{page.dashboard.empty}">You have not submitted any applications yet.</span><br>
+                                        <a th:href="@{/{lang}/application/form(lang=${lang})}" class="btn btn-outline-brand btn-sm mt-3" th:text="#{page.dashboard.empty.cta}">Start your first application</a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pre-departure orientation materials -->
+        <div class="row g-4 mt-1" th:if="${preDepartureResources != null and !preDepartureResources.isEmpty()}">
+            <div class="col-12">
+                <div class="card border-1 shadow-sm">
+                    <div class="card-header bg-white">
+                        <h2 class="h5 mb-0" th:text="#{page.dashboard.predeparture}">Pre-departure Orientation Materials</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="list-group list-group-flush">
+                            <div class="list-group-item d-flex justify-content-between align-items-center px-0"
+                                 th:each="res : ${preDepartureResources}">
+                                <div>
+                                    <div class="fw-semibold" th:text="${res.title}">Title</div>
+                                    <small class="text-muted" th:if="${res.description}" th:text="${res.description}"></small>
+                                </div>
+                                <a th:if="${res.file != null}"
+                                   th:href="@{|/uploads${res.file.filePath}${res.file.fileFileName}|}"
+                                   class="btn btn-sm btn-outline-brand" target="_blank">
+                                    <i class="bi bi-download me-1"></i> <span th:text="#{common.download}">Download</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</div>
+
+</body>
+</html>

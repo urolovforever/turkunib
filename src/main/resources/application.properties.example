@@ -1,0 +1,50 @@
+spring.application.name=Turkic Universities
+spring.datasource.driver-class-name=org.mariadb.jdbc.Driver
+spring.liquibase.enabled=true
+spring.liquibase.change-log=classpath:/db/changelog/changelog-master.xml
+spring.datasource.url=jdbc:mariadb://localhost:3306/turkunib?useUnicode=true&characterEncoding=utf8&allowPublicKeyRetrieval=true&useSSL=false
+spring.datasource.username=rush
+spring.datasource.password=CHANGE_ME
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MariaDBDialect
+spring.jackson.default-property-inclusion=non_null
+
+spring.servlet.multipart.max-file-size=50MB
+spring.servlet.multipart.max-request-size=50MB
+app.upload.dir=P:/Source code/TIU/Turkic Universities/uploads
+
+spring.data.web.pageable.default-page-size=15
+spring.data.web.pageable.max-page-size=100
+
+app.yandex.api.key=CHANGE_ME
+
+spring.batch.job.enabled=false
+spring.batch.jdbc.initialize-schema=never
+
+#spring.ai.openai.api-key=CHANGE_ME
+spring.ai.openai.api-key=CHANGE_ME
+# gpt-4o-mini - free model. Default for Spring AI
+# gpt-4.1 - best, payable, gpt-4o is cheaper and faster. Local: gpt-oss-20b
+spring.ai.openai.chat.options.model=gpt-4o-mini
+#spring.ai.openai.base-url=http://127.0.0.1:8081
+spring.ai.openai.chat.options.temperature=0.0
+#spring.ai.openai.chat.options.max-tokens=2000
+
+spring.messages.basename=messages
+spring.messages.encoding=UTF-8
+# For development, set to false
+spring.thymeleaf.cache=false
+
+# Auth flows (password reset / activation links in e-mails)
+app.base-url=http://localhost:8080
+# Keep false until an SMTP sender is configured and verified; when true, new
+# accounts must be activated through the e-mailed link before signing in.
+app.activation.enabled=false
+app.mail.from=TURKUNIB <noreply@turkunib.org>
+# SMTP comes from SPRING_MAIL_HOST / SPRING_MAIL_USERNAME / SPRING_MAIL_PASSWORD
+# environment variables; without them e-mail links are written to the log instead.
+spring.mail.port=587
+spring.mail.properties.mail.smtp.auth=true
+spring.mail.properties.mail.smtp.starttls.enable=true
+spring.mail.properties.mail.smtp.connectiontimeout=10000
+spring.mail.properties.mail.smtp.timeout=10000
+spring.mail.properties.mail.smtp.writetimeout=10000

@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{web/fragments/layout :: layout (~{::content}, 'TIU TURKUNIB :: Student Council', 'staticpage', ~{})}">
+<head>
+    <meta charset="UTF-8">
+    <title>TIU TURKUNIB - Student Council</title>
+</head>
+<body>
+<div th:fragment="content">
+
+    <th:block th:replace="~{web/fragments/hero-banner :: hero-banner(${banners})}"></th:block>
+
+    <!-- Intro -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row align-items-center g-5">
+                <div class="col-lg-7">
+                    <h1 class="h2-bigger mb-3" th:text="#{page.council.title}">Student Council</h1>
+                    <p class="lead text-muted mb-4" th:text="#{page.council.intro}">
+                        The Student Council is the voice of students across TURKUNIB member universities. It drives academic mobility,
+                        cultural projects, leadership development, and collaboration between youth communities of the Turkic world.
+                    </p>
+                    <div class="d-flex gap-3">
+                        <a th:href="@{/{lang}/members/(lang=${lang})}" class="memberCountryLink btn btn-outline-brand shadow-sm">
+                            <i class="bi bi-people me-2"></i> <span th:text="#{page.council.members}">Member Universities</span>
+                        </a>
+                        <a href="#directive" class="memberCountryLink btn btn-outline-brand shadow-sm">
+                            <i class="bi bi-file-earmark-text me-2"></i> <span th:text="#{page.council.directive}">Directive</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-5 d-flex justify-content-center">
+                    <img th:src="@{/resources/web/img/council.png}" alt="TURKUNIB Student Council" class="w-50">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mission & Objectives -->
+    <section class="py-5 bg-light information-section">
+        <div class="container">
+            <div class="row mb-4">
+                <div class="col">
+                    <h2 class="h2-bigger" th:text="#{page.council.mission.title}">Mission &amp; Objectives</h2>
+                    <p class="text-muted" th:text="#{page.council.mission.subtitle}">Practical initiatives that empower students and connect campuses across the Turkic world.</p>
+                </div>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100 card-cta">
+                        <div class="card-body">
+                            <h5 class="mb-2"><i class="bi bi-arrow-left-right me-2"></i> <span th:text="#{page.council.obj.mobility.title}">Academic Mobility</span></h5>
+                            <p class="mb-0" th:text="#{page.council.obj.mobility.text}">Promote student exchanges and recognition of credits among member universities.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100 card-cta">
+                        <div class="card-body">
+                            <h5 class="mb-2"><i class="bi bi-flower3 me-2"></i> <span th:text="#{page.council.obj.culture.title}">Culture &amp; Identity</span></h5>
+                            <p class="mb-0" th:text="#{page.council.obj.culture.text}">Celebrate common history, culture, and languages through student-led initiatives.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100 card-cta">
+                        <div class="card-body">
+                            <h5 class="mb-2"><i class="bi bi-mortarboard me-2"></i> <span th:text="#{page.council.obj.leadership.title}">Leadership</span></h5>
+                            <p class="mb-0" th:text="#{page.council.obj.leadership.text}">Develop leadership skills via forums, workshops, and volunteering programs.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100 card-cta">
+                        <div class="card-body">
+                            <h5 class="mb-2"><i class="bi bi-trophy me-2"></i> <span th:text="#{page.council.obj.competitions.title}">Competitions &amp; Events</span></h5>
+                            <p class="mb-0" th:text="#{page.council.obj.competitions.text}">Organize academic competitions, symposia, and cultural festivals among members.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100 card-cta">
+                        <div class="card-body">
+                            <h5 class="mb-2"><i class="bi bi-journal-check me-2"></i> <span th:text="#{page.council.obj.standards.title}">Standards &amp; Quality</span></h5>
+                            <p class="mb-0" th:text="#{page.council.obj.standards.text}">Support shared academic standards and the Orhun credit transfer framework.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100 card-cta">
+                        <div class="card-body">
+                            <h5 class="mb-2"><i class="bi bi-cash-coin me-2"></i> <span th:text="#{page.council.obj.scholarships.title}">Scholarships</span></h5>
+                            <p class="mb-0" th:text="#{page.council.obj.scholarships.text}">Encourage scholarships for students and projects focused on the Turkic world.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Council Structure -->
+    <section class="py-5 information-section">
+        <div class="container">
+            <div class="row mb-4">
+                <div class="col">
+                    <h2 class="h2-bigger" th:text="#{page.council.structure.title}">Council Structure</h2>
+                    <p class="text-muted" th:text="#{page.council.structure.subtitle}">A collaborative body representing students from each member university.</p>
+                </div>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="mb-2"><i class="bi bi-person-badge me-2"></i> <span th:text="#{page.council.struct.chair.title}">Chair &amp; Vice-Chairs</span></h5>
+                            <p class="mb-0" th:text="#{page.council.struct.chair.text}">Elected from among member institutions to coordinate agendas and meetings.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="mb-2"><i class="bi bi-people me-2"></i> <span th:text="#{page.council.struct.reps.title}">Country Representatives</span></h5>
+                            <p class="mb-0" th:text="#{page.council.struct.reps.text}">Each member country nominates student representatives to the Council.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="mb-2"><i class="bi bi-calendar-event me-2"></i> <span th:text="#{page.council.struct.forum.title}">Annual Forum</span></h5>
+                            <p class="mb-0" th:text="#{page.council.struct.forum.text}">Annual assembly to approve plans, share best practices, and launch initiatives.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Country Representatives (sample) -->
+    <section class="py-5 information-section">
+        <div class="container">
+            <div class="row mb-4">
+                <div class="col">
+                    <h2 class="h2-bigger" th:text="#{page.council.reps.title}">Country Representatives</h2>
+                    <p class="text-muted" th:text="#{page.council.reps.subtitle}">Sample list of student representatives. For official contacts, please refer to your university’s student affairs or international office.</p>
+                </div>
+            </div>
+
+            <div class="row g-4">
+                <!-- Azerbaijan -->
+                <div class="col-md-6">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center justify-content-between mb-3">
+                                <div class="d-flex align-items-center">
+                                    <h5 class="mb-0">Azerbaijan</h5>
+                                </div>
+                            </div>
+                            <ul class="list-unstyled mb-0">
+                                <li class="d-flex align-items-start mb-2">
+                                    <i class="bi bi-person-circle me-2 text-brand"></i>
+                                    <div>
+                                        <div class="fw-semibold">Mr. Şahmar Refili <span class="badge bg-light text-muted border" th:text="#{page.council.lead}">Lead</span></div>
+                                        <small class="text-muted">
+                                            <a href="mailto:mezun_187@mail.ru">mezun_187@mail.ru</a>
+                                        </small>
+                                    </div>
+                                </li>
+                                <li class="d-flex align-items-start">
+                                    <i class="bi bi-person-circle me-2 text-brand"></i>
+                                    <div>
+                                        <div class="fw-semibold">Mr. Tural Azizov</div>
+                                        <small class="text-muted">
+                                            <a href="mailto:dr.azizov.tural@hotmail.com">dr.azizov.tural@hotmail.com</a>
+                                        </small>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Kyrgyz Republic -->
+                <div class="col-md-6">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center justify-content-between mb-3">
+                                <div class="d-flex align-items-center">
+                                    <h5 class="mb-0">Kyrgyz Republic</h5>
+                                </div>
+                            </div>
+                            <ul class="list-unstyled mb-0">
+                                <li class="d-flex align-items-start mb-2">
+                                    <i class="bi bi-person-circle me-2 text-brand"></i>
+                                    <div>
+                                        <div class="fw-semibold">Mr. Atilla Güven <span class="badge bg-light text-muted border" th:text="#{page.council.lead}">Lead</span></div>
+                                        <small class="text-muted">
+                                            <a href="mailto:atikhan1987@gmail.com">atikhan1987@gmail.com</a>
+                                        </small>
+                                    </div>
+                                </li>
+                                <li class="d-flex align-items-start">
+                                    <i class="bi bi-person-circle me-2 text-brand"></i>
+                                    <div>
+                                        <div class="fw-semibold">Mr. Kumarbek Babataev</div>
+                                        <small class="text-muted">
+                                            <a href="mailto:babataev.kumarbek@mail.ru">babataev.kumarbek@mail.ru</a>
+                                        </small>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Türkiye -->
+                <div class="col-md-6">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center justify-content-between mb-3">
+                                <div class="d-flex align-items-center">
+                                    <h5 class="mb-0">Türkiye</h5>
+                                </div>
+                            </div>
+                            <ul class="list-unstyled mb-0">
+                                <li class="d-flex align-items-start mb-2">
+                                    <i class="bi bi-person-circle me-2 text-brand"></i>
+                                    <div>
+                                        <div class="fw-semibold">Mr. Sercan Abdulbaki <span class="badge bg-light text-muted border" th:text="#{page.council.lead}">Lead</span></div>
+                                        <small class="text-muted">
+                                            <a href="mailto:a.baki_sercan1905@hotmail.com">a.baki_sercan1905@hotmail.com</a>
+                                        </small>
+                                    </div>
+                                </li>
+                                <li class="d-flex align-items-start mb-2">
+                                    <i class="bi bi-person-circle me-2 text-brand"></i>
+                                    <div>
+                                        <div class="fw-semibold">Ms. Canan Şimşek</div>
+                                        <small class="text-muted">
+                                            <a href="mailto:ataunictlecanan1@gmail.com">ataunictlecanan1@gmail.com</a>
+                                        </small>
+                                    </div>
+                                </li>
+                                <li class="d-flex align-items-start mb-2">
+                                    <i class="bi bi-person-circle me-2 text-brand"></i>
+                                    <div>
+                                        <div class="fw-semibold">Ms. Cansu Diramali</div>
+                                        <small class="text-muted">
+                                            <a href="mailto:cansudiramali@gmail.com">cansudiramali@gmail.com</a>
+                                        </small>
+                                    </div>
+                                </li>
+                                <li class="d-flex align-items-start mb-2">
+                                    <i class="bi bi-person-circle me-2 text-brand"></i>
+                                    <div>
+                                        <div class="fw-semibold">Mr. Okan Atici</div>
+                                        <small class="text-muted">
+                                            <a href="mailto:okan.atc199548@gmail.com">okan.atc199548@gmail.com</a>
+                                        </small>
+                                    </div>
+                                </li>
+                                <li class="d-flex align-items-start">
+                                    <i class="bi bi-person-circle me-2 text-brand"></i>
+                                    <div>
+                                        <div class="fw-semibold">Mr. Furkan Kazancı</div>
+                                        <small class="text-muted">
+                                            <a href="mailto:fkznc@hotmail.com">fkznc@hotmail.com</a>
+                                        </small>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Kazakh Republic -->
+                <div class="col-md-6">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center justify-content-between mb-3">
+                                <div class="d-flex align-items-center">
+                                    <h5 class="mb-0">Kazakh Republic</h5>
+                                </div>
+                            </div>
+                            <ul class="list-unstyled mb-0">
+                                <li class="d-flex align-items-start">
+                                    <i class="bi bi-person-circle me-2 text-brand"></i>
+                                    <div>
+                                        <div class="fw-semibold">Mr. Alp Avci</div>
+                                        <small class="text-muted">
+                                            <a href="mailto:alp_aslan_10@hotmail.com">alp_aslan_10@hotmail.com</a>
+                                        </small>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Get Involved -->
+    <section class="py-5" id="get-involved">
+        <div class="container">
+            <div class="row g-4 align-items-center">
+                <div class="col-lg-7">
+                    <h2 class="h2-bigger" th:text="#{page.council.getinvolved.title}">Get Involved</h2>
+                    <p class="lead text-muted" th:text="#{page.council.getinvolved.subtitle}">Join student-led projects, represent your university, or start a new initiative.</p>
+                    <ul class="list-unstyled mb-4">
+                        <li class="d-flex align-items-start gap-2 mb-2"><i class="bi bi-check2-circle text-brand mt-1"></i><span th:text="#{page.council.getinvolved.item1}">Participate in cultural and academic events</span></li>
+                        <li class="d-flex align-items-start gap-2 mb-2"><i class="bi bi-check2-circle text-brand mt-1"></i><span th:text="#{page.council.getinvolved.item2}">Apply for exchange programs via the Orhun Exchange Program framework</span></li>
+                        <li class="d-flex align-items-start gap-2 mb-2"><i class="bi bi-check2-circle text-brand mt-1"></i><span th:text="#{page.council.getinvolved.item3}">Volunteer in campus-wide initiatives</span></li>
+                    </ul>
+                </div>
+                <div class="col-lg-5">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="mb-3"><i class="bi bi-info-circle me-2"></i> <span th:text="#{page.council.eligibility.title}">Eligibility</span></h5>
+                            <p class="mb-0" th:text="#{page.council.eligibility.text}">Students of all TURKUNIB member universities are welcome to participate in Council programs.
+                                Please consult your university’s international office for specific procedures and timelines.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Directive & Downloads -->
+    <section id="directive" class="py-5 bg-light">
+        <div class="container">
+            <div class="row mb-3">
+                <div class="col">
+                    <h2 class="h2-bigger" th:text="#{page.council.downloads.title}">Directive &amp; Downloads</h2>
+                    <p class="text-muted" th:text="#{page.council.downloads.subtitle}">Official documents guiding the work of the Student Council.</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="list-group shadow-sm">
+                        <a class="list-group-item list-group-item-action d-flex align-items-center" target="_blank"
+                           th:href="@{/resources/web/files/council/yonergetr.pdf}">
+                            <i class="bi bi-filetype-pdf me-3 text-danger fs-4"></i>
+                            <div>
+                                <div class="fw-semibold" th:text="#{page.council.doc.directive}">Students Directive (Archived PDF)</div>
+                                <small class="text-muted" th:text="#{page.council.doc.directive.caption}">External link via web archive · Turkish</small>
+                            </div>
+                            <i class="bi bi-box-arrow-up-right ms-auto"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="py-5"></div>
+    </section>
+
+    <th:block th:replace="~{web/fragments/student-testimonials :: student-testimonials('')}"></th:block>
+
+</div>
+
+</body>
+</html>

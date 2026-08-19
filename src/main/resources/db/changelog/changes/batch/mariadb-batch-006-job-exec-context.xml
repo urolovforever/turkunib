@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <!-- =======================
+         batch_job_execution_context
+         ======================= -->
+    <changeSet id="mariadb-batch-006-job-exec-context" author="Ruslan Skaldin">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="batch_job_execution_context"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="batch_job_execution_context" remarks="Job execution context">
+            <column name="JOB_EXECUTION_ID" type="BIGINT">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="SHORT_CONTEXT" type="VARCHAR(2500)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="SERIALIZED_CONTEXT" type="TEXT"/>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="batch_job_execution_context" baseColumnNames="JOB_EXECUTION_ID"
+                                 referencedTableName="batch_job_execution" referencedColumnNames="JOB_EXECUTION_ID"
+                                 constraintName="JOB_EXEC_CTX_FK"/>
+    </changeSet>
+
+</databaseChangeLog>

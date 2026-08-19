@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{admin/fragments/layout :: layout (~{::content}, 'TIU TURKUNIB :: Orhun Quotas', 'orhun-quotas', ~{})}">
+<head>
+    <meta charset="UTF-8">
+    <title>TIU TURKUNIB - Orhun Quotas</title>
+</head>
+<body>
+<div th:fragment="content">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h3 text-gray-800 mb-0">Orhun Exchange Quotas</h1>
+    </div>
+
+    <th:block th:replace="~{admin/fragments/message :: message(${error}, ${success})}"></th:block>
+
+    <div class="card shadow mb-4" th:if="${rounds.isEmpty()}">
+        <div class="card-body">
+            No Orhun exchange rounds exist yet. Create a round first under
+            <a th:href="@{/admin/scholarships/}">Orhun Exchange Rounds</a>.
+        </div>
+    </div>
+
+    <th:block th:if="${round != null}">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3 d-flex justify-content-between align-items-center">
+                <h6 class="m-0 font-weight-bold text-primary">
+                    Round: <span th:text="${round.title} + (${round.academicYear} != null ? ' (' + ${round.academicYear} + ')' : '')">Round</span>
+                </h6>
+                <form method="get" th:action="@{/admin/orhun-quotas/}" class="form-inline mb-0">
+                    <select name="roundId" class="form-control form-control-sm" onchange="this.form.submit()">
+                        <option th:each="r : ${rounds}" th:value="${r.id}" th:selected="${r.id == round.id}"
+                                th:text="${r.title} + (${r.academicYear} != null ? ' (' + ${r.academicYear} + ')' : '')">Round</option>
+                    </select>
+                </form>
+            </div>
+            <div class="card-body">
+                <p class="text-muted small mb-3">
+                    Enter how many students and teachers each university accepts (incoming) and sends (outgoing)
+                    for this round. Rows left completely empty are not published; emptying a previously saved row removes it.
+                    University admin accounts can also fill in their own university's row themselves.
+                </p>
+                <form method="post" th:action="@{/admin/orhun-quotas/save}">
+                    <input type="hidden" name="scholarshipId" th:value="${round.id}">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-sm align-middle">
+                            <thead class="thead-light">
+                            <tr>
+                                <th>Country</th>
+                                <th>University</th>
+                                <th class="text-center" style="width:9%">Students<br>accept</th>
+                                <th class="text-center" style="width:9%">Students<br>send</th>
+                                <th class="text-center" style="width:9%">Teachers<br>accept</th>
+                                <th class="text-center" style="width:9%">Teachers<br>send</th>
+                                <th style="width:22%">Note (optional)</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="row, it : ${gridRows}">
+                                <td th:text="${row.countryName}">Country</td>
+                                <td>
+                                    <span th:text="${row.memberName}">University</span>
+                                    <input type="hidden" th:name="'rows[' + ${it.index} + '].memberId'" th:value="${row.memberId}">
+                                </td>
+                                <td><input type="number" min="0" max="9999" class="form-control form-control-sm text-center"
+                                           th:name="'rows[' + ${it.index} + '].studentAccept'" th:value="${row.studentAccept}"></td>
+                                <td><input type="number" min="0" max="9999" class="form-control form-control-sm text-center"
+                                           th:name="'rows[' + ${it.index} + '].studentSend'" th:value="${row.studentSend}"></td>
+                                <td><input type="number" min="0" max="9999" class="form-control form-control-sm text-center"
+                                           th:name="'rows[' + ${it.index} + '].teacherAccept'" th:value="${row.teacherAccept}"></td>
+                                <td><input type="number" min="0" max="9999" class="form-control form-control-sm text-center"
+                                           th:name="'rows[' + ${it.index} + '].teacherSend'" th:value="${row.teacherSend}"></td>
+                                <td><input type="text" maxlength="512" class="form-control form-control-sm"
+                                           th:name="'rows[' + ${it.index} + '].note'" th:value="${row.note}"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Save all quotas</button>
+                </form>
+            </div>
+        </div>
+    </th:block>
+</div>
+</body>
+</html>

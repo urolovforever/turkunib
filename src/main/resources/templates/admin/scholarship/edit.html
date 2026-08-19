@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{admin/fragments/layout :: layout (~{::content}, 'TIU TURKUNIB :: Edit Round', 'scholarships', ~{})}">
+<head>
+    <meta charset="UTF-8">
+    <title>TIU TURKUNIB - Edit Round</title>
+</head>
+<body>
+<div th:fragment="content">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h3 text-gray-800 mb-0">Edit Orhun Round</h1>
+        <a th:href="@{/admin/scholarships/}" class="btn btn-outline-secondary border-secondary shadow-sm">Back to list</a>
+    </div>
+
+    <th:block th:replace="~{admin/fragments/message :: message(${error}, ${success})}"></th:block>
+
+    <div class="card shadow">
+        <div class="card-body">
+            <form method="post" th:action="@{|/admin/scholarships/update/${scholarship.id}|}">
+                <p class="text-muted small mb-3">English base texts are edited here; other languages on the
+                    <a th:href="@{|/admin/scholarships/translations/${scholarship.id}|}">Languages</a> page.
+                    These texts and dates appear in the Announcement section of the Orhun Exchange page.</p>
+
+                <div class="form-row">
+                    <div class="form-group col-md-8">
+                        <label for="title">Title <small class="text-muted">(e.g. 2026/2027 Orhun Exchange Program Application)</small></label>
+                        <input type="text" class="form-control" id="title" name="title" th:value="${scholarship.title}" required>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="displayOrder">Order</label>
+                        <input type="number" class="form-control" id="displayOrder" name="displayOrder" th:value="${scholarship.displayOrder}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="description">Description <small class="text-muted">(announcement text, e.g. "The Orhun Exchange Program will commence in the Fall Term of the 2026/2027 Academic Year…")</small></label>
+                    <textarea class="form-control" id="description" name="description" rows="3" th:text="${scholarship.description}"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="note">Note <small class="text-muted">(participating countries line)</small></label>
+                    <textarea class="form-control" id="note" name="note" rows="2" th:text="${scholarship.note}"></textarea>
+                </div>
+
+                <hr>
+                <h6 class="font-weight-bold text-primary mb-1">Application period</h6>
+                <p class="text-muted small mb-3">Students and teachers can submit the application form only within this period.</p>
+                <div class="form-row">
+                    <div class="form-group col-md-3">
+                        <label for="applicationStart">Applications open from</label>
+                        <input type="date" class="form-control" id="applicationStart" name="applicationStart"
+                               th:value="${scholarship.applicationStart != null} ? ${#temporals.format(scholarship.applicationStart,'yyyy-MM-dd')} : ''">
+                        <small class="form-text text-muted">Empty = open immediately.</small>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="deadline">Deadline (last day)</label>
+                        <input type="date" class="form-control" id="deadline" name="deadline"
+                               th:value="${scholarship.deadline != null} ? ${#temporals.format(scholarship.deadline, 'yyyy-MM-dd')} : ''">
+                        <small class="form-text text-muted">Empty = no deadline.</small>
+                    </div>
+                </div>
+
+                <hr>
+                <h6 class="font-weight-bold text-primary mb-1">Application timeline dates</h6>
+                <p class="text-muted small mb-3">Shown under the timeline steps on the Orhun Exchange page. Empty dates are hidden.</p>
+                <div class="form-row">
+                    <div class="form-group col-md-3">
+                        <label for="timeline1Start">1. Notify departments and quotas — from</label>
+                        <input type="date" class="form-control" id="timeline1Start" name="timeline1Start"
+                               th:value="${scholarship.timeline1Start != null} ? ${#temporals.format(scholarship.timeline1Start,'yyyy-MM-dd')} : ''">
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="timeline1End">— to</label>
+                        <input type="date" class="form-control" id="timeline1End" name="timeline1End"
+                               th:value="${scholarship.timeline1End != null} ? ${#temporals.format(scholarship.timeline1End,'yyyy-MM-dd')} : ''">
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="timeline2Start">2. General announcement — from</label>
+                        <input type="date" class="form-control" id="timeline2Start" name="timeline2Start"
+                               th:value="${scholarship.timeline2Start != null} ? ${#temporals.format(scholarship.timeline2Start,'yyyy-MM-dd')} : ''">
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="timeline2End">— to</label>
+                        <input type="date" class="form-control" id="timeline2End" name="timeline2End"
+                               th:value="${scholarship.timeline2End != null} ? ${#temporals.format(scholarship.timeline2End,'yyyy-MM-dd')} : ''">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-3">
+                        <label for="timeline3Start">3. Receiving applications — from</label>
+                        <input type="date" class="form-control" id="timeline3Start" name="timeline3Start"
+                               th:value="${scholarship.timeline3Start != null} ? ${#temporals.format(scholarship.timeline3Start,'yyyy-MM-dd')} : ''">
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="timeline3End">— to</label>
+                        <input type="date" class="form-control" id="timeline3End" name="timeline3End"
+                               th:value="${scholarship.timeline3End != null} ? ${#temporals.format(scholarship.timeline3End,'yyyy-MM-dd')} : ''">
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="timeline4Start">4. Evaluate applications — from</label>
+                        <input type="date" class="form-control" id="timeline4Start" name="timeline4Start"
+                               th:value="${scholarship.timeline4Start != null} ? ${#temporals.format(scholarship.timeline4Start,'yyyy-MM-dd')} : ''">
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="timeline4End">— to</label>
+                        <input type="date" class="form-control" id="timeline4End" name="timeline4End"
+                               th:value="${scholarship.timeline4End != null} ? ${#temporals.format(scholarship.timeline4End,'yyyy-MM-dd')} : ''">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-3">
+                        <label for="timeline5Date">5. Announcement of results</label>
+                        <input type="date" class="form-control" id="timeline5Date" name="timeline5Date"
+                               th:value="${scholarship.timeline5Date != null} ? ${#temporals.format(scholarship.timeline5Date,'yyyy-MM-dd')} : ''">
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary shadow-sm">Save changes</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

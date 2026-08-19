@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <!-- =======================
+         batch_step_execution_context
+         ======================= -->
+    <changeSet id="mariadb-batch-005-step-exec-context" author="Ruslan Skaldin">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="batch_step_execution_context"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="batch_step_execution_context" remarks="Step execution context">
+            <column name="STEP_EXECUTION_ID" type="BIGINT">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="SHORT_CONTEXT" type="VARCHAR(2500)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="SERIALIZED_CONTEXT" type="TEXT"/>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="batch_step_execution_context" baseColumnNames="STEP_EXECUTION_ID"
+                                 referencedTableName="batch_step_execution" referencedColumnNames="STEP_EXECUTION_ID"
+                                 constraintName="STEP_EXEC_CTX_FK"/>
+    </changeSet>
+
+</databaseChangeLog>

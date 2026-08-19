@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{web/fragments/layout :: layout (~{::content}, 'TIU TURKUNIB :: Cookie Policy', 'cookies', ~{})}">
+<head>
+    <meta charset="UTF-8">
+    <title>TIU TURKUNIB - Cookie Policy</title>
+    <meta name="description" content="Learn how TIU TURKUNIB uses cookies, what types we use, and how you can manage your preferences.">
+</head>
+<body>
+<div th:fragment="content">
+
+    <!-- Header / Intro -->
+    <section class="py-5 bg-light-blue border-bottom">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-9">
+                    <h1 class="h2-bigger mb-2" th:text="#{page.cookies.title}">Cookie Policy</h1>
+                    <p class="text-muted mb-0">
+                        <span th:text="#{page.cookies.lastupdated}">Last updated:</span> <span>12 November 2025</span>
+                    </p>
+                </div>
+                <div class="col-lg-3 d-none d-lg-flex justify-content-lg-end">
+                    <i class="bi bi-shield-lock" style="font-size: 2.25rem; color: var(--brand, #10626b);"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Content -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row g-5">
+                <!-- Main content -->
+                <div class="col-lg-8">
+                    <p class="lead" th:text="#{page.cookies.intro}">This website uses cookies to improve your browsing experience, analyze site traffic, and provide
+                        personalized content. This Policy explains what cookies are, which types we use, and how you can control them.</p>
+
+                    <h2 class="h4 mt-4" id="what-are-cookies" th:text="#{page.cookies.what.title}">What are cookies?</h2>
+                    <p th:text="#{page.cookies.what.text}">Cookies are small text files that a website stores on your device when you visit it. They enable the site to
+                        recognize your device, remember your preferences, and understand how you interact with pages and features.</p>
+
+                    <h2 class="h4 mt-4" id="types" th:text="#{page.cookies.types.title}">Types of cookies we use</h2>
+                    <div class="table-responsive">
+                        <table class="table align-middle">
+                            <thead>
+                            <tr>
+                                <th scope="col" th:text="#{page.cookies.table.type}">Type</th>
+                                <th scope="col" th:text="#{page.cookies.table.purpose}">Purpose</th>
+                                <th scope="col" class="text-nowrap" th:text="#{page.cookies.table.examples}">Examples</th>
+                                <th scope="col" class="text-nowrap" th:text="#{page.cookies.table.retention}">Retention</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td class="fw-semibold" th:text="#{page.cookies.essential.type}">Essential</td>
+                                <td th:text="#{page.cookies.essential.purpose}">Required for core functionality and security (e.g., session management, load balancing).</td>
+                                <td class="text-muted">session_id, route</td>
+                                <td class="text-muted" th:text="#{page.cookies.retention.session}">Session</td>
+                            </tr>
+                            <tr>
+                                <td class="fw-semibold" th:text="#{page.cookies.performance.type}">Performance</td>
+                                <td th:text="#{page.cookies.performance.purpose}">Help us understand how visitors use the site so we can improve it.</td>
+                                <td class="text-muted">analytics_*</td>
+                                <td class="text-muted" th:text="#{page.cookies.retention.1to24}">1–24 months</td>
+                            </tr>
+                            <tr>
+                                <td class="fw-semibold" th:text="#{page.cookies.functional.type}">Functional</td>
+                                <td th:text="#{page.cookies.functional.purpose}">Remember preferences and choices to enhance your experience.</td>
+                                <td class="text-muted">lang, theme, consent</td>
+                                <td class="text-muted" th:text="#{page.cookies.retention.upto12}">Up to 12 months</td>
+                            </tr>
+                            <tr>
+                                <td class="fw-semibold" th:text="#{page.cookies.marketing.type}">Marketing</td>
+                                <td th:text="#{page.cookies.marketing.purpose}">Used to deliver relevant advertising and measure campaign effectiveness.</td>
+                                <td class="text-muted">ad_*</td>
+                                <td class="text-muted" th:text="#{page.cookies.retention.3to24}">3–24 months</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h2 class="h4 mt-4" id="how-we-use" th:text="#{page.cookies.howuse.title}">How we use cookies</h2>
+                    <ul class="list-unstyled">
+                        <li class="d-flex gap-2 mb-2"><i class="bi bi-check-circle text-success"></i>
+                            <span th:text="#{page.cookies.howuse.item1}">Provide and maintain core site functionality.</span></li>
+                        <li class="d-flex gap-2 mb-2"><i class="bi bi-check-circle text-success"></i>
+                            <span th:text="#{page.cookies.howuse.item2}">Analyze traffic, usage patterns, and performance to improve the website.</span></li>
+                        <li class="d-flex gap-2 mb-2"><i class="bi bi-check-circle text-success"></i>
+                            <span th:text="#{page.cookies.howuse.item3}">Remember your preferences, such as language or previously selected options.</span></li>
+                        <li class="d-flex gap-2 mb-2"><i class="bi bi-check-circle text-success"></i>
+                            <span th:text="#{page.cookies.howuse.item4}">Personalize content and, where applicable, deliver relevant promotions.</span></li>
+                    </ul>
+
+                    <h2 class="h4 mt-4" id="manage" th:text="#{page.cookies.manage.title}">Managing cookies</h2>
+                    <p th:text="#{page.cookies.manage.text}">You can control cookies through your browser settings and other tools. Please note that disabling certain
+                        cookies may affect the functionality of parts of the website.</p>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <div class="card h-100 shadow-sm">
+                                <div class="card-body p-3">
+                                    <h3 class="h6 mb-2"><i class="bi bi-gear me-2"></i><span th:text="#{page.cookies.browserguides}">Browser guides</span></h3>
+                                    <ul class="mb-0 ps-3">
+                                        <li><a href="https://support.google.com/chrome/answer/95647" target="_blank" rel="noopener">Google Chrome</a></li>
+                                        <li><a href="https://support.mozilla.org/en-US/kb/clear-cookies-and-site-data-firefox" target="_blank" rel="noopener">Mozilla Firefox</a></li>
+                                        <li><a href="https://support.microsoft.com/edge" target="_blank" rel="noopener">Microsoft Edge</a></li>
+                                        <li><a href="https://support.apple.com/guide/safari/manage-cookies-and-website-data-sfri11471/mac" target="_blank" rel="noopener">Apple Safari</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card h-100 shadow-sm">
+                                <div class="card-body p-3">
+                                    <h3 class="h6 mb-2"><i class="bi bi-sliders me-2"></i><span th:text="#{page.cookies.choices.title}">Your choices</span></h3>
+                                    <ul class="mb-0 ps-3">
+                                        <li th:text="#{page.cookies.choices.item1}">Adjust browser settings to block or delete cookies.</li>
+                                        <li th:text="#{page.cookies.choices.item2}">Use “Do Not Track” or similar privacy preferences where available.</li>
+                                        <li th:text="#{page.cookies.choices.item3}">Opt out of third‑party analytics/ads where such services are used.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h2 class="h4 mt-4" id="third-parties" th:text="#{page.cookies.thirdparty.title}">Third‑party cookies</h2>
+                    <p th:text="#{page.cookies.thirdparty.text}">Some cookies may be set by third‑party services that appear on our pages (for example, embedded media,
+                        maps, or analytics). These third parties have their own privacy and cookie policies. We recommend
+                        reviewing their documentation for details on how they process your information.</p>
+
+                    <h2 class="h4 mt-4" id="changes" th:text="#{page.cookies.changes.title}">Changes to this Policy</h2>
+                    <p th:text="#{page.cookies.changes.text}">We may update this Cookie Policy from time to time to reflect changes in technology, legislation, or our
+                        services. We encourage you to review this page periodically for the latest information.</p>
+
+                    <h2 class="h4 mt-4" id="contact" th:text="#{page.cookies.contact.title}">Contact us</h2>
+                    <p class="mb-1" th:text="#{page.cookies.contact.text}">If you have any questions about our use of cookies, please contact:</p>
+                    <p class="mb-4"><a href="mailto:info@tiu.uz">info@tiu.uz</a></p>
+                </div>
+
+                <!-- Side panel / quick nav -->
+                <div class="col-lg-4">
+                    <div class="card shadow-sm sticky-top" style="top: 100px;">
+                        <div class="card-body">
+                            <h3 class="h6 text-uppercase text-muted mb-3" th:text="#{page.cookies.nav.onthispage}">On this page</h3>
+                            <ul class="list-unstyled small mb-0">
+                                <li class="mb-2"><a href="#what-are-cookies" class="text-decoration-none"><i class="bi bi-dot"></i> <span th:text="#{page.cookies.nav.what}">What are cookies?</span></a></li>
+                                <li class="mb-2"><a href="#types" class="text-decoration-none"><i class="bi bi-dot"></i> <span th:text="#{page.cookies.nav.types}">Types we use</span></a></li>
+                                <li class="mb-2"><a href="#how-we-use" class="text-decoration-none"><i class="bi bi-dot"></i> <span th:text="#{page.cookies.nav.howuse}">How we use cookies</span></a></li>
+                                <li class="mb-2"><a href="#manage" class="text-decoration-none"><i class="bi bi-dot"></i> <span th:text="#{page.cookies.nav.manage}">Managing cookies</span></a></li>
+                                <li class="mb-2"><a href="#third-parties" class="text-decoration-none"><i class="bi bi-dot"></i> <span th:text="#{page.cookies.nav.thirdparty}">Third‑party cookies</span></a></li>
+                                <li><a href="#contact" class="text-decoration-none"><i class="bi bi-dot"></i> <span th:text="#{page.cookies.nav.contact}">Contact</span></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA / Application form -->
+    <th:block th:replace="~{web/fragments/application-form :: application-form('')}"></th:block>
+
+</div>
+
+</body>
+</html>

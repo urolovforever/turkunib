@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{admin/fragments/layout :: layout (~{::content}, 'TIU TURKUNIB :: Feedback List', 'feedback', ~{})}">
+<head>
+    <meta charset="UTF-8">
+    <title>TIU TURKUNIB - Feedback List</title>
+</head>
+<body>
+<div th:fragment="content">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h3 text-gray-800 mb-0">Feedback List</h1>
+    </div>
+
+    <th:block th:replace="~{admin/fragments/message :: message(${error}, ${success})}"></th:block>
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Manage Feedbacks</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover table-bordered table-sm align-middle mb-0">
+                    <thead class="bg-light">
+                    <tr>
+                        <th class="font-weight-bold" style="min-width: 20px;">Id</th>
+                        <th class="font-weight-bold" style="min-width: 320px;">Name</th>
+                        <th class="font-weight-bold" style="min-width: 120px;">Subject</th>
+                        <th class="font-weight-bold" style="min-width: 120px;">Created</th>
+                        <th class="font-weight-bold text-center" style="min-width: 120px;">Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="item : ${page.content}">
+                        <td th:text="${item.id}"></td>
+                        <td>
+                            <a th:href="@{/admin/feedback/show/{id}(id=${item.id})}"
+                               th:text="${#strings.abbreviate(item.fullName, 65)}" class="text-dark"></a>
+                        </td>
+                        <td th:text="${#strings.abbreviate(item.subject, 65)}"></td>
+                        <td th:text="${#temporals.format(item.createdAt, 'yyyy-MM-dd HH:mm')}"></td>
+                        <td class="text-center">
+                            <a th:href="@{/admin/feedback/show/{id}(id=${item.id})}" class="btn btn-link p-0 mx-1" title="View"><i class="fas fa-eye text-info"></i></a>
+                            <form th:action="@{/admin/feedback/delete/{id}(id=${item.id})}" method="post" class="d-inline" onsubmit="return confirm('Delete this feedback permanently?');">
+                                <input type="hidden" th:if="${_csrf != null}" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                                <input type="hidden" name="_method" value="delete"/>
+                                <button type="submit" class="btn btn-link p-0 mx-1" title="Delete"><i class="fas fa-trash text-danger"></i></button>
+                            </form>
+                        </td>
+                    </tr>
+                    <tr th:if="${#lists.isEmpty(page.content)}">
+                        <td colspan="5" class="text-center text-muted py-4">No feedbacks were found.</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div th:replace="~{admin/fragments/pagination :: pagination(${page}, '/admin/feedback/')}"></div>
+
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

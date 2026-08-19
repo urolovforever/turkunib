@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{admin/fragments/layout :: layout (~{::content}, 'TIU TURKUNIB :: Edit Member', 'leadership', ~{})}">
+<head>
+    <meta charset="UTF-8">
+    <title>TIU TURKUNIB - Edit Member</title>
+</head>
+<body>
+<div th:fragment="content">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h3 text-gray-800 mb-0">Edit Member</h1>
+        <a th:href="@{/admin/leadership/}" class="btn btn-outline-secondary border-secondary shadow-sm">Back to list</a>
+    </div>
+
+    <th:block th:replace="~{admin/fragments/message :: message(${error}, ${success})}"></th:block>
+
+    <div class="card shadow">
+        <div class="card-body">
+            <form method="post" th:action="@{|/admin/leadership/update/${member.id}|}" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="fullName">Full name</label>
+                    <input type="text" class="form-control" id="fullName" name="fullName" th:value="${member.fullName}" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-8">
+                        <label for="position">Position</label>
+                        <input type="text" class="form-control" id="position" name="position" th:value="${member.position}">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="displayOrder">Display order</label>
+                        <input type="number" class="form-control" id="displayOrder" name="displayOrder" th:value="${member.displayOrder}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="organization">Organization / University</label>
+                    <input type="text" class="form-control" id="organization" name="organization" th:value="${member.organization}">
+                </div>
+                <div class="form-group">
+                    <label for="bio">Short biography</label>
+                    <textarea class="form-control" id="bio" name="bio" rows="3" th:text="${member.bio}"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="photo">Photo <small class="text-muted">Leave empty to keep the current photo.</small></label>
+                    <input type="file" class="form-control-file" id="photo" name="photo" accept="image/*">
+                    <div th:if="${member.photo != null}" class="mt-2">
+                        <img th:src="@{|/uploads${member.photo.imagePath}${member.photo.imageFileName}|}"
+                             style="width:64px;height:64px;object-fit:cover;border-radius:50%;" alt="current photo">
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary shadow-sm">Save changes</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

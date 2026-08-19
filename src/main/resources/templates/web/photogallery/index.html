@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{web/fragments/layout :: layout (~{::content}, 'TIU TURKUNIB :: Photo Galleris', 'photos', ~{})}">
+<head>
+    <meta charset="UTF-8">
+    <title>TIU TURKUNIB - Latest News</title>
+</head>
+<body>
+<div th:fragment="content">
+
+    <th:block th:replace="~{web/fragments/hero-banner :: hero-banner(${banners})}"></th:block>
+
+    <!-- Photo Gallery -->
+    <section class="photo-gallery-section">
+        <div class="container">
+            <div class="row mb-4 align-items-center">
+                <div class="col-md-6">
+                    <h2 class="h2-bigger mb-0" th:text="#{main.photo.gallery.title}">Photo Gallery</h2>
+                </div>
+                <div class="col-md-6">
+                    <form method="get" th:action="@{'/' + ${lang} + '/photos/'}">
+                        <div class="input-group">
+                            <input type="text" name="q" th:value="${q}" class="form-control"
+                                   placeholder="Filter by event or country (e.g. Summit, Bishkek)" th:placeholder="#{page.gallery.filter.placeholder}">
+                            <button class="btn btn-outline-brand" type="submit"><i class="bi bi-search"></i></button>
+                            <a th:if="${q != null and !q.isBlank()}" th:href="@{'/' + ${lang} + '/photos/'}"
+                               class="btn btn-outline-secondary" th:text="#{page.gallery.clear}">Clear</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <p th:if="${q != null and !q.isBlank()}" class="text-muted mb-3">
+                <span th:text="#{page.gallery.results}">Showing results for</span> "<span th:text="${q}"></span>"
+                (<span th:text="${photoGalleries.totalElements}">0</span>).
+            </p>
+
+            <div class="row g-3">
+                <div th:each="item : ${photoGalleries}" class="col-12 col-sm-6 col-lg-4 col-xl-4 mb-2">
+                    <a th:href="@{'/' + ${lang} + '/photos/' + ${item.id()} + '/' + ${item.slug()}}">
+                        <figure class="gallery-item shadow-sm" style="aspect-ratio:1200/900">
+                            <img th:src="${item.previewImage.url}" loading="lazy" th:alt="${item.title()}" data-index="0" data-bound="1">
+                            <div class="overlay"></div>
+                            <figcaption class="caption">
+                                <div class="d-flex justify-content-between align-items-end">
+                                    <div>
+                                        <div th:text="${item.title()}" class="fw-semibold">-</div>
+                                    </div>
+                                    <span class="badge badge-soft" th:text="${#temporals.format(item.createdAt(), 'dd MMM. yyyy, HH:mm')}"></span>
+                                </div>
+                            </figcaption>
+                        </figure>
+                    </a>
+                </div>
+                <div th:if="${photoGalleries.isEmpty()}" class="col-12">
+                    <div class="text-center text-muted py-5">
+                        <i class="bi bi-images fs-1 d-block mb-3"></i>
+                        <span th:text="#{page.gallery.empty}">No galleries found</span><span th:if="${q != null and !q.isBlank()}"> <span th:text="#{page.gallery.empty.for}">for</span> "<span th:text="${q}"></span>"</span>.
+                    </div>
+                </div>
+            </div>
+            <div class="row my-3">
+                <div class="col d-flex justify-content-end align-items-center">
+                    <th:block th:replace="~{web/fragments/pagination :: pagination-web(${photoGalleries}, ${'/' + lang + '/photos/'})}"></th:block>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <th:block th:replace="~{web/fragments/student-testimonials :: student-testimonials('margin-top-95')}"></th:block>
+
+</div>
+
+</body>
+</html>

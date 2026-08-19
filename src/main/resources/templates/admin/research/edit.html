@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{admin/fragments/layout :: layout (~{::content}, 'TIU TURKUNIB :: Edit Research Project', 'research', ~{})}">
+<head>
+    <meta charset="UTF-8">
+    <title>TIU TURKUNIB - Edit Research Project</title>
+</head>
+<body>
+<div th:fragment="content">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h3 text-gray-800 mb-0">Edit Research Project</h1>
+        <a th:href="@{/admin/research/}" class="btn btn-outline-secondary border-secondary shadow-sm">Back to list</a>
+    </div>
+
+    <th:block th:replace="~{admin/fragments/message :: message(${error}, ${success})}"></th:block>
+
+    <div class="card shadow">
+        <div class="card-body">
+            <form method="post" th:action="@{|/admin/research/update/${project.id}|}">
+                <div class="form-group">
+                    <label for="title">Title</label>
+                    <input type="text" class="form-control" id="title" name="title" th:value="${project.title}" required>
+                </div>
+                <div class="form-group">
+                    <label for="subjectArea">Subject area</label>
+                    <input type="text" class="form-control" id="subjectArea" name="subjectArea" th:value="${project.subjectArea}">
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-4">
+                        <label for="startYear">Start year</label>
+                        <input type="number" class="form-control" id="startYear" name="startYear" th:value="${project.startYear}">
+                    </div>
+                    <div class="form-group col-4">
+                        <label for="endYear">End year</label>
+                        <input type="number" class="form-control" id="endYear" name="endYear" th:value="${project.endYear}">
+                    </div>
+                    <div class="form-group col-4">
+                        <label for="status">Status</label>
+                        <select class="form-control" id="status" name="status">
+                            <option th:each="s : ${statuses}" th:value="${s.name()}" th:text="${s.name()}" th:selected="${s == project.status}"></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="participatingUniversities">Participating universities</label>
+                    <textarea class="form-control" id="participatingUniversities" name="participatingUniversities" rows="2" th:text="${project.participatingUniversities}"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="description">Short description</label>
+                    <textarea class="form-control" id="description" name="description" rows="2" th:text="${project.description}"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="content">Full details <small class="text-muted">(detail page; basic HTML allowed)</small></label>
+                    <textarea class="form-control" id="content" name="content" rows="6" th:text="${project.content}"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary shadow-sm">Save changes</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

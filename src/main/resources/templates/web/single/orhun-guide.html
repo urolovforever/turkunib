@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{web/fragments/layout :: layout (~{::content}, 'TIU TURKUNIB :: Orhun Application Guide', 'orhun', ~{::pageScripts})}">
+<head>
+    <meta charset="UTF-8">
+    <title>TIU TURKUNIB - Orhun Application Guide</title>
+</head>
+<body>
+<div th:fragment="content">
+
+    <th:block th:replace="~{web/fragments/hero-banner :: hero-banner(${banners})}"></th:block>
+
+    <!-- Intro -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 mx-auto">
+                    <h1 class="h2-bigger mb-3" th:text="#{page.orhunguide.title}">Orhun Exchange Program — Application Guide</h1>
+                    <p class="lead text-muted mb-4" th:text="#{page.orhunguide.intro}">
+                        A practical guide for students and academic staff: eligibility requirements, the application
+                        process, required documents, and the steps to complete once you have been selected for mobility.
+                    </p>
+                    <div class="d-flex flex-wrap align-items-center gap-3">
+                        <a class="btn btn-outline-brand" th:href="@{/resources/web/files/orhun/orhun-application-guide-en.pdf}" target="_blank">
+                            <i class="bi bi-file-earmark-pdf me-1"></i><span th:text="#{page.orhunguide.download}">Download the guide (PDF)</span>
+                        </a>
+                        <a class="btn-page-link" th:href="@{/{lang}/orhun(lang=${lang})}" th:text="#{page.orhunguide.orhunlink}">Current announcement, quotas and document templates</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Guide body with TOC sidebar -->
+    <section class="pb-5">
+        <div class="container">
+            <div class="row g-4">
+
+                <!-- Sidebar: table of contents -->
+                <div class="col-lg-4 col-xl-3">
+                    <button class="btn btn-outline-brand w-100 d-lg-none mb-3" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#guideTocCollapse" aria-expanded="false" aria-controls="guideTocCollapse">
+                        <i class="bi bi-list-ul me-1"></i><span th:text="#{page.orhunguide.toc}">Table of Contents</span>
+                    </button>
+                    <div class="collapse d-lg-block directive-toc-wrap" id="guideTocCollapse">
+                        <nav id="guideToc" class="directive-toc card shadow-sm p-3">
+                            <div class="fw-bold text-uppercase small mb-2 d-none d-lg-block" th:text="#{page.orhunguide.toc}">Table of Contents</div>
+                            <nav class="nav nav-pills flex-column">
+                                <a class="nav-link" href="#guide-s1" th:text="#{page.orhunguide.s1.title}">1. About the Orhun Exchange Program</a>
+                                <a class="nav-link" href="#guide-s2" th:text="#{page.orhunguide.s2.title}">2. General Principles</a>
+                                <nav class="nav nav-pills flex-column">
+                                    <a class="nav-link directive-toc-sub" href="#guide-s2-1" th:text="#{page.orhunguide.s2s1.title}">2.1 Basis in Protocols</a>
+                                    <a class="nav-link directive-toc-sub" href="#guide-s2-2" th:text="#{page.orhunguide.s2s2.title}">2.2 Languages</a>
+                                    <a class="nav-link directive-toc-sub" href="#guide-s2-3" th:text="#{page.orhunguide.s2s3.title}">2.3 Financial Resources</a>
+                                </nav>
+                                <a class="nav-link" href="#guide-s3" th:text="#{page.orhunguide.s3.title}">3. How Do Students Apply?</a>
+                                <nav class="nav nav-pills flex-column">
+                                    <a class="nav-link directive-toc-sub" href="#guide-s3-1" th:text="#{page.orhunguide.s3s1.title}">3.1 Application Requirements</a>
+                                    <a class="nav-link directive-toc-sub" href="#guide-s3-2" th:text="#{page.orhunguide.s3s2.title}">3.2 Application Process and Announcement</a>
+                                    <a class="nav-link directive-toc-sub" href="#guide-s3-3" th:text="#{page.orhunguide.s3s3.title}">3.3 Required Documents</a>
+                                    <a class="nav-link directive-toc-sub" href="#guide-s3-4" th:text="#{page.orhunguide.s3s4.title}">3.4 Learning Agreement</a>
+                                    <a class="nav-link directive-toc-sub" href="#guide-s3-5" th:text="#{page.orhunguide.s3s5.title}">3.5 Course Equivalence, Retakes and Examinations</a>
+                                    <a class="nav-link directive-toc-sub" href="#guide-s3-6" th:text="#{page.orhunguide.s3s6.title}">3.6 Financial Obligations</a>
+                                    <a class="nav-link directive-toc-sub" href="#guide-s3-7" th:text="#{page.orhunguide.s3s7.title}">3.7 Discipline</a>
+                                </nav>
+                                <a class="nav-link" href="#guide-s4" th:text="#{page.orhunguide.s4.title}">4. How Do Academic Staff Apply?</a>
+                                <nav class="nav nav-pills flex-column">
+                                    <a class="nav-link directive-toc-sub" href="#guide-s4-1" th:text="#{page.orhunguide.s4s1.title}">4.1 Scope and Duration</a>
+                                    <a class="nav-link directive-toc-sub" href="#guide-s4-2" th:text="#{page.orhunguide.s4s2.title}">4.2 Application Announcement and Selection Process</a>
+                                    <a class="nav-link directive-toc-sub" href="#guide-s4-3" th:text="#{page.orhunguide.s4s3.title}">4.3 Required Documents</a>
+                                    <a class="nav-link directive-toc-sub" href="#guide-s4-4" th:text="#{page.orhunguide.s4s4.title}">4.4 Financial Rights and Responsibilities</a>
+                                </nav>
+                                <a class="nav-link" href="#guide-s5" th:text="#{page.orhunguide.s5.title}">5. I Have Been Selected for Mobility — What Should I Do Now?</a>
+                            </nav>
+                        </nav>
+                    </div>
+                </div>
+
+                <!-- Guide text -->
+                <div class="col-lg-8 col-xl-9 directive-body">
+
+                    <!-- 1. About -->
+                    <h2 class="h2-bigger directive-part-heading" id="guide-s1" th:text="#{page.orhunguide.s1.title}">1. About the Orhun Exchange Program</h2>
+                    <article class="directive-article">
+                        <p th:text="#{page.orhunguide.s1.p1}">The Orhun Exchange Program is a flagship program run by the Turkic Universities Union (TURKUNIB), operating under the Organization of Turkic States (OTS), which promotes the mobility of students and teaching staff among the higher education institutions of member countries. The program aims to develop academic cooperation, strengthen inter-institutional ties, and increase cultural interaction among peoples.</p>
+                        <p th:text="#{page.orhunguide.s1.p2}">The program began as a pilot in the 2017–2018 academic year; it was reactivated and expanded in scope in the post-COVID-19 period, and today it has grown into a broad network bringing together 170 member universities.</p>
+
+                        <h4 th:text="#{page.orhunguide.s1.obj.title}">Strategic Objectives</h4>
+                        <ul>
+                            <li th:text="#{page.orhunguide.s1.obj1}">Increasing academic integration and mobility among universities of member countries,</li>
+                            <li th:text="#{page.orhunguide.s1.obj2}">Contributing to the creation of a "Turkic World Higher Education Area",</li>
+                            <li th:text="#{page.orhunguide.s1.obj3}">Aligning higher education systems with international standards such as the Bologna Process and ECTS,</li>
+                            <li th:text="#{page.orhunguide.s1.obj4}">Contributing to regional development, research cooperation, and innovation.</li>
+                        </ul>
+
+                        <h4 th:text="#{page.orhunguide.s1.countries.title}">Member Countries Covered by the Program</h4>
+                        <p th:text="#{page.orhunguide.s1.countries.p1}">Under the program, academic staff and students have the opportunity to undertake mobility to universities that are members of the Universities Union of the Organization of Turkic States. The member countries are: Türkiye, Azerbaijan, Kyrgyzstan, Kazakhstan, Uzbekistan, the Turkish Republic of Northern Cyprus, and Hungary.</p>
+                    </article>
+
+                    <!-- 2. General Principles -->
+                    <h2 class="h2-bigger directive-part-heading" id="guide-s2" th:text="#{page.orhunguide.s2.title}">2. General Principles</h2>
+                    <article id="guide-s2-1" class="directive-article">
+                        <h3 th:text="#{page.orhunguide.s2s1.title}">2.1 Basis in Protocols</h3>
+                        <p th:text="#{page.orhunguide.s2s1.p1}">The Orhun Exchange Program can only be carried out within the framework of the "Orhun Exchange Program Protocol" signed between member institutions. A university may not accept or send students or teaching staff to/from an institution with which it has no protocol in place. A copy of the protocol is kept at the Secretariat of the Organization of Turkic States.</p>
+                    </article>
+                    <article id="guide-s2-2" class="directive-article">
+                        <h3 th:text="#{page.orhunguide.s2s2.title}">2.2 Languages</h3>
+                        <p th:text="#{page.orhunguide.s2s2.p1}">Legislation, information, files and documents relating to the program are prepared in the official languages of the member states, in Turkish and English. In the event of a discrepancy between the texts, the English text shall prevail.</p>
+                    </article>
+                    <article id="guide-s2-3" class="directive-article">
+                        <h3 th:text="#{page.orhunguide.s2s3.title}">2.3 Financial Resources</h3>
+                        <ul>
+                            <li th:text="#{page.orhunguide.s2s3.fin1}">Resources provided by national or international institutions and organisations,</li>
+                            <li th:text="#{page.orhunguide.s2s3.fin2}">Member universities' own budgetary resources,</li>
+                            <li th:text="#{page.orhunguide.s2s3.fin3}">Resources provided by the TURKUNIB Term President University and the Organization of Turkic States.</li>
+                        </ul>
+                        <p th:text="#{page.orhunguide.s2s3.p1}">Member universities are required to indicate their financial needs for each academic year in their own budgets prior to mobility; the necessary coordination in the allocation of resources is provided by the Secretariat of the Organization of Turkic States.</p>
+                    </article>
+
+                    <!-- 3. Students -->
+                    <h2 class="h2-bigger directive-part-heading" id="guide-s3" th:text="#{page.orhunguide.s3.title}">3. How Do Students Apply?</h2>
+                    <article class="directive-article">
+                        <p th:text="#{page.orhunguide.s3.p1}">Under the Orhun Exchange Program, students enrolled in formal education may continue their studies for one or two semesters (not exceeding one academic year in total) at a member institution with which their own higher education institution has signed a protocol.</p>
+                    </article>
+                    <article id="guide-s3-1" class="directive-article">
+                        <h3 th:text="#{page.orhunguide.s3s1.title}">3.1 Application Requirements</h3>
+                        <ul>
+                            <li th:text="#{page.orhunguide.s3s1.req1}">Being enrolled in a formal higher education program,</li>
+                            <li th:text="#{page.orhunguide.s3s1.req2}">Having a cumulative GPA of at least 2.5 out of 4 (or equivalent),</li>
+                            <li th:text="#{page.orhunguide.s3s1.req3}">Preparatory-year, first-year and final-year students may not benefit from the program,</li>
+                            <li th:text="#{page.orhunguide.s3s1.req4}">Those studying abroad with international student status may not apply to a university in their own country.</li>
+                        </ul>
+                    </article>
+                    <article id="guide-s3-2" class="directive-article">
+                        <h3 th:text="#{page.orhunguide.s3s2.title}">3.2 Application Process and Announcement</h3>
+                        <ul>
+                            <li th:text="#{page.orhunguide.s3s2.item1}">The higher education institution announces the Orhun Exchange Program protocols it has signed and the relevant quotas on its own website.</li>
+                            <li th:text="#{page.orhunguide.s3s2.item2}">The announcement includes an introduction to the program, application requirements, and process steps.</li>
+                            <li th:text="#{page.orhunguide.s3s2.item3}">The student submits an application to the relevant institution in accordance with the announced quota and calendar.</li>
+                            <li th:text="#{page.orhunguide.s3s2.item4}">Applications, together with the documents uploaded to the system, are forwarded to the coordinating university to be transmitted to the receiving institution.</li>
+                            <li th:text="#{page.orhunguide.s3s2.item5}">The TURKUNIB Term President University determines the number and distribution of exchange students within the framework of bilateral protocols.</li>
+                            <li th:text="#{page.orhunguide.s3s2.item6}">Evaluation is based on candidates' grade point average; results are announced on the websites of the signatory institutions.</li>
+                        </ul>
+                        <div class="alert alert-warning d-flex align-items-start gap-2">
+                            <i class="bi bi-exclamation-triangle-fill mt-1"></i>
+                            <span th:text="#{page.orhunguide.s3.note1}">The conversion from a 100-point grading system to a 4-point system is based on the equivalence decision of the host university. In addition, the TURKUNIB Term President University may set additional conditions for effective and efficient mobility.</span>
+                        </div>
+                    </article>
+                    <article id="guide-s3-3" class="directive-article">
+                        <h3 th:text="#{page.orhunguide.s3s3.title}">3.3 Required Documents</h3>
+                        <div class="table-responsive">
+                            <table class="table table-bordered align-middle shadow-sm mb-3 directive-members-table">
+                                <thead class="table-light">
+                                <tr>
+                                    <th style="width: 35%" th:text="#{page.orhunguide.doc.col1}">Document</th>
+                                    <th th:text="#{page.orhunguide.doc.col2}">Description</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr><td class="fw-semibold" th:text="#{page.orhunguide.s3.doc1}">Application Form</td><td th:text="#{page.orhunguide.s3.doc1.desc}">Student application document</td></tr>
+                                <tr><td class="fw-semibold" th:text="#{page.orhunguide.s3.doc2}">Transcript</td><td th:text="#{page.orhunguide.s3.doc2.desc}">Up-to-date transcript of records</td></tr>
+                                <tr><td class="fw-semibold" th:text="#{page.orhunguide.s3.doc3}">Student Obligations Agreement</td><td th:text="#{page.orhunguide.s3.doc3.desc}">Orhun Exchange Program Student Obligations Agreement — signed between the student and the institution</td></tr>
+                                <tr><td class="fw-semibold" th:text="#{page.orhunguide.s3.doc4}">Other documents</td><td th:text="#{page.orhunguide.s3.doc4.desc}">Additional documents determined by the signatory universities (if any)</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <p th:text="#{page.orhunguide.s3s3.p1}">At the end of the exchange period, the student submits the transcript, a Certificate of Participation showing the duration of study, and the student's final report to their own institution's Orhun Exchange Program coordination office, in person, by post, or by e-mail, within 30 days of the return date. An additional period of up to 15 days may be granted for missing documents; if the documents are not completed within the given time, the process is deemed invalid and repayment of any payments made will be requested.</p>
+                    </article>
+                    <article id="guide-s3-4" class="directive-article">
+                        <h3 th:text="#{page.orhunguide.s3s4.title}">3.4 Learning Agreement</h3>
+                        <p th:text="#{page.orhunguide.s3s4.p1}">Before mobility begins, the courses and credits the student will take at the host institution, and the courses at their own institution to which these correspond, are determined through a "Learning Agreement." The agreement is prepared in three copies; one copy is kept by the student, and the others are kept by the two institutions. The agreement is signed by the relevant department chairs and the senior administrators of the institutions (or their authorised representatives). Compulsory changes must be made within 30 days at the latest from the start of the host institution's academic term (and before compulsory examination dates).</p>
+                    </article>
+                    <article id="guide-s3-5" class="directive-article">
+                        <h3 th:text="#{page.orhunguide.s3s5.title}">3.5 Course Equivalence, Retakes and Examinations</h3>
+                        <ul>
+                            <li th:text="#{page.orhunguide.s3s5.item1}">Course loads are determined on a credit basis; credits, not the number of courses, are taken as the basis. Institutions may use the ECTS system as a reference.</li>
+                            <li th:text="#{page.orhunguide.s3s5.item2}">Courses in which the student fails are retaken at their own institution, based on the equivalent course specified in the learning agreement; a retake course may not be taken at the host institution.</li>
+                            <li th:text="#{page.orhunguide.s3s5.item3}">Conditional passing does not apply to Orhun Exchange Program students; a make-up examination may only be taken at the institution where the student is currently an exchange student.</li>
+                            <li th:text="#{page.orhunguide.s3s5.item4}">Work such as theses, internships, and laboratory studies is subject to the rules of the student's own institution.</li>
+                            <li th:text="#{page.orhunguide.s3s5.item5}">At the end of the exchange, institutions are obliged to recognise the credits and grades of successfully completed courses; these courses are indicated in the diploma supplement.</li>
+                        </ul>
+                    </article>
+                    <article id="guide-s3-6" class="directive-article">
+                        <h3 th:text="#{page.orhunguide.s3s6.title}">3.6 Financial Obligations</h3>
+                        <ul>
+                            <li th:text="#{page.orhunguide.s3s6.item1}">The student continues to pay the compulsory contribution/tuition fee to their own institution during the exchange period; registration may not be suspended.</li>
+                            <li th:text="#{page.orhunguide.s3s6.item2}">No additional tuition fee is paid to the host institution.</li>
+                            <li th:text="#{page.orhunguide.s3s6.item3}">Other scholarships and loans continue throughout the study period.</li>
+                        </ul>
+                    </article>
+                    <article id="guide-s3-7" class="directive-article">
+                        <h3 th:text="#{page.orhunguide.s3s7.title}">3.7 Discipline</h3>
+                        <p th:text="#{page.orhunguide.s3s7.p1}">Exchange students are subject to the disciplinary rules of the institution where they are located during the mobility period. If a disciplinary investigation is opened, the student's home institution is informed of the outcome; if the penalty cannot be applied during the mobility period, it is enforced by the student's own institution.</p>
+                    </article>
+
+                    <!-- 4. Academic staff -->
+                    <h2 class="h2-bigger directive-part-heading" id="guide-s4" th:text="#{page.orhunguide.s4.title}">4. How Do Academic Staff Apply?</h2>
+                    <article class="directive-article">
+                        <p th:text="#{page.orhunguide.s4.p1}">All teaching staff working at institutions that have signed the Orhun Exchange Program protocol may take part in teaching staff mobility. Mobility covers the teaching activities that a member of staff of one institution will carry out at another member institution.</p>
+                    </article>
+                    <article id="guide-s4-1" class="directive-article">
+                        <h3 th:text="#{page.orhunguide.s4s1.title}">4.1 Scope and Duration</h3>
+                        <ul>
+                            <li th:text="#{page.orhunguide.s4s1.item1}">The mobility period may be a minimum of two weeks and a maximum of three months; it may be undertaken only once in the same academic year.</li>
+                            <li th:text="#{page.orhunguide.s4s1.item2}">The total weekly academic activity must be at least six hours (teaching hours are the basis; if insufficient, this may be supplemented with activities such as seminars, panels or conferences).</li>
+                            <li th:text="#{page.orhunguide.s4s1.item3}">Mobility plans that do not include teaching are not accepted under the Orhun Exchange Program.</li>
+                        </ul>
+                    </article>
+                    <article id="guide-s4-2" class="directive-article">
+                        <h3 th:text="#{page.orhunguide.s4s2.title}">4.2 Application Announcement and Selection Process</h3>
+                        <ul>
+                            <li th:text="#{page.orhunguide.s4s2.item1}">Signed protocols and quotas are announced on the institution's and TURKUNIB's websites; announcements remain published for at least 15 days.</li>
+                            <li th:text="#{page.orhunguide.s4s2.item2}">All applications made during the announcement period are recorded; a copy is kept at the institution's Orhun Exchange Program coordination office.</li>
+                            <li th:text="#{page.orhunguide.s4s2.item3}">The staff member contacts the relevant department at the institution they wish to visit to determine suitable courses and prepares the "Teaching Staff Mobility Plan."</li>
+                            <li th:text="#{page.orhunguide.s4s2.item4}">The plan is approved by the relevant academic unit boards of both the sending and host institutions and is submitted to the coordination office at least 15 days before mobility begins.</li>
+                            <li th:text="#{page.orhunguide.s4s2.item5}">In the evaluation, priority is given to teaching staff who have not previously participated in the exchange program and to Orhun department coordinators.</li>
+                            <li th:text="#{page.orhunguide.s4s2.item6}">Results are announced on the signatory institution's website.</li>
+                        </ul>
+                        <div class="alert alert-warning d-flex align-items-start gap-2">
+                            <i class="bi bi-exclamation-triangle-fill mt-1"></i>
+                            <span th:text="#{page.orhunguide.s4.note2}">A staff member who is selected but does not participate without a valid excuse may not benefit from the program for a period of three years.</span>
+                        </div>
+                    </article>
+                    <article id="guide-s4-3" class="directive-article">
+                        <h3 th:text="#{page.orhunguide.s4s3.title}">4.3 Required Documents</h3>
+                        <div class="table-responsive">
+                            <table class="table table-bordered align-middle shadow-sm mb-0 directive-members-table">
+                                <thead class="table-light">
+                                <tr>
+                                    <th style="width: 35%" th:text="#{page.orhunguide.doc.col1}">Document</th>
+                                    <th th:text="#{page.orhunguide.doc.col2}">Description</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr><td class="fw-semibold" th:text="#{page.orhunguide.s4.doc1}">Academic Staff Information Form</td><td th:text="#{page.orhunguide.s4.doc1.desc}">Obtained from the "Documents" menu on the institution's website</td></tr>
+                                <tr><td class="fw-semibold" th:text="#{page.orhunguide.s4.doc2}">Academic Staff Mobility Program</td><td th:text="#{page.orhunguide.s4.doc2.desc}">A plan detailing the activities to be carried out; obtained from the institution's website</td></tr>
+                                <tr><td class="fw-semibold" th:text="#{page.orhunguide.s4.doc3}">Curriculum Vitae (CV)</td><td th:text="#{page.orhunguide.s4.doc3.desc}">Up-to-date CV</td></tr>
+                                <tr><td class="fw-semibold" th:text="#{page.orhunguide.s4.doc4}">Certificate of Participation</td><td th:text="#{page.orhunguide.s4.doc4.desc}">Issued signed/sealed by the host institution at the end of the mobility</td></tr>
+                                <tr><td class="fw-semibold" th:text="#{page.orhunguide.s4.doc5}">Activity Outcome Report</td><td th:text="#{page.orhunguide.s4.doc5.desc}">Prepared by the staff member; submitted to the coordination office no later than 15 days after the activity ends</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </article>
+                    <article id="guide-s4-4" class="directive-article">
+                        <h3 th:text="#{page.orhunguide.s4s4.title}">4.4 Financial Rights and Responsibilities</h3>
+                        <ul>
+                            <li th:text="#{page.orhunguide.s4s4.item1}">The staff member's employment rights are preserved at their own university.</li>
+                            <li th:text="#{page.orhunguide.s4s4.item2}">Daily allowance and travel expenses for the first two weeks are covered by the sending institution.</li>
+                            <li th:text="#{page.orhunguide.s4s4.item3}">Accommodation and subsistence (lodging and meals) are provided by the host university.</li>
+                        </ul>
+                    </article>
+
+                    <!-- 5. Selected — next steps -->
+                    <h2 class="h2-bigger directive-part-heading" id="guide-s5" th:text="#{page.orhunguide.s5.title}">5. I Have Been Selected for Mobility — What Should I Do Now?</h2>
+                    <article class="directive-article">
+                        <p th:text="#{page.orhunguide.s5.p1}">Students and academic staff who have been selected for mobility are advised to complete the following six steps, in order, before mobility begins:</p>
+
+                        <div class="guide-step"><div class="guide-step-num">1</div><div>
+                            <h4 class="mt-0" th:text="#{page.orhunguide.s5.step1}">Creating a Kion Account</h4>
+                            <p th:text="#{page.orhunguide.s5.step1.text}">A Kion account should be created via the link provided on the relevant exchange program website. Documents required for mobility will be uploaded to this system.</p>
+                        </div></div>
+                        <div class="guide-step"><div class="guide-step-num">2</div><div>
+                            <h4 class="mt-0" th:text="#{page.orhunguide.s5.step2}">Obtaining the Letter of Acceptance</h4>
+                            <p th:text="#{page.orhunguide.s5.step2.text}">Contact should be made by e-mail with the placement university to obtain the Letter of Acceptance.</p>
+                        </div></div>
+                        <div class="guide-step"><div class="guide-step-num">3</div><div>
+                            <h4 class="mt-0" th:text="#{page.orhunguide.s5.step3}">Accessing Course Contents</h4>
+                            <p th:text="#{page.orhunguide.s5.step3.text}">Course contents should be obtained from the host university's website. If this information is not available on the website, it should be requested from the counterpart institution by e-mail.</p>
+                        </div></div>
+                        <div class="guide-step"><div class="guide-step-num">4</div><div>
+                            <h4 class="mt-0" th:text="#{page.orhunguide.s5.step4}">Preparing the Learning Agreement</h4>
+                            <p th:text="#{page.orhunguide.s5.step4.text}">Using the up-to-date transcript and the course list obtained from the counterpart institution, the Learning Agreement should be prepared together with the institution's Orhun Department Coordinator.</p>
+                        </div></div>
+                        <div class="guide-step"><div class="guide-step-num">5</div><div>
+                            <h4 class="mt-0" th:text="#{page.orhunguide.s5.step5}">Learning/Teaching Agreement Signing Process</h4>
+                            <p th:text="#{page.orhunguide.s5.step5.text}">The prepared Learning/Teaching Agreement is signed by the Department Chair and the Department Coordinator; it is then sent by e-mail to the Exchange Programs Coordination Office for final signature and seal.</p>
+                        </div></div>
+                        <div class="guide-step"><div class="guide-step-num">6</div><div>
+                            <h4 class="mt-0" th:text="#{page.orhunguide.s5.step6}">Submission of Required Documents</h4>
+                            <p th:text="#{page.orhunguide.s5.step6.text}">Documents required for mobility, such as the Student Obligations Undertaking and the Flight Request Form, are uploaded to the Kion system.</p>
+                        </div></div>
+
+                        <div class="alert alert-info d-flex align-items-start gap-2 mt-4">
+                            <i class="bi bi-info-circle-fill mt-1"></i>
+                            <span th:text="#{page.orhunguide.s5.note3}">These six steps summarise the general process to be followed after selection for mobility; minor differences may occur depending on each member institution's own institutional system (e.g., Kion). For up-to-date information, it is recommended to contact the relevant institution's Exchange Programs Coordination Office.</span>
+                        </div>
+                    </article>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+</div>
+
+<th:block th:fragment="pageScripts">
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            new bootstrap.ScrollSpy(document.body, {
+                target: '#guideToc',
+                smoothScroll: true,
+                rootMargin: '0px 0px -70%'
+            });
+            var tocCollapse = document.getElementById('guideTocCollapse');
+            if (tocCollapse) {
+                tocCollapse.querySelectorAll('a.nav-link').forEach(function (a) {
+                    a.addEventListener('click', function () {
+                        if (window.getComputedStyle(document.querySelector('[data-bs-target="#guideTocCollapse"]')).display !== 'none') {
+                            bootstrap.Collapse.getOrCreateInstance(tocCollapse).hide();
+                        }
+                    });
+                });
+            }
+        });
+    </script>
+</th:block>
+</body>
+</html>

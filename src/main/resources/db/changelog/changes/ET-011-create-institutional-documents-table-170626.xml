@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="ET-011-create-institutional-documents-table-170626" author="tiu">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="institutional_documents"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="institutional_documents">
+            <column name="id" type="bigint unsigned" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="section" type="varchar(64)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="title" type="varchar(512)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="document_year" type="int">
+                <constraints nullable="true"/>
+            </column>
+            <column name="description" type="text">
+                <constraints nullable="true"/>
+            </column>
+            <column name="file_id" type="bigint unsigned">
+                <constraints nullable="false"/>
+            </column>
+            <column name="enabled" type="boolean" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+            <column name="author_id" type="bigint unsigned">
+                <constraints nullable="true"/>
+            </column>
+            <column name="updated_at" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+            <column name="created_at" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="institutional_documents"
+                                 baseColumnNames="file_id"
+                                 referencedTableName="files"
+                                 referencedColumnNames="id"
+                                 onDelete="RESTRICT"
+                                 onUpdate="CASCADE"
+                                 constraintName="fk_institutional_documents_file_id_files_id"/>
+
+        <addForeignKeyConstraint baseTableName="institutional_documents"
+                                 baseColumnNames="author_id"
+                                 referencedTableName="users"
+                                 referencedColumnNames="id"
+                                 onDelete="SET NULL"
+                                 onUpdate="CASCADE"
+                                 constraintName="fk_institutional_documents_author_id_users_id"/>
+    </changeSet>
+
+</databaseChangeLog>

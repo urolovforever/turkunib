@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="ET-005-create-pre-departure-resources-table-160626" author="tiu">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="pre_departure_resources"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="pre_departure_resources">
+            <column name="id" type="bigint unsigned" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="title" type="varchar(512)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="description" type="text">
+                <constraints nullable="true"/>
+            </column>
+
+            <column name="file_id" type="bigint unsigned">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="enabled" type="boolean" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="author_id" type="bigint unsigned">
+                <constraints nullable="true"/>
+            </column>
+
+            <column name="updated_at" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+
+            <column name="created_at" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="pre_departure_resources"
+                                 baseColumnNames="file_id"
+                                 referencedTableName="files"
+                                 referencedColumnNames="id"
+                                 onDelete="RESTRICT"
+                                 onUpdate="CASCADE"
+                                 constraintName="fk_pre_departure_file_id_files_id"/>
+
+        <addForeignKeyConstraint baseTableName="pre_departure_resources"
+                                 baseColumnNames="author_id"
+                                 referencedTableName="users"
+                                 referencedColumnNames="id"
+                                 onDelete="SET NULL"
+                                 onUpdate="CASCADE"
+                                 constraintName="fk_pre_departure_author_id_users_id"/>
+    </changeSet>
+
+</databaseChangeLog>

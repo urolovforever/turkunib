@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{web/fragments/layout :: layout (~{::content}, 'TURKUNIB :: Leadership', 'leadership', ~{})}">
+<head>
+    <meta charset="UTF-8">
+    <title>TIU TURKUNIB - Leadership</title>
+</head>
+<body>
+<div th:fragment="content">
+
+    <th:block th:replace="~{web/fragments/hero-banner :: hero-banner(${banners})}"></th:block>
+
+    <section class="py-5">
+        <div class="container">
+            <div class="row mb-5">
+                <div class="col">
+                    <h1 class="h2-bigger" th:text="#{page.leadership.title}">Leadership</h1>
+                    <p class="text-muted" th:text="#{page.leadership.intro}">The General Coordinator and member university representatives of the Turkic Universities Union.</p>
+                </div>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-4" th:each="m : ${members}">
+                    <div class="card border-1 shadow-sm h-100 text-center">
+                        <div class="card-body">
+                            <img th:if="${m.photo != null}"
+                                 th:src="@{|/uploads${m.photo.imagePath}${m.photo.imageFileName}|}"
+                                 th:alt="${m.fullName}"
+                                 class="rounded-circle mb-3 shadow-sm"
+                                 style="width:120px;height:120px;object-fit:cover;">
+                            <div th:unless="${m.photo != null}"
+                                 class="rounded-circle mb-3 mx-auto bg-light d-flex align-items-center justify-content-center"
+                                 style="width:120px;height:120px;">
+                                <i class="bi bi-person text-muted" style="font-size:3rem;"></i>
+                            </div>
+                            <h2 class="h5 mb-1" th:text="${m.fullName}">Full name</h2>
+                            <p class="text-brand fw-semibold mb-1" th:if="${m.position}" th:text="${m.position}">Position</p>
+                            <p class="text-muted small mb-2" th:if="${m.organization}" th:text="${m.organization}">Organization</p>
+                            <p class="small text-muted mb-0" th:if="${m.bio}" th:text="${m.bio}"></p>
+                        </div>
+                    </div>
+                </div>
+                <div th:if="${members == null or members.isEmpty()}" class="col-12">
+                    <div class="text-center text-muted py-5">
+                        <i class="bi bi-people fs-1 d-block mb-3"></i>
+                        <span th:text="#{page.leadership.empty}">Leadership information will be published soon.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</div>
+
+</body>
+</html>

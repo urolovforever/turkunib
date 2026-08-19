@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Pagination</title>
+</head>
+<body>
+
+<div th:fragment="pagination-web(page, baseUrl)">
+
+    <nav th:if="${page.totalPages > 1}" aria-label="Pagination" class="pagination-brand shadow-sm mt-3">
+        <ul class="pagination">
+
+            <!-- Prev -->
+            <li class="page-item" th:classappend="${page.first} ? 'disabled'">
+                <a class="page-link" th:if="${!page.first}"
+                   th:href="@{${baseUrl}(page=${page.number - 1}, size=${page.size})}" th:text="#{common.prev}">« Prev</a>
+                <span class="page-link" th:if="${page.first}" th:text="#{common.prev}">« Prev</span>
+            </li>
+
+            <!-- Номера -->
+            <li class="page-item"
+                th:each="i : ${#numbers.sequence(0, page.totalPages - 1)}"
+                th:classappend="${i == page.number} ? 'active'">
+                <a class="page-link" th:if="${i != page.number}" th:text="${i + 1}"
+                   th:href="@{${baseUrl}(page=${i}, size=${page.size})}">1</a>
+                <span class="page-link" th:if="${i == page.number}" th:text="${i + 1}">1</span>
+            </li>
+
+            <!-- Next -->
+            <li class="page-item" th:classappend="${page.last} ? 'disabled'">
+                <a class="page-link" th:if="${!page.last}"
+                   th:href="@{${baseUrl}(page=${page.number + 1}, size=${page.size})}" th:text="#{common.next}">Next »</a>
+                <span class="page-link" th:if="${page.last}" th:text="#{common.next}">Next »</span>
+            </li>
+
+        </ul>
+    </nav>
+</div>
+
+</body>
+</html>

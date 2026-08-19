@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{web/fragments/layout :: layout (~{::content}, 'TURKUNIB :: Scholarships', 'scholarships', ~{})}">
+<head>
+    <meta charset="UTF-8">
+    <title>TIU TURKUNIB - Scholarships</title>
+</head>
+<body>
+<div th:fragment="content">
+
+    <th:block th:replace="~{web/fragments/hero-banner :: hero-banner(${banners})}"></th:block>
+
+    <section class="py-5">
+        <div class="container">
+            <div class="row mb-4">
+                <div class="col">
+                    <h1 class="h2-bigger" th:text="#{page.scholarship.title}">Scholarships</h1>
+                    <p class="text-muted" th:text="#{page.scholarship.intro}">Financial support opportunities for students within the Turkic Universities Union.</p>
+                </div>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-lg-6" th:each="s : ${scholarships}">
+                    <div class="card border-1 shadow-sm h-100">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <h2 class="h5 mb-0" th:text="${s.title}">Scholarship</h2>
+                                <span class="badge bg-warning text-dark" th:if="${s.deadline != null}">
+                                    <i class="bi bi-clock me-1"></i><span th:text="${#temporals.format(s.deadline, 'dd MMM yyyy')}">deadline</span>
+                                </span>
+                            </div>
+                            <p class="text-muted small mb-2" th:if="${s.provider}">
+                                <i class="bi bi-building me-1"></i><span th:text="${s.provider}">Provider</span>
+                            </p>
+                            <p th:if="${s.description}" th:text="${s.description}"></p>
+                            <p class="mb-1" th:if="${s.amount}">
+                                <strong><span th:text="#{page.scholarship.value}">Value</span>:</strong> <span th:text="${s.amount}">amount</span>
+                            </p>
+                            <p class="mb-1" th:if="${s.coverage}">
+                                <strong><span th:text="#{page.scholarship.coverage}">Coverage</span>:</strong> <span th:text="${s.coverage}">coverage</span>
+                            </p>
+                            <p class="mb-3" th:if="${s.eligibility}">
+                                <strong><span th:text="#{page.scholarship.eligibility}">Eligibility</span>:</strong> <span th:text="${s.eligibility}">eligibility</span>
+                            </p>
+                            <div class="d-flex gap-2 flex-wrap">
+                                <a th:href="@{/{lang}/scholarships/{id}(lang=${lang},id=${s.id})}"
+                                   class="btn btn-sm btn-outline-brand" th:text="#{common.view-details}">View details</a>
+                                <a th:if="${s.deadline == null or !s.deadline.isBefore(T(java.time.LocalDate).now())}"
+                                   th:href="@{/{lang}/application/form(lang=${lang},scholarship=${s.id})}" class="btn btn-sm btn-outline-brand" th:text="#{page.scholarship.apply}">Apply</a>
+                                <span th:if="${s.deadline != null and s.deadline.isBefore(T(java.time.LocalDate).now())}"
+                                      class="btn btn-sm btn-outline-secondary disabled" th:text="#{page.apply.closed.short}">Applications closed</span>
+                                <a th:if="${s.document != null}"
+                                   th:href="@{|/uploads${s.document.filePath}${s.document.fileFileName}|}"
+                                   target="_blank" class="btn btn-sm btn-outline-secondary">
+                                    <i class="bi bi-download me-1"></i> <span th:text="#{common.pdf}">PDF</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div th:if="${scholarships == null or scholarships.isEmpty()}" class="col-12">
+                    <div class="text-center text-muted py-5">
+                        <i class="bi bi-mortarboard fs-1 d-block mb-3"></i>
+                        <span th:text="#{page.scholarship.empty}">Scholarship opportunities will be published here soon.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="ET-027-create-user-tokens-table-140726" author="tiu">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="user_tokens"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="user_tokens">
+            <column name="id" type="bigint unsigned" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="user_id" type="bigint unsigned">
+                <constraints nullable="false"/>
+            </column>
+            <column name="token_hash" type="varchar(64)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="purpose" type="varchar(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="expires_at" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="used_at" type="datetime">
+                <constraints nullable="true"/>
+            </column>
+            <column name="created_at" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="user_tokens"
+                                 baseColumnNames="user_id"
+                                 referencedTableName="users"
+                                 referencedColumnNames="id"
+                                 onDelete="CASCADE"
+                                 onUpdate="CASCADE"
+                                 constraintName="fk_user_tokens_user"/>
+
+        <addUniqueConstraint tableName="user_tokens"
+                             columnNames="token_hash"
+                             constraintName="uk_user_tokens_token_hash"/>
+
+        <createIndex tableName="user_tokens" indexName="idx_user_tokens_user_purpose">
+            <column name="user_id"/>
+            <column name="purpose"/>
+        </createIndex>
+    </changeSet>
+</databaseChangeLog>

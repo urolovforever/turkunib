@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{admin/fragments/layout :: layout (~{::content}, 'TIU TURKUNIB :: News List', 'news', ~{})}">
+<head>
+    <meta charset="UTF-8">
+    <title>TIU TURKUNIB - News List</title>
+</head>
+<body>
+<div th:fragment="content">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h3 text-gray-800 mb-0">News List</h1>
+        <div class="btn-group">
+            <a th:href="@{/admin/news/category/create}" class="btn btn-primary btn-sm border-primary shadow-sm mr-2"><i class="fas fa-plus"></i> Create Category</a>
+            <a th:href="@{/admin/news/create}" class="btn btn-primary btn-sm border-primary shadow-sm mr-2"><i class="fas fa-plus"></i> Create News</a>
+            <a th:href="@{/admin/translation-tasks/show/news}" class="btn btn-info btn-sm border-info shadow-sm"><i class="fas fa-language"></i> Translation logs</a>
+        </div>
+    </div>
+
+    <th:block th:replace="~{admin/fragments/message :: message(${error}, ${success})}"></th:block>
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Manage News</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover table-bordered table-sm align-middle mb-0">
+                    <thead class="bg-light">
+                    <tr>
+                        <th class="font-weight-bold" style="min-width: 320px;">Post Title</th>
+                        <th class="font-weight-bold" style="min-width: 120px;">Category</th>
+                        <th class="font-weight-bold" style="min-width: 120px;">Status</th>
+                        <th class="font-weight-bold" style="min-width: 120px;">Updated</th>
+                        <th class="font-weight-bold text-center" style="min-width: 120px;">Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="item : ${page.content}">
+                        <td>
+                            <a th:href="@{/admin/news/show/{id}(id=${item.id})}"
+                               th:text="${#strings.abbreviate(item.translations['EN']?.title, 65)}" class="text-dark"></a>
+                        </td>
+                        <td>
+                            <span th:text="${item.category != null ? item.category.translations['EN']?.title : 'Uncategorized'}"></span>
+                        </td>
+                        <td>
+                            <span th:if="${item.enabled}" class="badge badge-success">Published</span>
+                            <span th:if="${!item.enabled}" class="badge badge-secondary">Not published</span>
+                        </td>
+                        <td th:text="${#temporals.format(item.updatedAt, 'yyyy-MM-dd HH:mm')}"></td>
+                        <td class="text-center">
+                            <a th:href="@{/admin/news/show/{id}(id=${item.id})}" class="btn btn-link p-0 mx-1" title="View"><i class="fas fa-eye text-info"></i></a>
+                            <a th:href="@{'/admin/news/edit/' + ${item.id}}" class="btn btn-link p-0 mx-1" title="Edit"><i class="fas fa-edit text-primary"></i></a>
+                            <form th:action="@{/admin/news/delete/{id}(id=${item.id})}" method="post" class="d-inline" onsubmit="return confirm('Delete this news permanently?');">
+                                <input type="hidden" th:if="${_csrf != null}" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                                <input type="hidden" name="_method" value="delete"/>
+                                <button type="submit" class="btn btn-link p-0 mx-1" title="Delete"><i class="fas fa-trash text-danger"></i></button>
+                            </form>
+                        </td>
+                    </tr>
+                    <tr th:if="${#lists.isEmpty(page.content)}">
+                        <td colspan="4" class="text-center text-muted py-4">No news found.</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div th:replace="~{admin/fragments/pagination :: pagination(${page}, '/admin/news/')}"></div>
+
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="ET-031-scholarship-note-period-150726" author="tiu">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <columnExists tableName="scholarships" columnName="note"/>
+            </not>
+        </preConditions>
+
+        <addColumn tableName="scholarships">
+            <column name="note" type="text"><constraints nullable="true"/></column>
+            <column name="application_start" type="date"><constraints nullable="true"/></column>
+        </addColumn>
+
+        <addColumn tableName="scholarship_i18n">
+            <column name="note" type="text"><constraints nullable="true"/></column>
+        </addColumn>
+    </changeSet>
+</databaseChangeLog>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{admin/fragments/layout :: layout (~{::content}, 'TIU TURKUNIB :: Ai Translation Logs', '', ~{})}">
+<head>
+    <meta charset="UTF-8">
+    <title>TIU TURKUNIB - Ai Translation Logs</title>
+</head>
+<body>
+<div th:fragment="content">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h3 text-gray-800 mb-0" th:text="${humanReadableModuleName + ' - Ai Translation Logs'}"></h1>
+    </div>
+
+    <th:block th:replace="~{admin/fragments/message :: message(${error}, ${success})}"></th:block>
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">List of translation tasks</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <th:block th:replace="~{admin/fragments/translation-task-table :: translation-task-table(${page.content})}"></th:block>
+            </div>
+
+            <div th:replace="~{admin/fragments/pagination :: pagination(${page}, '/admin/translation-tasks/show/' + ${moduleName})}"></div>
+
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

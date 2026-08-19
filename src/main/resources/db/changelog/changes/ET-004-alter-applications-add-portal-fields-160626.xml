@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="ET-004-alter-applications-add-portal-fields-160626" author="tiu">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <columnExists tableName="applications" columnName="status"/>
+            </not>
+        </preConditions>
+
+        <addColumn tableName="applications">
+            <column name="status" type="varchar(100)" defaultValue="SUBMITTED">
+                <constraints nullable="false"/>
+            </column>
+            <column name="matched_university_id" type="bigint unsigned">
+                <constraints nullable="true"/>
+            </column>
+            <column name="acceptance_document_id" type="bigint unsigned">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+
+        <addForeignKeyConstraint baseTableName="applications"
+                                 baseColumnNames="matched_university_id"
+                                 referencedTableName="members"
+                                 referencedColumnNames="id"
+                                 onDelete="SET NULL"
+                                 onUpdate="CASCADE"
+                                 constraintName="fk_applications_matched_university_id_members_id"/>
+
+        <addForeignKeyConstraint baseTableName="applications"
+                                 baseColumnNames="acceptance_document_id"
+                                 referencedTableName="files"
+                                 referencedColumnNames="id"
+                                 onDelete="SET NULL"
+                                 onUpdate="CASCADE"
+                                 constraintName="fk_applications_acceptance_document_id_files_id"/>
+    </changeSet>
+
+</databaseChangeLog>

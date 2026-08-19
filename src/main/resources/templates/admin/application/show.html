@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{admin/fragments/layout :: layout (~{::content}, 'TIU TURKUNIB :: Show Application', 'application', ~{})}">
+<head>
+    <meta charset="UTF-8">
+    <title>TIU TURKUNIB - Show Application</title>
+</head>
+<body>
+<div th:fragment="content">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h3 text-gray-800 mb-0">
+            Application Details
+            <span class="badge badge-primary ml-2" th:text="${appEntity.applicantType != null ? appEntity.applicantType.name() : 'STUDENT'}">STUDENT</span>
+        </h1>
+    </div>
+
+    <th:block th:replace="~{admin/fragments/message :: message(${error}, ${success})}"></th:block>
+
+    <div class="row">
+        <div class="col-lg-7 mb-4">
+            <div class="card shadow h-100">
+                <div class="card-header py-3 d-flex align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Applicant Information</h6>
+                    <span class="small badge badge-info">ID: <span th:text="${appEntity.id}">—</span></span>
+                </div>
+                <div class="card-body">
+                    <ul class="list-unstyled show-info-list">
+                        <li class="border-bottom-dotted">
+                            <span class="badge badge-light-blue d-flex justify-content-between align-items-center">
+                                <span>Full name:</span>
+                                <span class="ml-3 text-truncate" th:text="${appEntity.fullName}"></span>
+                            </span>
+                        </li>
+                        <li class="border-bottom-dotted" th:if="${appEntity.studentId != null and !appEntity.studentId.isBlank()}">
+                            <span class="badge badge-light-blue d-flex justify-content-between align-items-center">
+                                <span>Student ID:</span>
+                                <span class="ml-3 text-truncate" th:text="${appEntity.studentId}"></span>
+                            </span>
+                        </li>
+                        <li class="border-bottom-dotted" th:if="${appEntity.position != null}">
+                            <span class="badge badge-light-blue d-flex justify-content-between align-items-center">
+                                <span>Position:</span>
+                                <span class="ml-3 text-truncate" th:text="${appEntity.position}"></span>
+                            </span>
+                        </li>
+                        <li class="border-bottom-dotted">
+                            <span class="badge badge-light-blue d-flex justify-content-between align-items-center">
+                                <span>Orhun round:</span>
+                                <span class="ml-3 text-truncate" th:text="${appEntity.scholarship != null ? appEntity.scholarship.title : '—'}"></span>
+                            </span>
+                        </li>
+                        <li class="border-bottom-dotted" th:if="${appEntity.semester != null}">
+                            <span class="badge badge-light-blue d-flex justify-content-between align-items-center">
+                                <span>Semester:</span>
+                                <span class="ml-3" th:text="${appEntity.semester.name()}"></span>
+                            </span>
+                        </li>
+                        <li class="border-bottom-dotted">
+                            <span class="badge badge-light-blue d-flex justify-content-between align-items-center">
+                                <span>Home university:</span>
+                                <span class="ml-3 text-truncate" th:text="${appEntity.homeUniversity != null ? appEntity.homeUniversity.name : appEntity.institution}"></span>
+                            </span>
+                        </li>
+                        <li class="border-bottom-dotted">
+                            <span class="badge badge-light-blue d-flex justify-content-between align-items-center">
+                                <span>Applying to (host):</span>
+                                <span class="ml-3 text-truncate" th:text="${appEntity.hostUniversity != null ? appEntity.hostUniversity.name : '—'}"></span>
+                            </span>
+                        </li>
+                        <li class="border-bottom-dotted">
+                            <span class="badge badge-light-blue d-flex justify-content-between align-items-center">
+                                <span>Department:</span>
+                                <span class="ml-3 text-truncate" th:text="${appEntity.department}"></span>
+                            </span>
+                        </li>
+                        <li class="border-bottom-dotted">
+                            <span class="badge badge-light-blue d-flex justify-content-between align-items-center">
+                                <span>Phone number:</span>
+                                <span class="ml-3 text-truncate" th:text="${appEntity.phoneNumber}"></span>
+                            </span>
+                        </li>
+                    </ul>
+
+                    <h6 class="font-weight-bold text-primary mt-4 mb-2">Documents</h6>
+                    <ul class="list-unstyled show-info-list mb-0">
+                        <li class="border-bottom-dotted">
+                            <span class="badge badge-light-blue d-flex justify-content-between align-items-center">
+                                <span>Transcript:</span>
+                                <span class="ml-3">
+                                    <a th:if="${appEntity.transcriptFile != null}"
+                                       th:href="@{|/uploads${appEntity.transcriptFile.filePath}${appEntity.transcriptFile.fileFileName}|}"
+                                       target="_blank"><i class="fas fa-download mr-1"></i><span th:text="${appEntity.transcriptFile.fileName}">download</span></a>
+                                    <span th:if="${appEntity.transcriptFile == null}" class="text-muted">—</span>
+                                </span>
+                            </span>
+                        </li>
+                        <li class="border-bottom-dotted">
+                            <span class="badge badge-light-blue d-flex justify-content-between align-items-center">
+                                <span>Language certificate:</span>
+                                <span class="ml-3">
+                                    <a th:if="${appEntity.languageCertFile != null}"
+                                       th:href="@{|/uploads${appEntity.languageCertFile.filePath}${appEntity.languageCertFile.fileFileName}|}"
+                                       target="_blank"><i class="fas fa-download mr-1"></i><span th:text="${appEntity.languageCertFile.fileName}">download</span></a>
+                                    <span th:if="${appEntity.languageCertFile == null}" class="text-muted">—</span>
+                                </span>
+                            </span>
+                        </li>
+                        <li class="border-bottom-dotted">
+                            <span class="badge badge-light-blue d-flex justify-content-between align-items-center">
+                                <span th:text="${appEntity.applicantType != null and appEntity.applicantType.name() == 'TEACHER'} ? 'Teacher information form:' : 'Student information form:'">Information form:</span>
+                                <span class="ml-3">
+                                    <a th:if="${appEntity.infoFormFile != null}"
+                                       th:href="@{|/uploads${appEntity.infoFormFile.filePath}${appEntity.infoFormFile.fileFileName}|}"
+                                       target="_blank"><i class="fas fa-download mr-1"></i><span th:text="${appEntity.infoFormFile.fileName}">download</span></a>
+                                    <span th:if="${appEntity.infoFormFile == null}" class="text-muted">—</span>
+                                </span>
+                            </span>
+                        </li>
+                        <li class="border-bottom-dotted" th:if="${appEntity.acceptanceDocument != null}">
+                            <span class="badge badge-light-blue d-flex justify-content-between align-items-center">
+                                <span>Acceptance document:</span>
+                                <span class="ml-3">
+                                    <a th:href="@{|/uploads${appEntity.acceptanceDocument.filePath}${appEntity.acceptanceDocument.fileFileName}|}"
+                                       target="_blank"><i class="fas fa-download mr-1"></i>download</a>
+                                </span>
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-5 mb-4">
+            <div class="card shadow h-100">
+                <div class="card-header py-3 d-flex align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Meta information</h6>
+                </div>
+                <div class="card-body">
+                    <ul class="list-unstyled show-info-list">
+                        <li class="border-bottom-dotted">
+                            <span class="badge badge-light-blue d-flex justify-content-between align-items-center">
+                                <span>Status:</span>
+                                <span><th:block th:insert="~{admin/application/index :: statusBadge(${appEntity.status})}"></th:block></span>
+                            </span>
+                        </li>
+                        <li class="border-bottom-dotted">
+                            <span class="badge badge-light-blue d-flex justify-content-between align-items-center">
+                                <span>Created:</span>
+                                <span th:text="${#temporals.format(appEntity.createdAt, 'dd MMM yyyy HH:mm')}"></span>
+                            </span>
+                        </li>
+                        <li class="border-bottom-dotted">
+                            <span class="badge badge-light-blue d-flex justify-content-between align-items-center">
+                                <span>Updated:</span>
+                                <span th:text="${#temporals.format(appEntity.updatedAt, 'dd MMM yyyy HH:mm')}"></span>
+                            </span>
+                        </li>
+                        <li class="border-bottom-dotted" th:if="${appEntity.author != null}">
+                            <span class="badge badge-light-blue d-flex justify-content-between align-items-center">
+                                <span>Portal account:</span>
+                                <span class="ml-3 text-truncate" th:text="${appEntity.author.email}"></span>
+                            </span>
+                        </li>
+                    </ul>
+
+                    <div class="mt-3 small text-muted">
+                        <p class="mb-1"><strong>Workflow:</strong></p>
+                        <p class="mb-0">1. Home university reviews the application (approve → forwarded to host, or reject).<br>
+                           2. Host university makes the final decision (accept / reject).</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Home university stage -->
+    <div class="card shadow mb-4" th:if="${canHomeReview}">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Home University Review</h6>
+        </div>
+        <div class="card-body">
+            <p class="text-muted">Approve to forward this application to
+                <strong th:text="${appEntity.hostUniversity != null ? appEntity.hostUniversity.name : 'the host university'}">host</strong>,
+                or reject it.</p>
+            <form method="post" th:action="@{|/admin/application/decide/${appEntity.id}|}" class="d-inline">
+                <input type="hidden" name="decision" value="HOME_APPROVE">
+                <button type="submit" class="btn btn-success shadow-sm">
+                    <i class="fas fa-check mr-1"></i> Approve &amp; forward to host university
+                </button>
+            </form>
+            <form method="post" th:action="@{|/admin/application/decide/${appEntity.id}|}" class="d-inline ml-2"
+                  onsubmit="return confirm('Reject this application?');">
+                <input type="hidden" name="decision" value="HOME_REJECT">
+                <button type="submit" class="btn btn-danger shadow-sm">
+                    <i class="fas fa-times mr-1"></i> Reject
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Host university stage -->
+    <div class="card shadow mb-4" th:if="${canHostDecide}">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Host University Decision</h6>
+        </div>
+        <div class="card-body">
+            <p class="text-muted">This application was approved by
+                <strong th:text="${appEntity.homeUniversity != null ? appEntity.homeUniversity.name : 'the home university'}">home</strong>.
+                Make the final decision.</p>
+            <form method="post" th:action="@{|/admin/application/decide/${appEntity.id}|}" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="acceptanceFile">Acceptance document (optional, PDF)</label>
+                    <input type="file" class="form-control-file" id="acceptanceFile" name="acceptanceFile" accept="application/pdf">
+                    <small class="form-text text-muted">Attach when accepting. The applicant can download it from their dashboard.</small>
+                </div>
+                <input type="hidden" name="decision" value="ACCEPT">
+                <button type="submit" class="btn btn-success shadow-sm">
+                    <i class="fas fa-check mr-1"></i> Accept
+                </button>
+            </form>
+            <form method="post" th:action="@{|/admin/application/decide/${appEntity.id}|}" class="mt-2"
+                  onsubmit="return confirm('Reject this application?');">
+                <input type="hidden" name="decision" value="REJECT">
+                <button type="submit" class="btn btn-danger shadow-sm">
+                    <i class="fas fa-times mr-1"></i> Reject
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Legacy management form: site admins only -->
+    <div class="card shadow mb-4" th:if="${isFullAdmin}">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Manage Application (site admin)</h6>
+        </div>
+        <div class="card-body">
+            <div class="mb-3" th:if="${appEntity.scholarship != null}">
+                <span class="badge badge-primary p-2">
+                    <i class="fas fa-graduation-cap mr-1"></i>
+                    Scholarship application: <strong th:text="${appEntity.scholarship.title}">Scholarship</strong>
+                </span>
+            </div>
+
+            <form method="post" th:action="@{|/admin/application/manage/${appEntity.id}|}" enctype="multipart/form-data">
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label for="status">Status</label>
+                        <select class="form-control" id="status" name="status">
+                            <option th:each="st : ${statuses}" th:value="${st.name()}" th:text="${st.name()}"
+                                    th:selected="${st == appEntity.status}"></option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="matchedUniversityId">Matched university (legacy)</label>
+                        <select class="form-control" id="matchedUniversityId" name="matchedUniversityId">
+                            <option value="0">— none —</option>
+                            <option th:each="m : ${members}" th:value="${m.id}" th:text="${m.name}"
+                                    th:selected="${appEntity.matchedUniversity != null and m.id == appEntity.matchedUniversity.id}"></option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="file">Acceptance document (PDF)</label>
+                        <input type="file" class="form-control-file" id="file" name="file" accept="application/pdf">
+                        <small class="form-text text-muted">Leave empty to keep current.</small>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary shadow-sm">Save changes</button>
+            </form>
+        </div>
+    </div>
+
+    <a th:href="@{/admin/application/}" class="btn btn-outline-secondary border-secondary shadow-sm">Back to list</a>
+
+</div>
+
+</body>
+</html>

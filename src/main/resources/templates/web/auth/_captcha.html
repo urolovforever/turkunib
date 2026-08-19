@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<body>
+<!-- Image CAPTCHA field: include with th:replace="~{web/auth/_captcha :: captcha}" -->
+<div th:fragment="captcha" class="mb-3">
+    <label for="captchaAnswer" class="form-label" th:text="#{auth.captcha.label}">Confirm you are not a robot</label>
+    <div class="d-flex align-items-center gap-3 mb-2">
+        <img id="captchaImg" th:src="@{/captcha/image}" src="/captcha/image" alt="CAPTCHA" width="170" height="56"
+             style="border:1px solid #dee2e6;border-radius:8px;flex-shrink:0;">
+        <a href="#" id="captchaReload" class="auth-link text-decoration-none small text-nowrap">
+            <i class="bi bi-arrow-clockwise"></i> <span th:text="#{auth.captcha.refresh}">Refresh</span>
+        </a>
+    </div>
+    <input type="text" class="form-control" id="captchaAnswer" name="captchaAnswer"
+           th:placeholder="#{auth.captcha.placeholder}" placeholder="Enter the characters shown"
+           autocomplete="off" autocapitalize="characters" spellcheck="false" required maxlength="10">
+    <script>
+        (function () {
+            var btn = document.getElementById('captchaReload');
+            var img = document.getElementById('captchaImg');
+            if (!btn || !img) return;
+            var base = img.getAttribute('src').split('?')[0];
+            btn.addEventListener('click', function (e) {
+                e.preventDefault();
+                img.src = base + '?t=' + Date.now();
+                var input = document.getElementById('captchaAnswer');
+                if (input) { input.value = ''; input.focus(); }
+            });
+        })();
+    </script>
+</div>
+</body>
+</html>

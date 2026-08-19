@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Stats Overview</title>
+</head>
+<body>
+<th:block th:fragment="stats-overview()">
+    <section class="bg-light stats-section">
+        <div class="container">
+            <div class="row text-center g-4">
+                <div class="col-md-3">
+                    <div class="stat">170+</div>
+                    <div class="text-muted stat-description mt-3" th:text="#{main.stats.members}">Member Universities</div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat">7</div>
+                    <div class="text-muted stat-description mt-3" th:text="#{main.stats.countries}">Turkic Countries</div>
+                </div>
+                <div class="col-md-3 ">
+                    <div class="stat">1000+</div>
+                    <div class="text-muted stat-description mt-3" th:text="#{main.stats.students}">Exchange Students</div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat">250+</div>
+                    <div class="text-muted stat-description mt-3" th:text="#{main.stats.collaborations}">Research Collaborations</div>
+                </div>
+            </div>
+        </div>
+    </section>
+</th:block>
+</body>
+</html>

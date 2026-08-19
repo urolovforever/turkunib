@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{admin/fragments/layout :: layout (~{::content}, 'TIU TURKUNIB :: Document Languages', 'institutional-docs', ~{})}">
+<head>
+    <meta charset="UTF-8">
+    <title>TIU TURKUNIB - Document Languages</title>
+</head>
+<body>
+<div th:fragment="content">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h3 text-gray-800 mb-0">Languages — <span th:text="${document.title}">Document</span></h1>
+        <div>
+            <a th:href="@{|/admin/institutional-documents/edit/${documentId}|}" class="btn btn-outline-primary shadow-sm">Edit (English)</a>
+            <a th:href="@{/admin/institutional-documents/}" class="btn btn-outline-secondary border-secondary shadow-sm">Back to list</a>
+        </div>
+    </div>
+
+    <th:block th:replace="~{admin/fragments/message :: message(${error}, ${success})}"></th:block>
+
+    <div class="card shadow">
+        <div class="card-body">
+            <p class="text-muted">The <strong>EN</strong> tab shows the English base content (edit it in the main Edit form). Fill the other
+                languages here; any field left empty falls back to English on the public site.</p>
+
+            <form method="post" th:action="@{|/admin/institutional-documents/translations/${documentId}|}" th:object="${form}">
+                <th:block th:replace="~{admin/fragments/language-tab :: language-tabs}"></th:block>
+
+                <div class="tab-content" id="nav-tabContent">
+                    <div class="tab-pane fade" th:classappend="${loc.name() == 'EN'} ? 'show active' : ''"
+                         th:each="loc : ${T(com.tiu.turk.common.enums.TranslationLocale).values()}"
+                         th:id="'lang-' + ${loc.code}" role="tabpanel">
+
+                        <div class="form-group">
+                            <label>Title</label>
+                            <input type="text" class="form-control"
+                                   th:field="*{translations[__${loc.name()}__].title}" th:readonly="${loc.name() == 'EN'}">
+                        </div>
+                        <div class="form-group">
+                            <label>Description</label>
+                            <textarea class="form-control" rows="3"
+                                      th:field="*{translations[__${loc.name()}__].description}" th:readonly="${loc.name() == 'EN'}"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary shadow-sm">Save translations</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

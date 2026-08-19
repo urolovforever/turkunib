@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{web/fragments/layout :: layout (~{::content}, 'TIU TURKUNIB :: About Us', 'staticpage', ~{::pageScripts})}">
+<head>
+    <meta charset="UTF-8">
+    <title>TIU TURKUNIB - About Us</title>
+</head>
+<body>
+<div th:fragment="content">
+
+    <th:block th:replace="~{web/fragments/hero-banner :: hero-banner(${banners})}"></th:block>
+
+    <!-- Intro -->
+    <section class="py-5 ">
+        <div class="container">
+            <div class="row align-items-center g-5">
+                <div class="col-lg-7">
+                    <h1 class="h2-bigger mb-3" th:text="#{template.menu.top.about-us}">About Us</h1>
+                    <p class="lead text-muted mb-3" th:text="#{page.about.intro.p1}">
+                        Establishing the Turkic Universities Union (TURKUNIB) in order to give institutional structure to
+                        cooperation in the field of higher education among the member states of the Organization of Turkic
+                        States (OTS) has been one of the priority agenda items since the founding of the Organization.
+                    </p>
+                    <p class="text-muted mb-3" th:text="#{page.about.intro.p2}">
+                        Today, TURKUNIB has grown into a wide-ranging program encompassing 170 universities.
+                    </p>
+                    <p class="text-muted mb-4" th:text="#{page.about.intro.p3}">
+                        The Orhun Student and Academic Staff Exchange Program is also carried out under the framework of TURKUNIB.
+                    </p>
+                    <div class="d-flex gap-3">
+                        <a th:href="@{/{lang}/members/(lang=${lang})}" class="memberCountryLink btn btn-outline-brand shadow-sm">
+                            <i class="bi bi-people me-2"></i> <span th:text="#{page.about.members}">Our Members</span>
+                        </a>
+                        <a href="#history" class="memberCountryLink btn btn-outline-brand shadow-sm">
+                            <i class="bi bi-clock-history me-2"></i> <span th:text="#{page.about.history}">Our History</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-5 d-flex justify-content-center">
+                    <img th:src="@{/resources/web/img/about/turkunib-program-logo.png}" alt="TURKUNIB" class="w-50">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mission & Vision -->
+    <section id="mission-vision" class="py-5 bg-light information-section">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <div class="card card-cta h-100 shadow-sm">
+                        <div class="card-body p-4">
+                            <h3 class="mb-3"><i class="bi bi-bullseye me-2"></i> <span th:text="#{page.about.mission.title}">Mission</span></h3>
+                            <p class="mb-0" th:text="#{page.about.mission.text}">
+                                To advance higher education in the Turkic world by promoting excellence in teaching and research,
+                                enabling credit transfer and academic mobility, and strengthening cultural ties through cooperative programs.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body p-4">
+                            <h3 class="mb-3"><i class="bi bi-eye me-2"></i> <span th:text="#{page.about.vision.title}">Vision</span></h3>
+                            <p class="mb-0" th:text="#{page.about.vision.text}">
+                                A vibrant, integrated academic space where students and scholars seamlessly collaborate across borders,
+                                driving impactful research and nurturing the next generation of leaders for the Turkic world.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Key Goals -->
+    <section id="goals" class="py-5 information-section">
+        <div class="container">
+            <div class="row mb-4">
+                <div class="col">
+                    <h2 class="h2-bigger" th:text="#{page.about.goals.title}">Our Goals</h2>
+                    <p class="text-muted" th:text="#{page.about.goals.subtitle}">We focus on practical collaboration that benefits students, faculty, and institutions.</p>
+                </div>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100 card-cta">
+                        <div class="card-body">
+                            <h5 class="mb-2"><i class="bi bi-arrow-left-right me-2"></i> <span th:text="#{page.about.goal.mobility.title}">Academic Mobility</span></h5>
+                            <p class="mb-0" th:text="#{page.about.goal.mobility.text}">Student and staff exchange programs; mutual recognition of credits and diplomas.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100 card-cta">
+                        <div class="card-body">
+                            <h5 class="mb-2"><i class="bi bi-journal-check me-2"></i> <span th:text="#{page.about.goal.standards.title}">Common Standards</span></h5>
+                            <p class="mb-0" th:text="#{page.about.goal.standards.text}">Developing a shared credit transfer and quality assurance framework.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100 card-cta">
+                        <div class="card-body">
+                            <h5 class="mb-2"><i class="bi bi-flower3 me-2"></i> <span th:text="#{page.about.goal.culture.title}">Cultural Integration</span></h5>
+                            <p class="mb-0" th:text="#{page.about.goal.culture.text}">Programs that celebrate common history, culture, and languages.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100 card-cta">
+                        <div class="card-body">
+                            <h5 class="mb-2"><i class="bi bi-mortarboard me-2"></i> <span th:text="#{page.about.goal.faculty.title}">Faculty Development</span></h5>
+                            <p class="mb-0" th:text="#{page.about.goal.faculty.text}">Joint training, workshops, and collaborative teaching initiatives.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100 card-cta">
+                        <div class="card-body">
+                            <h5 class="mb-2"><i class="bi bi-trophy me-2"></i> <span th:text="#{page.about.goal.competitions.title}">Competitions &amp; Symposia</span></h5>
+                            <p class="mb-0" th:text="#{page.about.goal.competitions.text}">Academic competitions, symposia, and cultural events among members.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100 card-cta">
+                        <div class="card-body">
+                            <h5 class="mb-2"><i class="bi bi-cash-coin me-2"></i> <span th:text="#{page.about.goal.scholarships.title}">Scholarships</span></h5>
+                            <p class="mb-0" th:text="#{page.about.goal.scholarships.text}">Support for students and researchers focusing on the Turkic world.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- History -->
+    <section id="history" class="py-5 bg-light">
+        <div class="container">
+            <div class="row mb-4">
+                <div class="col">
+                    <h2 class="h2-bigger" th:text="#{page.about.history.title}">Our History</h2>
+                    <p class="text-muted" th:text="#{page.about.history.subtitle}">Milestones that shaped the Turkic Universities Union.</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-10">
+                    <ul class="timeline list-unstyled">
+                        <li class="mb-4">
+                            <h5 class="mb-1">10 August 2012 — Cholpon-Ata</h5>
+                            <p class="mb-0" th:text="#{page.about.history.item1}">Initial discussions at the Meeting of Ministers of Education laid the groundwork for cooperation.</p>
+                        </li>
+                        <li class="mb-4">
+                            <h5 class="mb-1">22–23 August 2012 — Bishkek</h5>
+                            <p class="mb-0" th:text="#{page.about.history.item2}">Decisions adopted at the Second Summit of the Cooperation Council of Turkic Speaking States.</p>
+                        </li>
+                        <li class="mb-4">
+                            <h5 class="mb-1">28–29 March 2013 — Istanbul</h5>
+                            <p class="mb-0" th:text="#{page.about.history.item3}">Directive adopted to establish a Higher Education Area among member universities of the Union.</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats -->
+    <th:block th:replace="~{web/fragments/stats-overview :: stats-overview()}"></th:block>
+
+    <!-- Testimonials -->
+    <th:block th:replace="~{web/fragments/student-testimonials :: student-testimonials('')}"></th:block>
+
+</div>
+
+<!-- Page level scripts -->
+<th:block th:fragment="pageScripts">
+    <script>
+        // Optional: simple in-page smooth scroll for the history anchor
+        document.querySelectorAll('a[href^="#"]').forEach(a => {
+            a.addEventListener('click', (e) => {
+                const id = a.getAttribute('href');
+                if (id && id.length > 1) {
+                    const el = document.querySelector(id);
+                    if (el) {
+                        e.preventDefault();
+                        el.scrollIntoView({behavior: 'smooth', block: 'start'});
+                    }
+                }
+            });
+        });
+    </script>
+</th:block>
+
+</body>
+</html>

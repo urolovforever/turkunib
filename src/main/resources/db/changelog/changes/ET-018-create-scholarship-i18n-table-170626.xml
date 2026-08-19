@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="ET-018-create-scholarship-i18n-table-170626" author="tiu">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="scholarship_i18n"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="scholarship_i18n">
+            <column name="id" type="bigint unsigned" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="scholarship_id" type="bigint unsigned">
+                <constraints nullable="false"/>
+            </column>
+            <column name="locale" type="varchar(10)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="title" type="varchar(512)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="provider" type="varchar(512)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="description" type="text">
+                <constraints nullable="true"/>
+            </column>
+            <column name="content" type="text">
+                <constraints nullable="true"/>
+            </column>
+            <column name="coverage" type="text">
+                <constraints nullable="true"/>
+            </column>
+            <column name="eligibility" type="text">
+                <constraints nullable="true"/>
+            </column>
+            <column name="amount" type="varchar(512)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="updated_at" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+            <column name="created_at" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="scholarship_i18n"
+                                 baseColumnNames="scholarship_id"
+                                 referencedTableName="scholarships"
+                                 referencedColumnNames="id"
+                                 onDelete="CASCADE"
+                                 onUpdate="CASCADE"
+                                 constraintName="fk_scholarship_i18n_scholarship"/>
+
+        <addUniqueConstraint tableName="scholarship_i18n"
+                             columnNames="scholarship_id,locale"
+                             constraintName="uk_scholarship_i18n_scholarship_locale"/>
+
+        <createIndex tableName="scholarship_i18n" indexName="idx_scholarship_i18n_locale">
+            <column name="locale"/>
+        </createIndex>
+    </changeSet>
+</databaseChangeLog>

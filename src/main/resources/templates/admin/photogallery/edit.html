@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{admin/fragments/layout :: layout (~{::content}, 'TIU TURKUNIB :: Update Photo Gallery', 'photo-gallery', ~{::pageScripts})}">
+<head>
+    <meta charset="UTF-8">
+    <title>TIU TURKUNIB - Update Photo Gallery</title>
+</head>
+<body>
+<div th:fragment="content">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h3 text-gray-800 mb-0">Update Photo Gallery</h1>
+        <div class="btn-group">
+            <a th:href="@{'/admin/photo-gallery/translate/' + ${gallery.id}}"
+               class="btn btn-warning btn-sm border-warning text-black-100 font-weight-bold shadow-sm mr-2">
+                <i class="fas fa-language pr-2"></i>Translate with AI
+            </a>
+        </div>
+    </div>
+
+    <th:block th:replace="~{admin/fragments/message :: message(${error}, ${success})}"></th:block>
+
+    <form th:object="${gallery}" th:action="@{/admin/photo-gallery/update}" method="post" enctype="multipart/form-data">
+
+        <input th:field="*{id}" type="hidden" id="id" name="id"/>
+
+        <div class="card shadow mb-4">
+            <div class="card-header py-3 d-flex align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">Form to Photo Gallery</h6>
+                <span class="small badge badge-info">ID: <span th:text="${gallery.id}">—</span></span>
+            </div>
+
+            <div class="card-body">
+
+                <th:block th:replace="~{admin/fragments/language-tab :: language-tabs}"></th:block>
+
+                <div class="tab-content" id="nav-tabContent">
+                    <div class="tab-pane fade show active" id="lang-en" role="tabpanel" aria-labelledby="lang-en-tab">
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="titleEn">Title <span class="text-danger">*</span></label>
+                                <input id="titleEn" th:field="*{translations['EN']?.title}" type="text" class="form-control" aria-describedby="titleHelpEn">
+                                <small id="titleHelpEn" class="form-text text-muted">
+                                    Main public name of the photo gallery.
+                                </small>
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label for="slugEn">Slug</label>
+                                <input id="slugEn" th:field="*{translations['EN']?.slug}" type="text" class="form-control" aria-describedby="slugHelpEn" readonly>
+                                <small id="slugHelpEn" class="form-text text-muted">
+                                    URL-friendly slug. Auto-filled from Title.
+                                </small>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="descriptionInputEn" class="text-dark">Description</label>
+                            <textarea th:field="*{translations['EN']?.description}" type="text" class="form-control col-6" id="descriptionInputEn" aria-describedby="descriptionHelpEn"></textarea>
+                            <small id="descriptionHelpEn" class="form-text text-muted">
+                                A brief summary or explanation of the photo gallery's purpose.
+                            </small>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="lang-kg" role="tabpanel" aria-labelledby="lang-kg-tab">
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="titleKg">Title <span class="text-danger">*</span></label>
+                                <input id="titleKg" th:field="*{translations['KG']?.title}" type="text" class="form-control" aria-describedby="titleHelpKg">
+                                <small id="titleHelpKg" class="form-text text-muted">
+                                    Main public name of the photo gallery.
+                                </small>
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label for="slugKg">Slug</label>
+                                <input id="slugKg" th:field="*{translations['KG']?.slug}" type="text" class="form-control" aria-describedby="slugHelpKg" readonly>
+                                <small id="slugHelpKg" class="form-text text-muted">
+                                    URL-friendly slug. Auto-filled from Title.
+                                </small>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="descriptionInputKg" class="text-dark">Description</label>
+                            <textarea th:field="*{translations['KG']?.description}" type="text" class="form-control col-6" id="descriptionInputKg" aria-describedby="descriptionHelpKg"></textarea>
+                            <small id="descriptionHelpKg" class="form-text text-muted">
+                                A brief summary or explanation of the photo gallery's purpose.
+                            </small>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="lang-kz" role="tabpanel" aria-labelledby="lang-kz-tab">
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="titleKz">Title <span class="text-danger">*</span></label>
+                                <input id="titleKz" th:field="*{translations['KZ']?.title}" type="text" class="form-control" aria-describedby="titleHelpKz">
+                                <small id="titleHelpKz" class="form-text text-muted">
+                                    Main public name of the photo gallery.
+                                </small>
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label for="slugKz">Slug</label>
+                                <input id="slugKz" th:field="*{translations['KZ']?.slug}" type="text" class="form-control" aria-describedby="slugHelpKz" readonly>
+                                <small id="slugHelpKz" class="form-text text-muted">
+                                    URL-friendly slug. Auto-filled from Title.
+                                </small>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="descriptionInputKz" class="text-dark">Description</label>
+                            <textarea th:field="*{translations['KZ']?.description}" type="text" class="form-control col-6" id="descriptionInputKz" aria-describedby="descriptionHelpKz"></textarea>
+                            <small id="descriptionHelpKz" class="form-text text-muted">
+                                A brief summary or explanation of the photo gallery's purpose.
+                            </small>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="lang-tr" role="tabpanel" aria-labelledby="lang-tr-tab">
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="titleTr">Title <span class="text-danger">*</span></label>
+                                <input id="titleTr" th:field="*{translations['TR']?.title}" type="text" class="form-control" aria-describedby="titleHelpTr">
+                                <small id="titleHelpTr" class="form-text text-muted">
+                                    Main public name of the photo gallery.
+                                </small>
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label for="slugTr">Slug</label>
+                                <input id="slugTr" th:field="*{translations['TR']?.slug}" type="text" class="form-control" aria-describedby="slugHelpTr" readonly>
+                                <small id="slugHelpTr" class="form-text text-muted">
+                                    URL-friendly slug. Auto-filled from Title.
+                                </small>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="descriptionInputTr" class="text-dark">Description</label>
+                            <textarea th:field="*{translations['TR']?.description}" type="text" class="form-control col-6" id="descriptionInputTr" aria-describedby="descriptionHelpTr"></textarea>
+                            <small id="descriptionHelpTr" class="form-text text-muted">
+                                A brief summary or explanation of the photo gallery's purpose.
+                            </small>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="lang-uz" role="tabpanel" aria-labelledby="lang-uz-tab">
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="titleUz">Title <span class="text-danger">*</span></label>
+                                <input id="titleUz" th:field="*{translations['UZ']?.title}" type="text" class="form-control" aria-describedby="titleHelpUz">
+                                <small id="titleHelpUz" class="form-text text-muted">
+                                    Main public name of the photo gallery.
+                                </small>
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label for="slugUz">Slug</label>
+                                <input id="slugUz" th:field="*{translations['UZ']?.slug}" type="text" class="form-control" aria-describedby="slugHelpUz" readonly>
+                                <small id="slugHelpUz" class="form-text text-muted">
+                                    URL-friendly slug. Auto-filled from Title.
+                                </small>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="descriptionInputUz" class="text-dark">Description</label>
+                            <textarea th:field="*{translations['UZ']?.description}" type="text" class="form-control col-6" id="descriptionInputUz" aria-describedby="descriptionHelpUz"></textarea>
+                            <small id="descriptionHelpUz" class="form-text text-muted">
+                                A brief summary or explanation of the photo gallery's purpose.
+                            </small>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="lang-hg" role="tabpanel" aria-labelledby="lang-hg-tab">
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="titleHg">Title <span class="text-danger">*</span></label>
+                                <input id="titleHg" th:field="*{translations['HG']?.title}" type="text" class="form-control" aria-describedby="titleHelpHg">
+                                <small id="titleHelpHg" class="form-text text-muted">
+                                    Main public name of the photo gallery.
+                                </small>
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label for="slugHg">Slug</label>
+                                <input id="slugHg" th:field="*{translations['HG']?.slug}" type="text" class="form-control" aria-describedby="slugHelpHg" readonly>
+                                <small id="slugHelpHg" class="form-text text-muted">
+                                    URL-friendly slug. Auto-filled from Title.
+                                </small>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="descriptionInputHg" class="text-dark">Description</label>
+                            <textarea th:field="*{translations['HG']?.description}" type="text" class="form-control col-6" id="descriptionInputHg" aria-describedby="descriptionHelpHg"></textarea>
+                            <small id="descriptionHelpHg" class="form-text text-muted">
+                                A brief summary or explanation of the photo gallery's purpose.
+                            </small>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="lang-az" role="tabpanel" aria-labelledby="lang-az-tab">
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="titleAz">Title <span class="text-danger">*</span></label>
+                                <input id="titleAz" th:field="*{translations['AZ']?.title}" type="text" class="form-control" aria-describedby="titleHelpAz">
+                                <small id="titleHelpAz" class="form-text text-muted">
+                                    Main public name of the photo gallery.
+                                </small>
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label for="slugAz">Slug</label>
+                                <input id="slugAz" th:field="*{translations['AZ']?.slug}" type="text" class="form-control" aria-describedby="slugHelpAz" readonly>
+                                <small id="slugHelpAz" class="form-text text-muted">
+                                    URL-friendly slug. Auto-filled from Title.
+                                </small>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="descriptionInputAz" class="text-dark">Description</label>
+                            <textarea th:field="*{translations['AZ']?.description}" type="text" class="form-control col-6" id="descriptionInputAz" aria-describedby="descriptionHelpAz"></textarea>
+                            <small id="descriptionHelpAz" class="form-text text-muted">
+                                A brief summary or explanation of the photo gallery's purpose.
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card shadow mb-4">
+            <div class="card-body">
+                <div class="form-group">
+                    <label for="previewImage">Cover image</label>
+                    <input type="file" class="form-control col-6" id="previewImage" name="file" aria-describedby="imageHelp" accept="image/*">
+                    <small id="imageHelp" class="form-text text-muted">
+                        Optional. Shows as cover of the Photo Gallery.
+                    </small>
+
+                    <th:block th:if="${gallery.previewImage}">
+                        <div class="mt-3 col-6" th:if="*{previewImage}">
+                            <div class="border rounded p-2">
+                                <img th:src="@{${gallery.previewImage.url}}" alt="Current image" class="img-fluid d-block" style="max-height:240px; object-fit:contain;">
+                            </div>
+                            <small class="text-muted d-block mt-1" th:text="*{previewImage.imageName}">current-image.png</small>
+                        </div>
+                    </th:block>
+                </div>
+
+                <div class="form-group">
+                    <label for="files">Images in this gallery</label>
+                    <input type="file" class="form-control col-6" id="files" name="files" aria-describedby="galleryImageHelp" accept="image/*" multiple>
+                    <small id="galleryImageHelp" class="form-text text-muted">You can select multiple images.</small>
+
+                    <div id="preview" class="d-flex flex-wrap"></div>
+
+                    <th:block th:if="${gallery.images}">
+                        <div class="row mt-3">
+                            <div class="col-6 col-md-4 col-lg-3 mb-4" th:if="*{images}" th:each="image : *{images}">
+                                <div class="border rounded p-2 d-block">
+                                    <img th:src="@{${image.url}}" alt="Current image" class="img-fluid d-block mx-auto" style="max-height:240px; object-fit:contain;">
+                                </div>
+                                <small class="text-muted d-block mt-1" th:text="${image.imageName}">current-image.png</small>
+                            </div>
+                        </div>
+                    </th:block>
+                </div>
+
+                <div class="form-row">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" th:field="*{enabled}" class="custom-control-input" id="enabledHelp">
+                        <label class="custom-control-label" for="enabledHelp">
+                            Published <span class="text-danger">*</span>
+                        </label>
+                    </div>
+                </div>
+
+                <hr/>
+                <div class="actions-bar p-3 d-flex justify-content-between">
+                    <a th:href="@{/admin/photo-gallery/}" class="btn btn-outline-secondary border-secondary shadow-sm">Cancel</a>
+                    <div>
+                        <button type="submit" class="btn btn-success border-success shadow-sm">Update Photo Gallery
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+<th:block th:fragment="pageScripts">
+    <script async defer th:src="@{/resources/admin/js/transliteration.min.js}"></script>
+    <script>
+        $(function () {
+            // 1) Автогенерация slug в пределах той же вкладки
+            $(document).on('input', "input[id^='title']", function () {
+                const $pane = $(this).closest('.tab-pane');
+                $pane.find("input[id^='slug']").first().val(slugify($(this).val()));
+            });
+        });
+    </script>
+
+    <script>
+        $(function () {
+            let $filesInput = $('#files');
+            let $preview = $('#preview');
+            if ($filesInput.length === 0 || $preview.length === 0) return;
+
+            $filesInput.on('change', function () {
+                $preview.empty();
+                $.each(this.files, function (_, file) {
+                    if (!file.type || file.type.indexOf('image') !== 0) return;
+                    let reader = new FileReader();
+                    reader.onload = function (e) {
+                        let $img = $('<img>')
+                            .addClass('img-thumbnail mr-2 mb-2')
+                            .css({
+                                width: '72px',
+                                height: '72px',
+                                objectFit: 'cover'
+                            })
+                            .attr('src', e.target.result);
+                        $preview.append($img);
+                    };
+                    reader.readAsDataURL(file);
+                });
+            });
+        });
+    </script>
+</th:block>
+
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Pagination</title>
+</head>
+<body>
+
+<div th:fragment="pagination(page, baseUrl)"
+     th:with="
+       qVal=${(param.q != null and not #lists.isEmpty(param.q)) ? param.q[0] : null},
+       sortVal=${(param.sort != null and not #lists.isEmpty(param.sort)) ? param.sort[0] : null}
+     ">
+
+    <nav th:if="${page.totalPages > 1}" aria-label="Pagination" class="mt-3">
+        <ul class="pagination">
+
+            <!-- Prev -->
+            <li class="page-item" th:classappend="${page.first} ? 'disabled'">
+                <a class="page-link" th:if="${!page.first}"
+                   th:href="@{${baseUrl}(page=${page.number - 1}, size=${page.size}, q=${qVal}, sort=${sortVal})}">« Prev</a>
+                <span class="page-link" th:if="${page.first}">« Prev</span>
+            </li>
+
+            <!-- Номера -->
+            <li class="page-item"
+                th:each="i : ${#numbers.sequence(0, page.totalPages - 1)}"
+                th:classappend="${i == page.number} ? 'active'">
+                <a class="page-link" th:if="${i != page.number}" th:text="${i + 1}"
+                   th:href="@{${baseUrl}(page=${i}, size=${page.size}, q=${qVal}, sort=${sortVal})}">1</a>
+                <span class="page-link" th:if="${i == page.number}" th:text="${i + 1}">1</span>
+            </li>
+
+            <!-- Next -->
+            <li class="page-item" th:classappend="${page.last} ? 'disabled'">
+                <a class="page-link" th:if="${!page.last}"
+                   th:href="@{${baseUrl}(page=${page.number + 1}, size=${page.size}, q=${qVal}, sort=${sortVal})}">Next »</a>
+                <span class="page-link" th:if="${page.last}">Next »</span>
+            </li>
+
+        </ul>
+    </nav>
+</div>
+
+</body>
+</html>

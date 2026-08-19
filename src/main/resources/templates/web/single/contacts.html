@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{web/fragments/layout :: layout (~{::content}, 'TIU TURKUNIB :: Contact Us', 'staticpage', ~{::pageScripts})}">
+<head>
+    <meta charset="UTF-8">
+    <title>TIU TURKUNIB - Contact Us</title>
+</head>
+<body>
+<div th:fragment="content">
+
+    <th:block th:replace="~{web/fragments/hero-banner :: hero-banner(${banners})}"></th:block>
+
+    <!-- Contact Header -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row mb-4">
+                <div class="col-lg-10">
+                    <h1 class="h2-bigger mb-2" th:text="#{page.contacts.title}">Contact Us</h1>
+                    <p class="lead text-muted mb-0" th:text="#{page.contacts.intro}">We'd love to hear from you. Reach out for any questions about TURKUNIB programs, partnerships, or events.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Details + Map + Form -->
+    <section class="pb-end-150">
+        <div class="container">
+            <div class="row g-4">
+                <!-- Contact Details -->
+                <div class="col-lg-5">
+                    <div class="card shadow-sm h-100">
+                        <div class="card-body p-4 p-lg-5">
+                            <h5 class="mb-4">Tashkent International University</h5>
+                            <div class="d-flex align-items-start gap-3 mb-3">
+                                <i class="bi bi-geo-alt text-brand fs-4"></i>
+                                <div>
+                                    <div class="fw-semibold" th:text="#{page.contacts.address}">Address</div>
+                                    <div>100114, Toshkent, Kichik halqa yo'li ko‘chasi, 7-uy</div>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-start gap-3 mb-3">
+                                <i class="bi bi-envelope text-brand fs-4"></i>
+                                <div>
+                                    <div class="fw-semibold" th:text="#{page.contacts.email}">Email</div>
+                                    <a href="mailto:info@tiu.uz" class="text-decoration-none">info@tiu.uz</a>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-start gap-3 mb-4">
+                                <i class="bi bi-telephone text-brand fs-4"></i>
+                                <div>
+                                    <div class="fw-semibold" th:text="#{page.contacts.phone}">Phone</div>
+                                    <a href="tel:+998951315555" class="text-decoration-none">+998 95 131-55-55</a>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-start gap-3 mb-4">
+                                <i class="bi bi-clock text-brand fs-4"></i>
+                                <div>
+                                    <div class="fw-semibold" th:text="#{page.contacts.hours}">Office Hours</div>
+                                    <div th:text="#{page.contacts.hours.value}">Mon–Fri, 9:00–18:00 (UTC+5)</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Form -->
+                <div class="col-lg-7">
+                    <div class="card shadow-sm h-100">
+                        <div class="card-body p-4 p-lg-5 brand-form">
+                            <h5 class="mb-3" th:text="#{page.contacts.form.title}">Send us a message</h5>
+                            <p class="text-muted mb-4" th:text="#{page.contacts.form.subtitle}">Fill out the form and our team will get back to you shortly.</p>
+
+                            <th:block th:replace="~{web/fragments/message :: message(${error}, ${success})}"></th:block>
+
+                            <form method="post" th:action="@{/{lang}/contact-us(lang=${lang})}" autocomplete="on" novalidate>
+                                <input type="hidden" th:if="${_csrf != null}" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label for="fullName" class="form-label fw-semibold" th:text="#{page.contacts.form.fullname}">Full name</label>
+                                        <input type="text" class="form-control form-control-lg" id="fullName" name="fullName" required maxlength="512">
+                                        <div class="invalid-feedback" th:text="#{page.contacts.form.fullname.invalid}">Please enter your name.</div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="email" class="form-label fw-semibold" th:text="#{page.contacts.email}">Email</label>
+                                        <input type="email" class="form-control form-control-lg" id="email" name="email" required maxlength="256">
+                                        <div class="invalid-feedback" th:text="#{page.contacts.form.email.invalid}">Please provide a valid email.</div>
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="subject" class="form-label fw-semibold" th:text="#{page.contacts.form.subject}">Subject</label>
+                                        <input type="text" class="form-control form-control-lg" id="subject" name="subject" required maxlength="1024">
+                                        <div class="invalid-feedback" th:text="#{page.contacts.form.subject.invalid}">Please enter a subject.</div>
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="message" class="form-label fw-semibold" th:text="#{page.contacts.form.message}">Message</label>
+                                        <textarea class="form-control form-control-lg" id="message" name="message" rows="6" required maxlength="4000"></textarea>
+                                        <div class="invalid-feedback" th:text="#{page.contacts.form.message.invalid}">Please enter your message.</div>
+                                    </div>
+                                </div>
+
+                                <div class="form-check mt-3">
+                                    <input class="form-check-input" type="checkbox" value="true" id="consent" required>
+                                    <label class="form-check-label" for="consent" th:text="#{page.contacts.form.consent}">
+                                        I consent to having this website store my submitted information.
+                                    </label>
+                                    <div class="invalid-feedback" th:text="#{page.contacts.form.consent.invalid}">Consent is required.</div>
+                                </div>
+
+                                <!-- Honeypot (anti-bot) -->
+                                <div class="visually-hidden" aria-hidden="true">
+                                    <label for="website">Website</label>
+                                    <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+                                </div>
+
+                                <div class="d-flex align-items-center gap-3 mt-4">
+                                    <button type="submit" class="btn btn-dark submit-btn px-4">
+                                        <i class="bi bi-send me-2"></i>
+                                        <span th:text="#{page.contacts.form.send}">Send message</span>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container py-5">
+            <div class="row">
+                <div class="col-lg-10">
+                    <h2 class="mb-4" th:text="#{page.contacts.map.title}">Find us on the map</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="img-thumbnail shadow-sm" id="YMapId" style="width: 100%; min-height: 500px;"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <th:block th:replace="~{web/fragments/student-testimonials :: student-testimonials('')}"></th:block>
+
+</div>
+
+<th:block th:fragment="pageScripts">
+
+    <script th:src="@{'https://api-maps.yandex.ru/2.1/?apikey=' + ${yandexApiKey} + '&lang=en_US'}" type="text/javascript"></script>
+    <script th:inline="javascript">
+        const initLatitude = 41.334268;
+        const initLongitude = 69.279656;
+
+        ymaps.ready(init);
+
+        function init() {
+            let myMap = new ymaps.Map('YMapId', {
+                center: [initLatitude, initLongitude],
+                zoom: 17,
+                controls: ['zoomControl']
+            }, {
+                suppressMapOpenBlock: true
+            });
+            const myPlacemark = new ymaps.Placemark([initLatitude, initLongitude], {}, {
+                preset: 'islands#redIcon'
+            });
+            myMap.geoObjects.add(myPlacemark);
+            myMap.behaviors.disable('scrollZoom');
+        }
+    </script>
+
+    <script>
+        // Basic client-side validation styling for the contact form
+        (function () {
+            'use strict';
+            const forms = document.querySelectorAll('form');
+            forms.forEach(form => {
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        })();
+    </script>
+</th:block>
+
+</body>
+</html>

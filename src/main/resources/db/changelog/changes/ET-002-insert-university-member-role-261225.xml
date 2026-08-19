@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="ET-002-insert-university-member-role-261225" author="Ruslan Skaldin">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                SELECT COUNT(*) FROM roles WHERE name = 'ROLE_UNIVERSITY_MEMBER'
+            </sqlCheck>
+        </preConditions>
+
+        <insert tableName="roles">
+            <column name="name" value="ROLE_UNIVERSITY_MEMBER"/>
+            <column name="full_name" value="University Member"/>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>
+

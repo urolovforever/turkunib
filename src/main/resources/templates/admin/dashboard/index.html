@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{admin/fragments/layout :: layout (~{::content}, 'TIU TURKUNIB :: Statistics Dashboard', 'dashboard', ~{})}">
+<head>
+    <meta charset="UTF-8">
+    <title>TIU TURKUNIB - Statistics Dashboard</title>
+</head>
+<body>
+<div th:fragment="content">
+    <h1 class="h3 mb-4 text-gray-800">Statistics Dashboard</h1>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-success shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                    Media Files Info
+                                </div>
+                                <ul class="list-unstyled">
+                                    <li class="border-bottom-dotted">
+                                    <span class="badge badge-light-blue d-flex justify-content-between align-items-center">
+                                        <span>Images stored:</span>
+                                        <span th:text="${imageCount}"></span>
+                                    </span>
+                                    </li>
+                                    <li class="border-bottom-dotted">
+                                    <span class="badge badge-light-blue d-flex justify-content-between align-items-center">
+                                        <span>Images total size:</span>
+                                        <span th:text="${totalImageSize}"></span>
+                                    </span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-images fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-primary shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                    Content Info
+                                </div>
+                                <ul class="list-unstyled">
+                                    <li class="border-bottom-dotted">
+                                    <span class="badge badge-light-blue d-flex justify-content-between align-items-center">
+                                        <span>News created:</span>
+                                        <span th:text="${newsCount}"></span>
+                                    </span>
+                                    </li>
+                                    <li class="border-bottom-dotted">
+                                    <span class="badge badge-light-blue d-flex justify-content-between align-items-center">
+                                        <span>News categories:</span>
+                                        <span th:text="${newsCategoryCount}"></span>
+                                    </span>
+                                    </li>
+                                    <li class="border-bottom-dotted">
+                                    <span class="badge badge-light-blue d-flex justify-content-between align-items-center">
+                                        <span>Photo galleries:</span>
+                                        <span th:text="${photoGalleryCount}"></span>
+                                    </span>
+                                    </li>
+                                    <li class="border-bottom-dotted">
+                                    <span class="badge badge-light-blue d-flex justify-content-between align-items-center">
+                                        <span>Events:</span>
+                                        <span th:text="${eventCount}"></span>
+                                    </span>
+                                    </li>
+                                    <li class="border-bottom-dotted">
+                                    <span class="badge badge-light-blue d-flex justify-content-between align-items-center">
+                                        <span>Member Universities:</span>
+                                        <span th:text="${memberCount}"></span>
+                                    </span>
+                                    </li>
+                                    <li class="border-bottom-dotted">
+                                    <span class="badge badge-light-blue d-flex justify-content-between align-items-center">
+                                        <span>Countries:</span>
+                                        <span th:text="${countryCount}"></span>
+                                    </span>
+                                    </li>
+                                    <li class="border-bottom-dotted">
+                                    <span class="badge badge-light-blue d-flex justify-content-between align-items-center">
+                                        <span>Banners:</span>
+                                        <span th:text="${bannerCount}"></span>
+                                    </span>
+                                    </li>
+                                    <li class="border-bottom-dotted">
+                                    <span class="badge badge-light-blue d-flex justify-content-between align-items-center">
+                                        <span>Static Pages:</span>
+                                        <span th:text="${staticPageCount}"></span>
+                                    </span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-newspaper fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-warning shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                    Users
+                                </div>
+                                <ul class="list-unstyled">
+                                    <li class="border-bottom-dotted">
+                                    <span class="badge badge-light-blue d-flex justify-content-between align-items-center">
+                                        <span>Users:</span>
+                                        <span th:text="${userCount}"></span>
+                                    </span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-users fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Applications Table -->
+        <div class="row">
+            <div class="col-6" sec:authorize="hasAnyRole('ADMIN','UNIVERSITY_MEMBER')">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Recent Student Applications</h6>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-hover table-bordered table-sm align-middle mb-0">
+                            <thead class="bg-light">
+                            <tr>
+                                <th>Id</th>
+                                <th>Full Name</th>
+                                <th>Institution</th>
+                                <th>Created</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="item : ${recentApplications}">
+                                <td th:text="${item.id}"></td>
+                                <td>
+                                    <a th:href="@{/admin/application/show/{id}(id=${item.id})}"
+                                       th:text="${#strings.abbreviate(item.fullName, 65)}" class="text-dark"></a>
+                                </td>
+                                <td th:text="${#strings.abbreviate(item.institution, 30)}"></td>
+                                <td th:text="${#temporals.format(item.createdAt, 'yyyy-MM-dd HH:mm')}"></td>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Recent Feedbacks</h6>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-hover table-bordered table-sm align-middle mb-0">
+                            <thead class="bg-light">
+                            <tr>
+                                <th>Id</th>
+                                <th>Full Name</th>
+                                <th>Subject</th>
+                                <th>Created</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="item : ${recentFeedbacks}">
+                                <td th:text="${item.id}"></td>
+                                <td>
+                                    <a th:href="@{/admin/feedback/show/{id}(id=${item.id})}"
+                                       th:text="${#strings.abbreviate(item.subject, 65)}" class="text-dark"></a>
+                                </td>
+                                <td th:text="${#strings.abbreviate(item.subject, 35)}"></td>
+                                <td th:text="${#temporals.format(item.createdAt, 'yyyy-MM-dd HH:mm')}"></td>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

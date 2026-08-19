@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <include file="db/changelog/changes/ET-001-create-users-table-060925.xml"/>
+    <include file="db/changelog/changes/ET-001-create-roles-table-281025.xml"/>
+    <include file="db/changelog/changes/ET-002-insert-university-member-role-261225.xml"/>
+    <include file="db/changelog/changes/ET-003-insert-student-role-160626.xml"/>
+    <include file="db/changelog/changes/ET-001-create-user-roles-table-281025.xml"/>
+    <include file="db/changelog/changes/ET-001-create-images-table-060925.xml"/>
+    <include file="db/changelog/changes/ET-001-create-files-table-241225.xml"/>
+    <include file="db/changelog/changes/ET-001-create-news-categories-table-060925.xml"/>
+    <include file="db/changelog/changes/ET-001-create-news-categories-i18n-table-230925.xml"/>
+    <include file="db/changelog/changes/ET-001-create-news-table-060925.xml"/>
+    <include file="db/changelog/changes/ET-001-create-news-i18n-table-230925.xml"/>
+    <include file="db/changelog/changes/ET-001-create-ft-news-i18n-title-content-index-070925.xml"/>
+    <include file="db/changelog/changes/ET-001-create-photo-gallery-table-090925.xml"/>
+    <include file="db/changelog/changes/ET-001-create-photo-gallery-image-table-090925.xml"/>
+    <include file="db/changelog/changes/ET-001-create-photo-gallery-i18n-table-250125.xml"/>
+    <include file="db/changelog/changes/ET-001-create-events-table-110925.xml"/>
+    <include file="db/changelog/changes/ET-001-create-events-i18n-table-250925.xml"/>
+    <include file="db/changelog/changes/ET-001-create-ft-event-i18n-title-description-index-150925.xml"/>
+    <include file="db/changelog/changes/ET-001-create-countries-table-150925.xml"/>
+    <include file="db/changelog/changes/ET-001-create-member-table-150925.xml"/>
+    <include file="db/changelog/changes/ET-002-alter-member-table-insert-contact-information-011225.xml"/>
+    <include file="db/changelog/changes/ET-001-create-banners-table-160925.xml"/>
+    <include file="db/changelog/changes/ET-001-create-banners-i18n-table-260925.xml"/>
+    <include file="db/changelog/changes/ET-001-create-translation-task-table-290925.xml"/>
+    <include file="db/changelog/changes/ET-001-create-static-page-table-02102025.xml"/>
+    <include file="db/changelog/changes/ET-001-create-static-page-i18n-table-021025.xml"/>
+    <include file="db/changelog/changes/ET-001-create-application-table-091125.xml"/>
+    <include file="db/changelog/changes/ET-001-create-feedback-table-111125.xml"/>
+    <include file="db/changelog/changes/ET-001-create-application-process-table-241225.xml"/>
+    <include file="db/changelog/changes/ET-004-alter-applications-add-portal-fields-160626.xml"/>
+    <include file="db/changelog/changes/ET-005-create-pre-departure-resources-table-160626.xml"/>
+    <include file="db/changelog/changes/ET-006-create-publications-table-160626.xml"/>
+    <include file="db/changelog/changes/ET-007-create-research-projects-table-160626.xml"/>
+    <include file="db/changelog/changes/ET-008-create-webinars-tables-160626.xml"/>
+    <include file="db/changelog/changes/ET-009-create-newsletter-subscribers-table-160626.xml"/>
+    <include file="db/changelog/changes/ET-010-create-leadership-members-table-170626.xml"/>
+    <include file="db/changelog/changes/ET-011-create-institutional-documents-table-170626.xml"/>
+    <include file="db/changelog/changes/ET-012-create-scholarships-table-170626.xml"/>
+    <include file="db/changelog/changes/ET-013-add-content-to-scholarships-and-research-170626.xml"/>
+    <include file="db/changelog/changes/ET-014-add-content-to-webinars-170626.xml"/>
+    <include file="db/changelog/changes/ET-015-create-faqs-table-170626.xml"/>
+    <include file="db/changelog/changes/ET-016-create-key-dates-table-170626.xml"/>
+    <include file="db/changelog/changes/ET-017-add-scholarship-to-applications-170626.xml"/>
+    <include file="db/changelog/changes/ET-018-create-scholarship-i18n-table-170626.xml"/>
+    <include file="db/changelog/changes/ET-019-create-research-project-i18n-table-170626.xml"/>
+    <include file="db/changelog/changes/ET-020-create-webinar-i18n-table-170626.xml"/>
+    <include file="db/changelog/changes/ET-021-create-faq-i18n-table-170626.xml"/>
+    <include file="db/changelog/changes/ET-022-create-publication-i18n-table-170626.xml"/>
+    <include file="db/changelog/changes/ET-023-create-leadership-member-i18n-table-170626.xml"/>
+    <include file="db/changelog/changes/ET-024-create-key-date-i18n-table-170626.xml"/>
+    <include file="db/changelog/changes/ET-025-create-institutional-document-i18n-table-170626.xml"/>
+    <include file="db/changelog/changes/ET-026-create-pre-departure-resource-i18n-table-170626.xml"/>
+    <include file="db/changelog/changes/ET-027-create-user-tokens-table-140726.xml"/>
+    <include file="db/changelog/changes/ET-028-orhun-exchange-application-fields-140726.xml"/>
+    <include file="db/changelog/changes/ET-029-application-semester-150726.xml"/>
+    <include file="db/changelog/changes/ET-030-scholarship-round-dates-150726.xml"/>
+    <include file="db/changelog/changes/ET-031-scholarship-note-period-150726.xml"/>
+    <include file="db/changelog/changes/ET-032-insert-content-admin-role-150726.xml"/>
+    <include file="db/changelog/changes/ET-033-create-orhun-quotas-170826.xml"/>
+
+    <include file="db/changelog/changes/batch/mariadb-batch-001-job-instance.xml"/>
+    <include file="db/changelog/changes/batch/mariadb-batch-002-job-execution.xml"/>
+    <include file="db/changelog/changes/batch/mariadb-batch-003-job-exec-params.xml"/>
+    <include file="db/changelog/changes/batch/mariadb-batch-004-step-execution.xml"/>
+    <include file="db/changelog/changes/batch/mariadb-batch-005-step-exec-context.xml"/>
+    <include file="db/changelog/changes/batch/mariadb-batch-006-job-exec-context.xml"/>
+    <include file="db/changelog/changes/batch/mariadb-batch-007-sequences.xml"/>
+
+</databaseChangeLog>

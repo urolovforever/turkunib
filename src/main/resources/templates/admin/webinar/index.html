@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{admin/fragments/layout :: layout (~{::content}, 'TIU TURKUNIB :: Webinars', 'webinars', ~{})}">
+<head>
+    <meta charset="UTF-8">
+    <title>TIU TURKUNIB - Webinars</title>
+</head>
+<body>
+<div th:fragment="content">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h3 text-gray-800 mb-0">Workshops &amp; Webinars</h1>
+    </div>
+
+    <th:block th:replace="~{admin/fragments/message :: message(${error}, ${success})}"></th:block>
+
+    <div class="row">
+        <div class="col-lg-5 mb-4">
+            <div class="card shadow">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Add Webinar / Workshop</h6>
+                </div>
+                <div class="card-body">
+                    <form method="post" th:action="@{/admin/webinars/create}" th:object="${form}">
+                        <p class="text-muted small mb-2">Fill the <strong>EN</strong> tab (required); add other languages in their tabs — any left empty falls back to English.</p>
+                        <th:block th:replace="~{admin/fragments/language-tab :: language-tabs}"></th:block>
+                        <div class="tab-content mb-3">
+                            <div class="tab-pane fade" th:classappend="${loc.name() == 'EN'} ? 'show active' : ''"
+                                 th:each="loc : ${T(com.tiu.turk.common.enums.TranslationLocale).values()}"
+                                 th:id="'lang-' + ${loc.code}" role="tabpanel">
+                                <div class="form-group">
+                                    <label>Title <span th:if="${loc.name() == 'EN'}" class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" th:field="*{translations[__${loc.name()}__].title}" th:required="${loc.name() == 'EN'}">
+                                </div>
+                                <div class="form-group">
+                                    <label>Short description <small class="text-muted">(summary on the list)</small></label>
+                                    <textarea class="form-control" rows="2" th:field="*{translations[__${loc.name()}__].description}"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label>Full details / agenda <small class="text-muted">(detail page; basic HTML allowed)</small></label>
+                                    <textarea class="form-control" rows="6" th:field="*{translations[__${loc.name()}__].content}"></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr>
+                        <p class="text-muted small mb-2">Shared (same for all languages):</p>
+                        <div class="form-group">
+                            <label for="startAt">Date &amp; time</label>
+                            <input type="datetime-local" class="form-control" id="startAt" name="startAt" required>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-6">
+                                <label for="durationMinutes">Duration (min)</label>
+                                <input type="number" class="form-control" id="durationMinutes" name="durationMinutes" min="1">
+                            </div>
+                            <div class="form-group col-6">
+                                <label for="capacity">Capacity</label>
+                                <input type="number" class="form-control" id="capacity" name="capacity" min="1">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="onlineLink">Online link</label>
+                            <input type="url" class="form-control" id="onlineLink" name="onlineLink" placeholder="https://...">
+                        </div>
+                        <button type="submit" class="btn btn-primary shadow-sm">Add webinar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-7 mb-4">
+            <div class="card shadow">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Scheduled Sessions</h6>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead class="thead-light">
+                            <tr>
+                                <th>Title</th>
+                                <th>When</th>
+                                <th>Registered</th>
+                                <th class="text-right">Action</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="w : ${webinars}">
+                                <td th:text="${w.title}">Title</td>
+                                <td th:text="${#temporals.format(w.startAt, 'dd MMM yyyy, HH:mm')}">—</td>
+                                <td>
+                                    <a th:href="@{|/admin/webinars/registrations/${w.id}|}">
+                                        <span th:text="${counts.get(w.id)}">0</span><span th:if="${w.capacity != null}" th:text="'/' + ${w.capacity}"></span>
+                                    </a>
+                                </td>
+                                <td class="text-right">
+                                    <a th:href="@{|/admin/webinars/edit/${w.id}|}" class="btn btn-sm btn-outline-primary">Edit</a>
+                                    <a th:href="@{|/admin/webinars/translations/${w.id}|}" class="btn btn-sm btn-outline-info">Languages</a>
+                                    <a th:href="@{|/admin/webinars/translate/${w.id}|}" class="btn btn-sm btn-outline-success"
+                                       title="Translate to all 7 languages via AI"
+                                       onclick="return confirm('Translate this webinar into all languages? This uses the AI translator.');">Translate</a>
+                                    <form method="post" th:action="@{|/admin/webinars/delete/${w.id}|}" class="d-inline"
+                                          onsubmit="return confirm('Delete this webinar?');">
+                                        <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                                    </form>
+                                </td>
+                            </tr>
+                            <tr th:if="${webinars == null or webinars.isEmpty()}">
+                                <td colspan="4" class="text-center text-muted py-4">No webinars scheduled yet.</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

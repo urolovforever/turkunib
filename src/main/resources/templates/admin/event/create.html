@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{admin/fragments/layout :: layout (~{::content}, 'TIU TURKUNIB :: Create Event', 'event', ~{::pageScripts})}">
+<head>
+    <meta charset="UTF-8">
+    <title>TIU TURKUNIB - Create Event</title>
+</head>
+<body>
+<div th:fragment="content">
+    <h1 class="h3 mb-4 text-gray-800 ">Create Event</h1>
+
+
+    <form th:object="${event}" th:action="@{/admin/event/create}" method="post" enctype="multipart/form-data">
+
+        <th:block th:replace="~{admin/fragments/message :: message-with-validation(${error}, ${success})}"></th:block>
+
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Form to Create an Event</h6>
+            </div>
+            <div class="card-body">
+
+                <th:block th:replace="~{admin/fragments/language-tab :: language-tabs}"></th:block>
+
+                <div class="tab-content" id="nav-tabContent">
+                    <div class="tab-pane fade show active" id="lang-en" role="tabpanel" aria-labelledby="lang-en-tab">
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="title">Title <span class="text-danger">*</span></label>
+                                <input id="title" th:field="*{translations['EN']?.title}" type="text"
+                                       class="form-control"
+                                       th:classappend="${#fields.hasErrors('translations[EN].title')} ? 'is-invalid' : ''"
+                                       aria-describedby="titleHelp">
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('translations[EN].title')}" th:errors="*{translations['EN'].title}"></div>
+                                <small id="titleHelp" class="form-text text-muted">
+                                    Main public name of the event.
+                                </small>
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label for="slug">Slug</label>
+                                <input id="slug" th:field="*{translations['EN']?.slug}" type="text"
+                                       class="form-control"
+                                       th:classappend="${#fields.hasErrors('translations[EN].slug')} ? 'is-invalid' : ''"
+                                       aria-describedby="slugHelp"
+                                       readonly>
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('translations[EN].slug')}" th:errors="*{translations['EN'].slug}"></div>
+                                <small id="slugHelp" class="form-text text-muted">
+                                    URL-friendly slug. Auto-filled from Title.
+                                </small>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-row col-md-6">
+                                <div class="form-group col-md-12">
+                                    <label for="descriptionInput" class="text-dark">Description</label>
+                                    <textarea class="form-control col-6" id="descriptionInput" th:field="*{translations['EN']?.description}"
+                                              th:classappend="${#fields.hasErrors('translations[EN].description')} ? 'is-invalid' : ''"
+                                              aria-describedby="descriptionHelp" rows="3"></textarea>
+                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('translations[EN].description')}" th:errors="*{translations['EN'].description}"></div>
+                                    <small id="descriptionHelp" class="form-text text-muted">
+                                        A brief summary or explanation of the event's purpose.
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="lang-kg" role="tabpanel" aria-labelledby="lang-kg-tab">
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="titleKg">Title <span class="text-danger">*</span></label>
+                                <input id="titleKg" th:field="*{translations['KG']?.title}" type="text"
+                                       class="form-control"
+                                       th:classappend="${#fields.hasErrors('translations[KG].title')} ? 'is-invalid' : ''"
+                                       aria-describedby="titleHelpKg">
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('translations[KG].title')}" th:errors="*{translations['KG'].title}"></div>
+                                <small id="titleHelpKg" class="form-text text-muted">
+                                    Main public name of the event.
+                                </small>
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label for="slugKg">Slug</label>
+                                <input id="slugKg" th:field="*{translations['KG']?.slug}" type="text"
+                                       class="form-control"
+                                       th:classappend="${#fields.hasErrors('translations[KG].slug')} ? 'is-invalid' : ''"
+                                       aria-describedby="slugHelpKg"
+                                       readonly>
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('translations[KG].slug')}" th:errors="*{translations['KG'].slug}"></div>
+                                <small id="slugHelpKg" class="form-text text-muted">
+                                    URL-friendly slug. Auto-filled from Title.
+                                </small>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-row col-md-6">
+                                <div class="form-group col-md-12">
+                                    <label for="descriptionInputKg" class="text-dark">Description</label>
+                                    <textarea class="form-control col-6" id="descriptionInputKg" th:field="*{translations['KG']?.description}"
+                                              th:classappend="${#fields.hasErrors('translations[KG].description')} ? 'is-invalid' : ''"
+                                              aria-describedby="descriptionHelpKg" rows="3"></textarea>
+                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('translations[KG].description')}" th:errors="*{translations['KG'].description}"></div>
+                                    <small id="descriptionHelpKg" class="form-text text-muted">
+                                        A brief summary or explanation of the event's purpose.
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="lang-kz" role="tabpanel" aria-labelledby="lang-kz-tab">
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="titleKz">Title <span class="text-danger">*</span></label>
+                                <input id="titleKz" th:field="*{translations['KZ']?.title}" type="text"
+                                       class="form-control"
+                                       th:classappend="${#fields.hasErrors('translations[KZ].title')} ? 'is-invalid' : ''"
+                                       aria-describedby="titleHelpKz">
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('translations[KZ].title')}" th:errors="*{translations['KZ'].title}"></div>
+                                <small id="titleHelpKz" class="form-text text-muted">
+                                    Main public name of the event.
+                                </small>
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label for="slugKz">Slug</label>
+                                <input id="slugKz" th:field="*{translations['KZ']?.slug}" type="text"
+                                       class="form-control"
+                                       th:classappend="${#fields.hasErrors('translations[KZ].slug')} ? 'is-invalid' : ''"
+                                       aria-describedby="slugHelpKz" readonly>
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('translations[KZ].slug')}" th:errors="*{translations['KZ'].slug}"></div>
+                                <small id="slugHelpKz" class="form-text text-muted">
+                                    URL-friendly slug. Auto-filled from Title.
+                                </small>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-row col-md-6">
+                                <div class="form-group col-md-12">
+                                    <label for="descriptionInputKz" class="text-dark">Description</label>
+                                    <textarea class="form-control col-6" id="descriptionInputKz" th:field="*{translations['KZ']?.description}"
+                                              th:classappend="${#fields.hasErrors('translations[KZ].description')} ? 'is-invalid' : ''"
+                                              aria-describedby="descriptionHelpKz" rows="3"></textarea>
+                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('translations[KZ].description')}" th:errors="*{translations['KZ'].description}"></div>
+                                    <small id="descriptionHelpKz" class="form-text text-muted">
+                                        A brief summary or explanation of the event's purpose.
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="lang-tr" role="tabpanel" aria-labelledby="lang-tr-tab">
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="titleTr">Title <span class="text-danger">*</span></label>
+                                <input id="titleTr" th:field="*{translations['TR']?.title}" type="text"
+                                       class="form-control"
+                                       th:classappend="${#fields.hasErrors('translations[TR].title')} ? 'is-invalid' : ''"
+                                       aria-describedby="titleHelpTr">
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('translations[TR].title')}" th:errors="*{translations['TR'].title}"></div>
+                                <small id="titleHelpTr" class="form-text text-muted">
+                                    Main public name of the event.
+                                </small>
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label for="slugTr">Slug</label>
+                                <input id="slugTr" th:field="*{translations['TR']?.slug}" type="text"
+                                       class="form-control"
+                                       th:classappend="${#fields.hasErrors('translations[TR].slug')} ? 'is-invalid' : ''"
+                                       aria-describedby="slugHelpTr" readonly>
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('translations[TR].slug')}" th:errors="*{translations['TR'].slug}"></div>
+                                <small id="slugHelpTr" class="form-text text-muted">
+                                    URL-friendly slug. Auto-filled from Title.
+                                </small>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-row col-md-6">
+                                <div class="form-group col-md-12">
+                                    <label for="descriptionInputTr" class="text-dark">Description</label>
+                                    <textarea class="form-control col-6" id="descriptionInputTr" th:field="*{translations['TR']?.description}"
+                                              th:classappend="${#fields.hasErrors('translations[TR].description')} ? 'is-invalid' : ''"
+                                              aria-describedby="descriptionHelpTr" rows="3"></textarea>
+                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('translations[TR].description')}" th:errors="*{translations['TR'].description}"></div>
+                                    <small id="descriptionHelpTr" class="form-text text-muted">
+                                        A brief summary or explanation of the event's purpose.
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="lang-uz" role="tabpanel" aria-labelledby="lang-uz-tab">
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="titleUz">Title <span class="text-danger">*</span></label>
+                                <input id="titleUz" th:field="*{translations['UZ']?.title}" type="text"
+                                       class="form-control"
+                                       th:classappend="${#fields.hasErrors('translations[UZ].title')} ? 'is-invalid' : ''"
+                                       aria-describedby="titleHelpUz">
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('translations[UZ].title')}" th:errors="*{translations['UZ'].title}"></div>
+                                <small id="titleHelpUz" class="form-text text-muted">
+                                    Main public name of the event.
+                                </small>
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label for="slugUz">Slug</label>
+                                <input id="slugUz" th:field="*{translations['UZ']?.slug}" type="text"
+                                       class="form-control"
+                                       th:classappend="${#fields.hasErrors('translations[UZ].slug')} ? 'is-invalid' : ''"
+                                       aria-describedby="slugHelpUz"
+                                       readonly>
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('translations[UZ].slug')}" th:errors="*{translations['UZ'].slug}"></div>
+                                <small id="slugHelpUz" class="form-text text-muted">
+                                    URL-friendly slug. Auto-filled from Title.
+                                </small>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-row col-md-6">
+                                <div class="form-group col-md-12">
+                                    <label for="descriptionInputUz" class="text-dark">Description</label>
+                                    <textarea class="form-control col-6" id="descriptionInputUz" th:field="*{translations['UZ']?.description}"
+                                              th:classappend="${#fields.hasErrors('translations[UZ].description')} ? 'is-invalid' : ''"
+                                              aria-describedby="descriptionHelpUz" rows="3"></textarea>
+                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('translations[UZ].description')}" th:errors="*{translations['UZ'].description}"></div>
+                                    <small id="descriptionHelpUz" class="form-text text-muted">
+                                        A brief summary or explanation of the event's purpose.
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="lang-hg" role="tabpanel" aria-labelledby="lang-hg-tab">
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="titleHg">Title <span class="text-danger">*</span></label>
+                                <input id="titleHg" th:field="*{translations['HG']?.title}" type="text"
+                                       class="form-control"
+                                       th:classappend="${#fields.hasErrors('translations[HG].title')} ? 'is-invalid' : ''"
+                                       aria-describedby="titleHelpHg">
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('translations[HG].title')}" th:errors="*{translations['HG'].title}"></div>
+                                <small id="titleHelpHg" class="form-text text-muted">
+                                    Main public name of the event.
+                                </small>
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label for="slugHg">Slug</label>
+                                <input id="slugHg" th:field="*{translations['HG']?.slug}" type="text"
+                                       class="form-control"
+                                       th:classappend="${#fields.hasErrors('translations[HG].slug')} ? 'is-invalid' : ''"
+                                       aria-describedby="slugHelpHg"
+                                       readonly>
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('translations[HG].slug')}" th:errors="*{translations['HG'].slug}"></div>
+                                <small id="slugHelpHg" class="form-text text-muted">
+                                    URL-friendly slug. Auto-filled from Title.
+                                </small>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-row col-md-6">
+                                <div class="form-group col-md-12">
+                                    <label for="descriptionInputHg" class="text-dark">Description</label>
+                                    <textarea class="form-control col-6" id="descriptionInputHg" th:field="*{translations['HG']?.description}"
+                                              th:classappend="${#fields.hasErrors('translations[HG].description')} ? 'is-invalid' : ''"
+                                              aria-describedby="descriptionHelpHg" rows="3"></textarea>
+                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('translations[HG].description')}" th:errors="*{translations['HG'].description}"></div>
+                                    <small id="descriptionHelpHg" class="form-text text-muted">
+                                        A brief summary or explanation of the event's purpose.
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="lang-az" role="tabpanel" aria-labelledby="lang-az-tab">
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="titleAz">Title <span class="text-danger">*</span></label>
+                                <input id="titleAz" th:field="*{translations['AZ']?.title}" type="text"
+                                       class="form-control"
+                                       th:classappend="${#fields.hasErrors('translations[AZ].title')} ? 'is-invalid' : ''"
+                                       aria-describedby="titleHelpAz">
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('translations[AZ].title')}" th:errors="*{translations['AZ'].title}"></div>
+                                <small id="titleHelpAz" class="form-text text-muted">
+                                    Main public name of the event.
+                                </small>
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label for="slugAz">Slug</label>
+                                <input id="slugAz" th:field="*{translations['AZ']?.slug}" type="text"
+                                       class="form-control"
+                                       th:classappend="${#fields.hasErrors('translations[AZ].slug')} ? 'is-invalid' : ''"
+                                       aria-describedby="slugHelpAz"
+                                       readonly>
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('translations[AZ].slug')}" th:errors="*{translations['AZ'].slug}"></div>
+                                <small id="slugHelpAz" class="form-text text-muted">
+                                    URL-friendly slug. Auto-filled from Title.
+                                </small>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-row col-md-6">
+                                <div class="form-group col-md-12">
+                                    <label for="descriptionInputAz" class="text-dark">Description</label>
+                                    <textarea class="form-control col-6" id="descriptionInputAz" th:field="*{translations['AZ']?.description}"
+                                              th:classappend="${#fields.hasErrors('translations[AZ].description')} ? 'is-invalid' : ''"
+                                              aria-describedby="descriptionHelpAz" rows="3"></textarea>
+                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('translations[AZ].description')}" th:errors="*{translations['AZ'].description}"></div>
+                                    <small id="descriptionHelpAz" class="form-text text-muted">
+                                        A brief summary or explanation of the event's purpose.
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card shadow mb-4">
+            <div class="card-body">
+
+                <div class="form-row">
+                    <div class="form-group col-md-7">
+                        <label for="startAt">Event starts at <span class="text-danger">*</span></label>
+                        <input id="startAt" th:field="*{startAt}" type="text"
+                               class="form-control"
+                               th:classappend="${#fields.hasErrors('startAt')} ? 'is-invalid' : ''"
+                               aria-describedby="startAtHelp">
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('startAt')}" th:errors="*{startAt}"></div>
+                        <small id="startAtHelp" class="form-text text-muted">
+                            Date and time when the event starts. Format: "DD-MM-YYYY HH:mm".
+                        </small>
+                    </div>
+
+                    <div class="form-group col-md-7">
+                        <label for="endAt">Event ends at</label>
+                        <input id="endAt" th:field="*{endAt}" type="text"
+                               class="form-control"
+                               th:classappend="${#fields.hasErrors('endAt')} ? 'is-invalid' : ''"
+                               aria-describedby="endAtHelp">
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('endAt')}" th:errors="*{endAt}"></div>
+                        <small id="endAtHelp" class="form-text text-muted">
+                            Date and time when the event ends. Format: "DD-MM-YYYY HH:mm".
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-row col-md-6">
+                    <div class="form-group col-md-12">
+                        <label for="formatSelect" class="text-dark">Event format
+                            <span class="text-danger">*</span></label>
+                        <select id="formatSelect" th:field="*{format}"
+                                class="form-control col-6"
+                                th:classappend="${#fields.hasErrors('format')} ? 'is-invalid' : ''"
+                                aria-describedby="formatHelp">
+                            <option value="" disabled selected>Select a format</option>
+                            <option value="online">Online</option>
+                            <option value="offline">Offline</option>
+                            <option value="hybrid">Hybrid</option>
+                        </select>
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('format')}" th:errors="*{format}"></div>
+                        <small id="formatHelp" class="form-text text-muted">
+                            Select the format this event belongs to.
+                        </small>
+                    </div>
+
+                    <div class="form-group col-md-12">
+                        <label for="language">Language</label>
+                        <input id="language" th:field="*{language}" type="text"
+                               class="form-control"
+                               th:classappend="${#fields.hasErrors('language')} ? 'is-invalid' : ''"
+                               aria-describedby="languageHelp">
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('language')}" th:errors="*{language}"></div>
+                        <small id="languageHelp" class="form-text text-muted">
+                            Language of the event. Default is "en".
+                        </small>
+                    </div>
+
+                    <div class="form-group col-md-12">
+                        <label for="organizer">Organizer</label>
+                        <input id="organizer" th:field="*{organizer}" type="text"
+                               class="form-control"
+                               th:classappend="${#fields.hasErrors('organizer')} ? 'is-invalid' : ''"
+                               aria-describedby="organizerHelp">
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('organizer')}" th:errors="*{organizer}"></div>
+                        <small id="organizerHelp" class="form-text text-muted">
+                            Organizer of the event.
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card shadow mb-4">
+            <div class="card-body">
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="YMapId">Select location <span class="text-danger">*</span></label>
+                        <div id="YMapId" style="width: 100%; height: 400px" class="img-thumbnail"></div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-3">
+                        <label for="latitude">Latitude</label>
+                        <input id="latitude" th:field="*{latitude}" type="text"
+                               class="form-control"
+                               th:classappend="${#fields.hasErrors('latitude')} ? 'is-invalid' : ''"
+                               aria-describedby="latitudeHelp" readonly>
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('latitude')}" th:errors="*{latitude}"></div>
+                        <small id="latitudeHelp" class="form-text text-muted">
+                            Latitude coordinate of the event location.
+                        </small>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="longitude">Longitude</label>
+                        <input id="longitude" th:field="*{longitude}" type="text"
+                               class="form-control"
+                               th:classappend="${#fields.hasErrors('longitude')} ? 'is-invalid' : ''"
+                               aria-describedby="longitudeHelp" readonly>
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('longitude')}" th:errors="*{longitude}"></div>
+                        <small id="longitudeHelp" class="form-text text-muted">
+                            Longitude coordinate of the event location.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="address">Address</label>
+                        <input id="address" th:field="*{address}" type="text"
+                               class="form-control"
+                               th:classappend="${#fields.hasErrors('address')} ? 'is-invalid' : ''"
+                               aria-describedby="addressHelp">
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('address')}" th:errors="*{address}"></div>
+                        <small id="addressHelp" class="form-text text-muted">
+                            Physical address where the event will take place (if applicable).
+                        </small>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="placeName">Place Name</label>
+                        <input id="placeName" th:field="*{placeName}" type="text"
+                               class="form-control"
+                               th:classappend="${#fields.hasErrors('placeName')} ? 'is-invalid' : ''"
+                               aria-describedby="placeNameHelp">
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('placeName')}" th:errors="*{placeName}"></div>
+                        <small id="placeNameHelp" class="form-text text-muted">
+                            Name of the venue or location (if applicable).
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" th:field="*{enabled}" class="custom-control-input" id="enabledHelp">
+                        <label class="custom-control-label" for="enabledHelp">
+                            Published <span class="text-danger">*</span>
+                        </label>
+                    </div>
+                </div>
+
+                <hr/>
+                <div class="actions-bar p-3 d-flex justify-content-between">
+                    <a th:href="@{/admin/event/}"
+                       class="btn btn-outline-secondary border-secondary shadow-sm">Cancel</a>
+                    <div>
+                        <button type="submit" class="btn btn-success border-success shadow-sm">Create Event</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<th:block th:fragment="pageScripts">
+    <script th:src="@{'https://api-maps.yandex.ru/2.1/?apikey=' + ${yandexApiKey} + '&lang=en_US'}" type="text/javascript"></script>
+    <script th:src="@{/resources/admin/js/transliteration.min.js}"></script>
+    <script th:src="@{/resources/admin/js/moment-with-locales.min.js}"></script>
+    <script th:src="@{/resources/admin/js/bootstrap-datetimepicker.min.js}"></script>
+
+    <script>
+        $(function () {
+            // Автогенерация slug в пределах той же вкладки
+            $(document).on('input', "input[id^='title']", function () {
+                const $pane = $(this).closest('.tab-pane');
+                $pane.find("input[id^='slug']").first().val(slugify($(this).val()));
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $('#startAt, #endAt').datetimepicker({
+                "allowInputToggle": true,
+                "showClose": true,
+                "showTodayButton": true,
+                "format": "DD-MM-YYYY HH:mm",
+                icons: {
+                    time: 'fa fa-clock',
+                    date: 'fa fa-calendar',
+                    up: 'fa fa-chevron-up',
+                    down: 'fa fa-chevron-down',
+                    previous: 'fa fa-chevron-left',
+                    next: 'fa fa-chevron-right',
+                    today: 'fa fa-check',
+                    clear: 'fa fa-trash',
+                    close: 'fa fa-times'
+                }
+            });
+        });
+    </script>
+
+    <script type="text/javascript">
+        // Функция ymaps.ready() будет вызвана, когда
+        // загрузятся все компоненты API, а также когда будет готово DOM-дерево.
+        ymaps.ready(init);
+
+        function init() {
+            // Создание карты.
+            var myMap = new ymaps.Map("YMapId", {
+                // Координаты центра карты.
+                // Порядок по умолчанию: «широта, долгота».
+                // Чтобы не определять координаты центра карты вручную,
+                // воспользуйтесь инструментом Определение координат.
+                center: [41.334352, 69.279512],
+                // Уровень масштабирования. Допустимые значения:
+                // от 0 (весь мир) до 19.
+                zoom: 17
+            });
+
+            // Подгоняем карту под размер контейнера при изменении ширины колонки
+            myMap.container.fitToViewport();
+            $(window).on('resize', function () {
+                myMap.container.fitToViewport();
+            });
+
+            var myPlacemark = new ymaps.Placemark([41.334352, 69.279512], {}, {
+                preset: 'islands#redIcon'
+            });
+            myMap.geoObjects.add(myPlacemark);
+
+            myMap.events.add('click', function (e) {
+                // Получение координат щелчка
+                var coords = e.get('coords');
+                $('#latitude').val(coords[0]);
+                $('#longitude').val(coords[1]);
+                myMap.geoObjects.remove(myPlacemark);
+                myPlacemark = new ymaps.Placemark(coords, {}, {
+                    preset: 'islands#redIcon'
+                });
+                myMap.geoObjects.add(myPlacemark)
+            });
+        }
+    </script>
+</th:block>
+
+</body>
+</html>

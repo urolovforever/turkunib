@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{admin/fragments/layout :: layout (~{::content}, 'TIU TURKUNIB :: Publications', 'publications', ~{})}">
+<head>
+    <meta charset="UTF-8">
+    <title>TIU TURKUNIB - Publications</title>
+</head>
+<body>
+<div th:fragment="content">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h3 text-gray-800 mb-0">Publications &amp; Reports</h1>
+    </div>
+
+    <th:block th:replace="~{admin/fragments/message :: message(${error}, ${success})}"></th:block>
+
+    <div class="row">
+        <div class="col-lg-5 mb-4">
+            <div class="card shadow">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Add Publication</h6>
+                </div>
+                <div class="card-body">
+                    <form method="post" th:action="@{/admin/publications/create}" th:object="${form}" enctype="multipart/form-data">
+                        <p class="text-muted small mb-2">Fill the <strong>EN</strong> tab (required); add other languages in their tabs — any left empty falls back to English.</p>
+                        <th:block th:replace="~{admin/fragments/language-tab :: language-tabs}"></th:block>
+                        <div class="tab-content mb-3">
+                            <div class="tab-pane fade" th:classappend="${loc.name() == 'EN'} ? 'show active' : ''"
+                                 th:each="loc : ${T(com.tiu.turk.common.enums.TranslationLocale).values()}"
+                                 th:id="'lang-' + ${loc.code}" role="tabpanel">
+                                <div class="form-group">
+                                    <label>Title <span th:if="${loc.name() == 'EN'}" class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" th:field="*{translations[__${loc.name()}__].title}" th:required="${loc.name() == 'EN'}">
+                                </div>
+                                <div class="form-group">
+                                    <label>Description</label>
+                                    <textarea class="form-control" rows="3" th:field="*{translations[__${loc.name()}__].description}"></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr>
+                        <p class="text-muted small mb-2">Shared (same for all languages):</p>
+                        <div class="form-group">
+                            <label for="category">Category</label>
+                            <select class="form-control" id="category" name="category">
+                                <option th:each="c : ${categories}" th:value="${c.name()}" th:text="${c.name()}"></option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="publicationYear">Year</label>
+                            <input type="number" class="form-control" id="publicationYear" name="publicationYear" min="1900" max="2100">
+                        </div>
+                        <div class="form-group">
+                            <label for="file">File (PDF)</label>
+                            <input type="file" class="form-control-file" id="file" name="file" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary shadow-sm">Add publication</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-7 mb-4">
+            <div class="card shadow">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Published Items</h6>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead class="thead-light">
+                            <tr>
+                                <th>Title</th>
+                                <th>Category</th>
+                                <th>Year</th>
+                                <th>File</th>
+                                <th class="text-right">Action</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="p : ${publications}">
+                                <td th:text="${p.title}">Title</td>
+                                <td><span class="badge badge-info" th:text="${p.category}">CAT</span></td>
+                                <td th:text="${p.publicationYear}">—</td>
+                                <td>
+                                    <a th:if="${p.file != null}" th:href="@{|/uploads${p.file.filePath}${p.file.fileFileName}|}" target="_blank">download</a>
+                                </td>
+                                <td class="text-right">
+                                    <a th:href="@{|/admin/publications/edit/${p.id}|}" class="btn btn-sm btn-outline-primary">Edit</a>
+                                    <a th:href="@{|/admin/publications/translations/${p.id}|}" class="btn btn-sm btn-outline-info">Languages</a>
+                                    <a th:href="@{|/admin/publications/translate/${p.id}|}" class="btn btn-sm btn-outline-success"
+                                       title="Translate to all 7 languages via AI"
+                                       onclick="return confirm('Translate this publication into all languages? This uses the AI translator.');">Translate</a>
+                                    <form method="post" th:action="@{|/admin/publications/delete/${p.id}|}" class="d-inline"
+                                          onsubmit="return confirm('Delete this publication?');">
+                                        <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                                    </form>
+                                </td>
+                            </tr>
+                            <tr th:if="${publications == null or publications.isEmpty()}">
+                                <td colspan="5" class="text-center text-muted py-4">No publications yet.</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

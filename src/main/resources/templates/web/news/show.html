@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{web/fragments/layout :: layout (~{::content}, ${news.title + ' :: NEWS'}, 'news', ~{})}">
+<head>
+    <meta charset="UTF-8">
+    <title>TIU TURKUNIB - Latest News</title>
+</head>
+<body>
+<div th:fragment="content">
+
+    <!-- Content Top Section -->
+    <section class="content-top-hero-section">
+        <img th:src="${news.image().url}" th:alt="${news.title()}" alt="TURKUNIB news"/>
+    </section>
+
+    <!-- Article Section -->
+    <section class="article-top-title-section container">
+        <div class="row">
+            <div class="col-md-6 title-block shadow">
+                <h2 th:text="${news.title()}" class="mb-4"></h2>
+                <span class="badge article-badge me-1 mt-4">
+                    <span class="text-bg-article-badge" th:text="#{page.news.author}">Author:</span>
+                    <span th:text="${news.authorName()}">Johny Smith Jr</span>
+                </span>
+                <span class="badge article-badge me-1">
+                    <span class="text-bg-article-badge" th:text="#{page.news.date}">Date:</span>
+                    <span th:text="${#temporals.format(news.createdAt(), 'dd MMM. yyyy')}">20 Jan, 2025</span>
+                </span>
+                <span class="badge article-badge">
+                    <span class="text-bg-article-badge" th:text="#{page.news.category}">Category:</span>
+                    <span th:text="${news.category().translation().title()}">Latest News</span>
+                </span>
+            </div>
+        </div>
+    </section>
+    <section class="article-section container my-5">
+        <div class="row">
+            <div th:text="${news.description()}" class="col-12 col-md-11 offset-md-1 fw-bold pb-3"></div>
+        </div>
+        <div class="row">
+            <div th:utext="${news.content()}" class="col-12 col-md-11 offset-md-1"></div>
+        </div>
+    </section>
+
+    <!-- More News -->
+    <section class="news-section">
+        <div class="container">
+            <div class="row mb-5">
+                <div class="col">
+                    <h2 class="h2-bigger" th:text="#{page.news.more-news}">More News</h2>
+                </div>
+            </div>
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+                <div th:each="item : ${moreNews}" class="col">
+                    <div class="card h-100">
+                        <a th:href="@{'/' + ${lang} + '/news/' + ${item.id()} + '/' + ${item.slug()}}">
+                            <img th:src="${item.image().url}" th:alt="${item.title()}"
+                                 class="card-img-top" alt="Biochemistry">
+                        </a>
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <a class="stretched-link text-decoration-none"
+                                   th:href="@{'/' + ${lang} + '/news/' + ${item.id()} + '/' + ${item.slug()}}"
+                                   th:text="${item.title()}"></a>
+                            </h5>
+                            <hr>
+                            <p class="card-text" th:text="${item.description()}"></p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="badge text-bg-brand" th:text="${item.category().translation().title()}">Sciences</span>
+                                <span class="text-muted small ms-2" th:text="${#temporals.format(item.createdAt(), 'MMM dd, yyyy')}">Jan 20, 2025</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <th:block th:replace="~{web/fragments/application-form :: application-form('margin-top-150')}"></th:block>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{web/fragments/layout :: layout (~{::content}, 'TURKUNIB :: Workshops & Webinars', 'webinars', ~{})}">
+<head>
+    <meta charset="UTF-8">
+    <title>TIU TURKUNIB - Webinars</title>
+</head>
+<body>
+<div th:fragment="content">
+
+    <th:block th:replace="~{web/fragments/hero-banner :: hero-banner(${banners})}"></th:block>
+
+    <section class="py-5">
+        <div class="container">
+            <div class="row mb-4">
+                <div class="col">
+                    <h1 class="h2-bigger" th:text="#{page.webinar.title}">Workshops &amp; Webinars</h1>
+                    <p class="text-muted" th:text="#{page.webinar.intro}">Browse upcoming sessions of the Turkic Universities Union and register online.</p>
+                </div>
+            </div>
+
+            <div th:if="${regSuccess}" class="alert alert-success" role="alert" th:text="${regSuccess}"></div>
+            <div th:if="${regError}" class="alert alert-danger" role="alert" th:text="${regError}"></div>
+
+            <div class="row g-4">
+                <div class="col-lg-6" th:each="v : ${webinars}">
+                    <div class="card border-1 shadow-sm h-100">
+                        <div class="card-body">
+                            <h2 class="h5 mb-2" th:text="${v.webinar.title}">Webinar title</h2>
+                            <p class="text-muted small mb-2">
+                                <i class="bi bi-calendar-event me-1"></i>
+                                <span th:text="${#temporals.format(v.webinar.startAt, 'dd MMM yyyy, HH:mm')}">date</span>
+                                <span th:if="${v.webinar.durationMinutes != null}" th:text="' · ' + ${v.webinar.durationMinutes} + ' min'"></span>
+                            </p>
+                            <p th:if="${v.webinar.description}" th:text="${v.webinar.description}"></p>
+                            <p class="small mb-2" th:if="${v.webinar.capacity != null}">
+                                <i class="bi bi-people me-1"></i>
+                                <span th:text="${v.registrationCount} + ' / ' + ${v.webinar.capacity}">0</span> <span th:text="#{page.webinar.registered}">registered</span>
+                            </p>
+
+                            <p class="mb-3">
+                                <a th:href="@{/{lang}/webinars/{id}(lang=${lang},id=${v.webinar.id})}" class="small"><span th:text="#{page.webinar.details-agenda}">View details &amp; agenda</span> &rarr;</a>
+                            </p>
+
+                            <div th:if="${v.full}" class="badge bg-secondary mb-2" th:text="#{page.webinar.fully-booked}">Fully booked</div>
+
+                            <form th:unless="${v.full}" method="post" th:action="@{/{lang}/webinars/{id}/register(lang=${lang},id=${v.webinar.id})}">
+                                <div class="row g-2">
+                                    <div class="col-sm-5">
+                                        <input type="text" class="form-control form-control-sm" name="fullName" th:placeholder="#{page.webinar.your-name}" placeholder="Your name" required>
+                                    </div>
+                                    <div class="col-sm-5">
+                                        <input type="email" class="form-control form-control-sm" name="email" th:placeholder="#{page.webinar.email}" placeholder="Email" required>
+                                    </div>
+                                    <div class="col-sm-2 d-grid">
+                                        <button type="submit" class="btn btn-sm btn-outline-brand" th:text="#{common.register}">Register</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div th:if="${webinars == null or webinars.isEmpty()}" class="col-12">
+                    <div class="text-center text-muted py-5">
+                        <i class="bi bi-camera-video fs-1 d-block mb-3"></i>
+                        <span th:text="#{page.webinar.empty}">No webinars scheduled yet.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</div>
+
+</body>
+</html>

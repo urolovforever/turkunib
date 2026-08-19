@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="ET-028-orhun-exchange-application-fields-140726" author="tiu">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <columnExists tableName="applications" columnName="applicant_type"/>
+            </not>
+        </preConditions>
+
+        <addColumn tableName="applications">
+            <column name="applicant_type" type="varchar(20)" defaultValue="STUDENT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="position" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="home_university_id" type="bigint unsigned">
+                <constraints nullable="true"/>
+            </column>
+            <column name="host_university_id" type="bigint unsigned">
+                <constraints nullable="true"/>
+            </column>
+            <column name="transcript_file_id" type="bigint unsigned">
+                <constraints nullable="true"/>
+            </column>
+            <column name="language_cert_file_id" type="bigint unsigned">
+                <constraints nullable="true"/>
+            </column>
+            <column name="info_form_file_id" type="bigint unsigned">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+
+        <!-- Teachers do not have a student ID -->
+        <dropNotNullConstraint tableName="applications" columnName="student_id" columnDataType="varchar(256)"/>
+
+        <addForeignKeyConstraint baseTableName="applications" baseColumnNames="home_university_id"
+                                 referencedTableName="members" referencedColumnNames="id"
+                                 onDelete="SET NULL" onUpdate="CASCADE"
+                                 constraintName="fk_applications_home_university"/>
+        <addForeignKeyConstraint baseTableName="applications" baseColumnNames="host_university_id"
+                                 referencedTableName="members" referencedColumnNames="id"
+                                 onDelete="SET NULL" onUpdate="CASCADE"
+                                 constraintName="fk_applications_host_university"/>
+        <addForeignKeyConstraint baseTableName="applications" baseColumnNames="transcript_file_id"
+                                 referencedTableName="files" referencedColumnNames="id"
+                                 onDelete="SET NULL" onUpdate="CASCADE"
+                                 constraintName="fk_applications_transcript_file"/>
+        <addForeignKeyConstraint baseTableName="applications" baseColumnNames="language_cert_file_id"
+                                 referencedTableName="files" referencedColumnNames="id"
+                                 onDelete="SET NULL" onUpdate="CASCADE"
+                                 constraintName="fk_applications_language_cert_file"/>
+        <addForeignKeyConstraint baseTableName="applications" baseColumnNames="info_form_file_id"
+                                 referencedTableName="files" referencedColumnNames="id"
+                                 onDelete="SET NULL" onUpdate="CASCADE"
+                                 constraintName="fk_applications_info_form_file"/>
+    </changeSet>
+</databaseChangeLog>

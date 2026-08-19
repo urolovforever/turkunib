@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{web/fragments/layout :: layout (~{::content}, ${v.webinar.title + ' :: TURKUNIB'}, 'webinars', ~{})}">
+<head>
+    <meta charset="UTF-8">
+    <title>TIU TURKUNIB - Webinar</title>
+</head>
+<body>
+<div th:fragment="content">
+
+    <th:block th:replace="~{web/fragments/hero-banner :: hero-banner(${banners})}"></th:block>
+
+    <section class="py-5">
+        <div class="container">
+            <a th:href="@{/{lang}/webinars/(lang=${lang})}" class="btn btn-sm btn-outline-brand mb-4">
+                <i class="bi bi-arrow-left me-1"></i> <span th:text="#{page.webinar.all}">All webinars</span>
+            </a>
+
+            <div th:if="${regSuccess}" class="alert alert-success" role="alert" th:text="${regSuccess}"></div>
+            <div th:if="${regError}" class="alert alert-danger" role="alert" th:text="${regError}"></div>
+
+            <div class="row g-5">
+                <div class="col-lg-8">
+                    <h1 class="h2-bigger mb-2" th:text="${v.webinar.title}">Webinar title</h1>
+                    <p class="text-muted mb-4">
+                        <i class="bi bi-calendar-event me-1"></i>
+                        <span th:text="${#temporals.format(v.webinar.startAt, 'dd MMMM yyyy, HH:mm')}">date</span>
+                        <span th:if="${v.webinar.durationMinutes != null}" th:text="' · ' + ${v.webinar.durationMinutes} + ' min'"></span>
+                    </p>
+
+                    <p class="lead" th:if="${v.webinar.description != null}" th:text="${v.webinar.description}"></p>
+
+                    <div class="mt-3 static-page-content" th:if="${v.webinar.content != null and !v.webinar.content.isBlank()}"
+                         th:utext="${v.webinar.content}"></div>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="card border-1 shadow-sm">
+                        <div class="card-body">
+                            <p class="small mb-3" th:if="${v.webinar.capacity != null}">
+                                <i class="bi bi-people me-1"></i>
+                                <span th:text="${v.registrationCount} + ' / ' + ${v.webinar.capacity}">0</span> <span th:text="#{page.webinar.registered}">registered</span>
+                            </p>
+
+                            <div th:if="${v.full}" class="badge bg-secondary mb-2" th:text="#{page.webinar.fully-booked}">Fully booked</div>
+
+                            <form th:unless="${v.full}" method="post" th:action="@{/{lang}/webinars/{id}/register(lang=${lang},id=${v.webinar.id})}">
+                                <div class="mb-2">
+                                    <input type="text" class="form-control form-control-sm" name="fullName" th:placeholder="#{page.webinar.your-name}" placeholder="Your name" required>
+                                </div>
+                                <div class="mb-2">
+                                    <input type="email" class="form-control form-control-sm" name="email" th:placeholder="#{page.webinar.email}" placeholder="Email" required>
+                                </div>
+                                <div class="d-grid">
+                                    <button type="submit" class="btn btn-sm btn-outline-brand" th:text="#{common.register}">Register</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</div>
+
+</body>
+</html>

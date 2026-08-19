@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Hero Banner</title>
+</head>
+<body>
+<th:block th:fragment="hero-banner(banners)">
+    <!-- Hero Banner -->
+    <div id="myCarousel" class="hero-carousel carousel slide carousel-fade" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+            <th:block th:each="banner, iterStat : ${banners}">
+                <button th:classappend="${iterStat.index == 0} ? 'active' : ''"
+                        th:attr="data-bs-slide-to=${iterStat.index}, aria-label='Slide ' + ${iterStat.index}, aria-current=${iterStat.index == 0}"
+                        type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" aria-label="Slide 1"></button>
+            </th:block>
+        </div>
+        <div class="carousel-inner">
+            <div th:each="banner, iterStat : ${banners}" th:classappend="${iterStat.index == 0} ? 'active'" class="carousel-item">
+                <img class="bd-placeholder-img" width="100%" height="100%" th:src="${banner.image.url}" aria-hidden="true" th:alt="${banner.title}">
+                <div class="container">
+                    <div class="carousel-caption text-start">
+                        <h1 th:text="${banner.title}">Title</h1>
+                        <p th:if="${banner.shortTitle != null and !#strings.isEmpty(banner.shortTitle)}" th:text="${banner.shortTitle}">
+                            Short title</p>
+                        <blockquote th:if="${banner.description != null and !#strings.isEmpty(banner.description)}">
+                            <p th:text="${banner.description}"> Description </p>
+                        </blockquote>
+                        <p th:if="${banner.url != null and !#strings.isEmpty(banner.url)}">
+                            <a class="carousel-item-link" th:href="${banner.url}"><span th:text="${banner.urlTitle}"></span>
+                                <i class="bi bi-arrow-right"></i></a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden" th:text="#{home.hero.previous}">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden" th:text="#{home.hero.next}">Next</span>
+        </button>
+    </div>
+</th:block>
+</body>
+</html>

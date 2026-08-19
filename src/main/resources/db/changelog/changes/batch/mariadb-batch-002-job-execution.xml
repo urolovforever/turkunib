@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+
+
+    <!-- =======================
+         batch_job_execution
+         ======================= -->
+    <changeSet id="mariadb-batch-002-job-execution" author="Ruslan Skaldin">
+        <preConditions onFail="MARK_RAN">
+            <not><tableExists tableName="batch_job_execution"/></not>
+        </preConditions>
+
+        <createTable tableName="batch_job_execution" remarks="Job executions">
+            <column name="JOB_EXECUTION_ID" type="BIGINT">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="VERSION" type="BIGINT"/>
+            <column name="JOB_INSTANCE_ID" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CREATE_TIME" type="DATETIME(6)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="START_TIME" type="DATETIME(6)"/>
+            <column name="END_TIME" type="DATETIME(6)"/>
+            <column name="STATUS" type="VARCHAR(10)"/>
+            <column name="EXIT_CODE" type="VARCHAR(2500)"/>
+            <column name="EXIT_MESSAGE" type="VARCHAR(2500)"/>
+            <column name="LAST_UPDATED" type="DATETIME(6)"/>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="batch_job_execution" baseColumnNames="JOB_INSTANCE_ID"
+                                 referencedTableName="batch_job_instance" referencedColumnNames="JOB_INSTANCE_ID"
+                                 constraintName="JOB_INST_EXEC_FK"/>
+
+        <createIndex tableName="batch_job_execution" indexName="IDX_JOB_EXEC_JOB_INST">
+            <column name="JOB_INSTANCE_ID"/>
+        </createIndex>
+    </changeSet>
+
+</databaseChangeLog>

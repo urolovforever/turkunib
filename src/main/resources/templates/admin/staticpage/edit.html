@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{admin/fragments/layout :: layout (~{::content}, 'TIU TURKUNIB :: Update Static Page', 'static-page', ~{::pageScripts})}">
+<head>
+    <meta charset="UTF-8">
+    <title>TIU TURKUNIB - Update Static Page</title>
+</head>
+<body>
+<div th:fragment="content">
+    <form th:object="${staticPage}" th:action="@{/admin/static-pages/update}" method="post" enctype="multipart/form-data">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1 class="h3 text-gray-800 mb-0">Update Static Page</h1>
+            <div class="btn-group">
+                <a th:href="@{'/admin/static-pages/translate/' + ${staticPage.id}}"
+                   class="btn btn-warning btn-sm border-warning text-black-100 font-weight-bold shadow-sm mr-2">
+                    <i class="fas fa-language pr-2"></i>Translate with AI
+                </a>
+            </div>
+        </div>
+
+        <th:block th:replace="~{admin/fragments/message :: message(${error}, ${success})}"></th:block>
+
+        <input th:field="*{id}" type="hidden"/>
+
+        <div class="card shadow mb-4">
+            <div class="card-header py-3 d-flex align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">Form to Update Static Page</h6>
+                <span class="small badge badge-info">ID: <span th:text="${staticPage.id}">—</span></span>
+            </div>
+
+            <div class="card-body">
+
+                <th:block th:replace="~{admin/fragments/language-tab :: language-tabs}"></th:block>
+
+                <div class="tab-content" id="nav-tabContent">
+                    <div class="tab-pane fade show active" id="lang-en" role="tabpanel" aria-labelledby="lang-en-tab">
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="titleEn">Title <span class="text-danger">*</span></label>
+                                <input id="titleEn" th:field="*{translations['EN']?.title}" type="text" class="form-control" aria-describedby="titleHelpEn">
+                                <small id="titleHelpEn" class="form-text text-muted">Main public title of the static page.</small>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <label for="contentInputEn" class="text-dark">Page source content <span class="text-danger">*</span></label>
+                                <textarea class="form-control col-12" id="contentInputEn" rows="20" th:utext="*{translations['EN']?.content}" name="translations['EN']?.content" aria-describedby="contentHelpEn"></textarea>
+                                <small id="contentHelpEn" class="form-text text-muted">
+                                    Full text of the static page, with optional HTML code.
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="lang-kg" role="tabpanel" aria-labelledby="lang-kg-tab">
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="titleKg">Title <span class="text-danger">*</span></label>
+                                <input id="titleKg" th:field="*{translations['KG']?.title}" type="text" class="form-control" aria-describedby="titleHelpKg">
+                                <small id="titleHelpKg" class="form-text text-muted">Main public title of the static page.</small>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <label for="contentInputKg" class="text-dark">Page source content <span class="text-danger">*</span></label>
+                                <textarea class="form-control col-12" id="contentInputKg" rows="20" th:utext="*{translations['KG']?.content}" name="translations['KG']?.content" aria-describedby="contentHelpKg"></textarea>
+                                <small id="contentHelpKg" class="form-text text-muted">
+                                    Full text of the static page, with optional HTML code.
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="lang-kz" role="tabpanel" aria-labelledby="lang-kz-tab">
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="titleKz">Title <span class="text-danger">*</span></label>
+                                <input id="titleKz" th:field="*{translations['KZ']?.title}" type="text" class="form-control" aria-describedby="titleHelpKz">
+                                <small id="titleHelpKz" class="form-text text-muted">Main public title of the static page.</small>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <label for="contentInputKz" class="text-dark">Page source content <span class="text-danger">*</span></label>
+                                <textarea class="form-control col-12" id="contentInputKz" rows="20" th:utext="*{translations['KZ']?.content}" name="translations['KZ']?.content" aria-describedby="contentHelpKz"></textarea>
+                                <small id="contentHelpKz" class="form-text text-muted">
+                                    Full text of the static page, with optional HTML code.
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="lang-tr" role="tabpanel" aria-labelledby="lang-tr-tab">
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="titleTr">Title <span class="text-danger">*</span></label>
+                                <input id="titleTr" th:field="*{translations['TR']?.title}" type="text" class="form-control" aria-describedby="titleHelpTr">
+                                <small id="titleHelpTr" class="form-text text-muted">Main public title of the static page.</small>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <label for="contentInputTr" class="text-dark">Page source content <span class="text-danger">*</span></label>
+                                <textarea class="form-control col-12" id="contentInputTr" rows="20" th:utext="*{translations['TR']?.content}" name="translations['TR']?.content" aria-describedby="contentHelpTr"></textarea>
+                                <small id="contentHelpTr" class="form-text text-muted">
+                                    Full text of the static page, with optional HTML code.
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="lang-uz" role="tabpanel" aria-labelledby="lang-uz-tab">
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="titleUz">Title <span class="text-danger">*</span></label>
+                                <input id="titleUz" th:field="*{translations['UZ']?.title}" type="text" class="form-control" aria-describedby="titleHelpUz">
+                                <small id="titleHelpUz" class="form-text text-muted">Main public title of the static page.</small>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <label for="contentInputUz" class="text-dark">Page source content <span class="text-danger">*</span></label>
+                                <textarea class="form-control col-12" id="contentInputUz" rows="20" th:utext="*{translations['UZ']?.content}" name="translations['UZ']?.content" aria-describedby="contentHelpUz"></textarea>
+                                <small id="contentHelpUz" class="form-text text-muted">
+                                    Full text of the static page, with optional HTML code.
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="lang-hg" role="tabpanel" aria-labelledby="lang-hg-tab">
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="titleHg">Title <span class="text-danger">*</span></label>
+                                <input id="titleHg" th:field="*{translations['HG']?.title}" type="text" class="form-control" aria-describedby="titleHelpHg">
+                                <small id="titleHelpHg" class="form-text text-muted">Main public title of the static page.</small>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <label for="contentInputHg" class="text-dark">Page source content <span class="text-danger">*</span></label>
+                                <textarea class="form-control col-12" id="contentInputHg" rows="20" th:utext="*{translations['HG']?.content}" name="translations['HG']?.content" aria-describedby="contentHelpHg"></textarea>
+                                <small id="contentHelpHg" class="form-text text-muted">
+                                    Full text of the static page, with optional HTML code.
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="lang-az" role="tabpanel" aria-labelledby="lang-az-tab">
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="titleAz">Title <span class="text-danger">*</span></label>
+                                <input id="titleAz" th:field="*{translations['AZ']?.title}" type="text" class="form-control" aria-describedby="titleHelpAz">
+                                <small id="titleHelpAz" class="form-text text-muted">Main public title of the static page.</small>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <label for="contentInputAz" class="text-dark">Page source content <span class="text-danger">*</span></label>
+                                <textarea class="form-control col-12" id="contentInputAz" rows="20" th:utext="*{translations['AZ']?.content}" name="translations['AZ']?.content" aria-describedby="contentHelpAz"></textarea>
+                                <small id="contentHelpAz" class="form-text text-muted">
+                                    Full text of the static page, with optional HTML code.
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card shadow mb-4">
+            <div class="card-body">
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="slug">Slug <span class="text-danger">*</span></label>
+                        <input id="slug" th:field="*{slug}" type="text" class="form-control" aria-describedby="slugHelp">
+                        <small id="slugHelp" class="form-text text-muted">
+                            URL-friendly slug — it will be used as the page URL.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" th:field="*{enabled}" class="custom-control-input" id="enabledHelp">
+                        <label class="custom-control-label" for="enabledHelp">
+                            Published <span class="text-danger">*</span>
+                        </label>
+                    </div>
+                </div>
+
+                <hr/>
+                <div class="actions-bar p-3 d-flex justify-content-between">
+                    <a th:href="@{/admin/static-pages/}" class="btn btn-outline-secondary border-secondary shadow-sm">Cancel</a>
+                    <div>
+                        <button type="submit" class="btn btn-primary border-primary shadow-sm">Update Static Page</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </form>
+</div>
+
+<th:block th:fragment="pageScripts">
+
+</th:block>
+
+</body>
+</html>

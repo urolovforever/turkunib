@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{admin/fragments/layout :: layout (~{::content}, 'TIU TURKUNIB :: Edit Webinar', 'webinars', ~{})}">
+<head>
+    <meta charset="UTF-8">
+    <title>TIU TURKUNIB - Edit Webinar</title>
+</head>
+<body>
+<div th:fragment="content">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h3 text-gray-800 mb-0">Edit Webinar</h1>
+        <a th:href="@{/admin/webinars/}" class="btn btn-outline-secondary border-secondary shadow-sm">Back to list</a>
+    </div>
+
+    <th:block th:replace="~{admin/fragments/message :: message(${error}, ${success})}"></th:block>
+
+    <div class="card shadow">
+        <div class="card-body">
+            <form method="post" th:action="@{|/admin/webinars/update/${webinar.id}|}">
+                <div class="form-group">
+                    <label for="title">Title</label>
+                    <input type="text" class="form-control" id="title" name="title" th:value="${webinar.title}" required>
+                </div>
+                <div class="form-group">
+                    <label for="startAt">Date &amp; time</label>
+                    <input type="datetime-local" class="form-control" id="startAt" name="startAt" required
+                           th:value="${#temporals.format(webinar.startAt, 'yyyy-MM-dd''T''HH:mm')}">
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-6">
+                        <label for="durationMinutes">Duration (min)</label>
+                        <input type="number" class="form-control" id="durationMinutes" name="durationMinutes" th:value="${webinar.durationMinutes}">
+                    </div>
+                    <div class="form-group col-6">
+                        <label for="capacity">Capacity</label>
+                        <input type="number" class="form-control" id="capacity" name="capacity" th:value="${webinar.capacity}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="onlineLink">Online link</label>
+                    <input type="url" class="form-control" id="onlineLink" name="onlineLink" th:value="${webinar.onlineLink}">
+                </div>
+                <div class="form-group">
+                    <label for="description">Short description</label>
+                    <textarea class="form-control" id="description" name="description" rows="2" th:text="${webinar.description}"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="content">Full details / agenda <small class="text-muted">(detail page; basic HTML allowed)</small></label>
+                    <textarea class="form-control" id="content" name="content" rows="5" th:text="${webinar.content}"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary shadow-sm">Save changes</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

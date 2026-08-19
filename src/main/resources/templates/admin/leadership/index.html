@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{admin/fragments/layout :: layout (~{::content}, 'TIU TURKUNIB :: Leadership', 'leadership', ~{})}">
+<head>
+    <meta charset="UTF-8">
+    <title>TIU TURKUNIB - Leadership</title>
+</head>
+<body>
+<div th:fragment="content">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h3 text-gray-800 mb-0">Leadership</h1>
+    </div>
+
+    <th:block th:replace="~{admin/fragments/message :: message(${error}, ${success})}"></th:block>
+
+    <div class="row">
+        <div class="col-lg-5 mb-4">
+            <div class="card shadow">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Add Member</h6>
+                </div>
+                <div class="card-body">
+                    <form method="post" th:action="@{/admin/leadership/create}" th:object="${form}" enctype="multipart/form-data">
+                        <p class="text-muted small mb-2">Fill the <strong>EN</strong> tab; add other languages in their tabs — any left empty falls back to English.</p>
+                        <th:block th:replace="~{admin/fragments/language-tab :: language-tabs}"></th:block>
+                        <div class="tab-content mb-3">
+                            <div class="tab-pane fade" th:classappend="${loc.name() == 'EN'} ? 'show active' : ''"
+                                 th:each="loc : ${T(com.tiu.turk.common.enums.TranslationLocale).values()}"
+                                 th:id="'lang-' + ${loc.code}" role="tabpanel">
+                                <div class="form-group">
+                                    <label>Position</label>
+                                    <input type="text" class="form-control" th:field="*{translations[__${loc.name()}__].position}" placeholder="e.g. General Coordinator">
+                                </div>
+                                <div class="form-group">
+                                    <label>Organization / University</label>
+                                    <input type="text" class="form-control" th:field="*{translations[__${loc.name()}__].organization}">
+                                </div>
+                                <div class="form-group">
+                                    <label>Short biography</label>
+                                    <textarea class="form-control" rows="4" th:field="*{translations[__${loc.name()}__].bio}"></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr>
+                        <p class="text-muted small mb-2">Shared (same for all languages):</p>
+                        <div class="form-group">
+                            <label for="fullName">Full name <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="fullName" name="fullName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="displayOrder">Display order</label>
+                            <input type="number" class="form-control" id="displayOrder" name="displayOrder" value="0">
+                        </div>
+                        <div class="form-group">
+                            <label for="photo">Photo</label>
+                            <input type="file" class="form-control-file" id="photo" name="photo" accept="image/*">
+                        </div>
+                        <button type="submit" class="btn btn-primary shadow-sm">Add member</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-7 mb-4">
+            <div class="card shadow">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Members</h6>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead class="thead-light">
+                            <tr>
+                                <th>Photo</th>
+                                <th>Name</th>
+                                <th>Position</th>
+                                <th>Order</th>
+                                <th class="text-right">Action</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="m : ${members}">
+                                <td>
+                                    <img th:if="${m.photo != null}" th:src="@{|/uploads${m.photo.imagePath}${m.photo.imageFileName}|}"
+                                         style="width:42px;height:42px;object-fit:cover;border-radius:50%;" alt="photo">
+                                </td>
+                                <td th:text="${m.fullName}">Name</td>
+                                <td th:text="${m.position}">—</td>
+                                <td th:text="${m.displayOrder}">0</td>
+                                <td class="text-right">
+                                    <a th:href="@{|/admin/leadership/edit/${m.id}|}" class="btn btn-sm btn-outline-primary">Edit</a>
+                                    <a th:href="@{|/admin/leadership/translations/${m.id}|}" class="btn btn-sm btn-outline-info">Languages</a>
+                                    <a th:href="@{|/admin/leadership/translate/${m.id}|}" class="btn btn-sm btn-outline-success"
+                                       title="Translate to all 7 languages via AI"
+                                       onclick="return confirm('Translate this member into all languages? This uses the AI translator.');">Translate</a>
+                                    <form method="post" th:action="@{|/admin/leadership/delete/${m.id}|}" class="d-inline"
+                                          onsubmit="return confirm('Delete this member?');">
+                                        <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                                    </form>
+                                </td>
+                            </tr>
+                            <tr th:if="${members == null or members.isEmpty()}">
+                                <td colspan="5" class="text-center text-muted py-4">No members yet.</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

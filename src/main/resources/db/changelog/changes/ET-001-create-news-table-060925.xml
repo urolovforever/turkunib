@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="ET-001-create-news-table-060925" author="Ruslan Skaldin">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="news"/>
+            </not>
+        </preConditions>
+
+        <!-- Create a news table -->
+        <createTable tableName="news">
+            <column name="id" type="bigint unsigned" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="image_id" type="bigint unsigned">
+                <constraints nullable="true"/>
+            </column>
+
+            <column name="category_id" type="bigint unsigned">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="author_name" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+
+            <column name="enabled" type="boolean" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="author_id" type="bigint unsigned">
+                <constraints nullable="true"/>
+            </column>
+
+            <column name="updated_at" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+
+            <column name="created_at" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+
+        <!-- FK на images -->
+        <addForeignKeyConstraint baseTableName="news"
+                                 baseColumnNames="image_id"
+                                 referencedTableName="images"
+                                 referencedColumnNames="id"
+                                 onDelete="RESTRICT"
+                                 onUpdate="CASCADE"
+                                 constraintName="fk_news_image"/>
+
+        <!-- FK на news_categories -->
+        <addForeignKeyConstraint baseTableName="news"
+                                 baseColumnNames="category_id"
+                                 referencedTableName="news_categories"
+                                 referencedColumnNames="id"
+                                 onDelete="RESTRICT"
+                                 onUpdate="CASCADE"
+                                 constraintName="fk_news_category"/>
+
+        <!-- FK на users -->
+        <addForeignKeyConstraint baseTableName="news"
+                                 baseColumnNames="author_id"
+                                 referencedTableName="users"
+                                 referencedColumnNames="id"
+                                 onDelete="SET NULL"
+                                 onUpdate="CASCADE"
+                                 constraintName="fk_news_author"/>
+
+        <!-- Индексы для производительности -->
+        <createIndex tableName="news" indexName="idx_news_category_id">
+            <column name="category_id"/>
+        </createIndex>
+
+        <createIndex tableName="news" indexName="idx_news_image_id">
+            <column name="image_id"/>
+        </createIndex>
+
+        <createIndex tableName="news" indexName="idx_news_created_at">
+            <column name="created_at"/>
+        </createIndex>
+
+        <!-- Полнотекстовый индекс (по желанию, для поиска): title + content -->
+        <!-- Работает в MariaDB/InnoDB -->
+        <!--        <createIndex tableName="news" indexName="ft_news_title_content" associatedWith="index">-->
+        <!--            <column name="title" type="FULLTEXT"/>-->
+        <!--            <column name="content" type="FULLTEXT"/>-->
+        <!--        </createIndex>-->
+
+    </changeSet>
+</databaseChangeLog>

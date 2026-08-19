@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <!-- =======================
+         SEQUENCES (MariaDB 10.3+)
+         ======================= -->
+    <changeSet id="mariadb-batch-007-sequences" author="Ruslan Skaldin">
+        <preConditions onFail="MARK_RAN">
+            <and>
+                <dbms type="mariadb"/>
+                <not>
+                    <sequenceExists sequenceName="batch_step_execution_seq"/>
+                </not>
+            </and>
+        </preConditions>
+
+        <createSequence sequenceName="batch_step_execution_seq"
+                        startValue="1" minValue="1" maxValue="9223372036854775806"
+                        incrementBy="1" ordered="false" cycle="false"/>
+
+        <createSequence sequenceName="batch_job_execution_seq"
+                        startValue="1" minValue="1" maxValue="9223372036854775806"
+                        incrementBy="1" ordered="false" cycle="false"/>
+
+        <createSequence sequenceName="batch_job_seq"
+                        startValue="1" minValue="1" maxValue="9223372036854775806"
+                        incrementBy="1" ordered="false" cycle="false"/>
+    </changeSet>
+
+</databaseChangeLog>

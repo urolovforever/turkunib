@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="ET-001-create-member-table-150925" author="Ruslan Skaldin">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="members"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="members">
+            <column name="id" type="bigint unsigned" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="name" type="varchar(512)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="image_id" type="bigint unsigned">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="founded" type="int">
+                <constraints nullable="true"/>
+            </column>
+
+            <column name="address" type="text">
+                <constraints nullable="true"/>
+            </column>
+
+            <column name="url" type="varchar(512)">
+                <constraints nullable="true"/>
+            </column>
+
+            <column name="students_number" type="int">
+                <constraints nullable="true"/>
+            </column>
+
+            <column name="faculties_number" type="int">
+                <constraints nullable="true"/>
+            </column>
+
+            <column name="country_id" type="bigint unsigned">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="latitude" type="decimal(9, 6)">
+                <constraints nullable="true"/>
+            </column>
+
+            <column name="longitude" type="decimal(9, 6)">
+                <constraints nullable="true"/>
+            </column>
+
+            <column name="enabled" type="boolean" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="author_id" type="bigint unsigned">
+                <constraints nullable="true"/>
+            </column>
+
+            <column name="updated_at" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+
+            <column name="created_at" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="members"
+                                 baseColumnNames="image_id"
+                                 referencedTableName="images"
+                                 referencedColumnNames="id"
+                                 constraintName="fk_members_image_id_images_id"
+                                 onDelete="RESTRICT"
+                                 onUpdate="CASCADE"/>
+
+        <addForeignKeyConstraint baseTableName="members"
+                                 baseColumnNames="country_id"
+                                 referencedTableName="countries"
+                                 referencedColumnNames="id"
+                                 constraintName="fk_members_country_id_countries_id"
+                                 onDelete="RESTRICT"
+                                 onUpdate="CASCADE"/>
+
+        <addForeignKeyConstraint baseTableName="members"
+                                 baseColumnNames="author_id"
+                                 referencedTableName="users"
+                                 referencedColumnNames="id"
+                                 onDelete="SET NULL"
+                                 onUpdate="CASCADE"
+                                 constraintName="fk_members_author_id_users_id"/>
+
+        <createIndex tableName="members" indexName="idx_members_name">
+            <column name="name"/>
+        </createIndex>
+
+        <createIndex tableName="members" indexName="idx_members_country_id">
+            <column name="country_id"/>
+        </createIndex>
+
+    </changeSet>
+</databaseChangeLog>

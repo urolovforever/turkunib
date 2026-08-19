@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{admin/fragments/layout :: layout (~{::content}, 'TIU TURKUNIB :: Orhun Quotas', 'orhun-quotas', ~{})}">
+<head>
+    <meta charset="UTF-8">
+    <title>TIU TURKUNIB - Orhun Quotas</title>
+</head>
+<body>
+<div th:fragment="content">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h3 text-gray-800 mb-0">Orhun Exchange Quotas</h1>
+    </div>
+
+    <th:block th:replace="~{admin/fragments/message :: message(${error}, ${success})}"></th:block>
+
+    <div class="card shadow mb-4" th:if="${rounds.isEmpty()}">
+        <div class="card-body">No Orhun exchange rounds exist yet. Please contact the TURKUNIB administrator.</div>
+    </div>
+
+    <th:block th:if="${round != null}">
+        <div class="row">
+            <div class="col-lg-7">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3 d-flex justify-content-between align-items-center">
+                        <h6 class="m-0 font-weight-bold text-primary" th:text="${row.memberName}">University</h6>
+                        <form method="get" th:action="@{/admin/orhun-quotas/}" class="form-inline mb-0">
+                            <select name="roundId" class="form-control form-control-sm" onchange="this.form.submit()">
+                                <option th:each="r : ${rounds}" th:value="${r.id}" th:selected="${r.id == round.id}"
+                                        th:text="${r.title} + (${r.academicYear} != null ? ' (' + ${r.academicYear} + ')' : '')">Round</option>
+                            </select>
+                        </form>
+                    </div>
+                    <div class="card-body">
+                        <p class="text-muted small mb-3">
+                            Enter your university's Orhun Exchange quotas for the selected round. The numbers are
+                            published on the TURKUNIB website. Leave all fields empty and save to withdraw a
+                            previously published quota.
+                        </p>
+                        <form method="post" th:action="@{/admin/orhun-quotas/save-member}">
+                            <input type="hidden" name="scholarshipId" th:value="${round.id}">
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label>Students accepted (incoming)</label>
+                                    <input type="number" min="0" max="9999" class="form-control" name="studentAccept" th:value="${row.studentAccept}">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label>Students sent (outgoing)</label>
+                                    <input type="number" min="0" max="9999" class="form-control" name="studentSend" th:value="${row.studentSend}">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label>Teachers accepted (incoming)</label>
+                                    <input type="number" min="0" max="9999" class="form-control" name="teacherAccept" th:value="${row.teacherAccept}">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label>Teachers sent (outgoing)</label>
+                                    <input type="number" min="0" max="9999" class="form-control" name="teacherSend" th:value="${row.teacherSend}">
+                                </div>
+                                <div class="form-group col-12">
+                                    <label>Note (optional)</label>
+                                    <input type="text" maxlength="512" class="form-control" name="note" th:value="${row.note}"
+                                           placeholder="e.g. only Engineering and Economics faculties">
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Save quota</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </th:block>
+</div>
+</body>
+</html>

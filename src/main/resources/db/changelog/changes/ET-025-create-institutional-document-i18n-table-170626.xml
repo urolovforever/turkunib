@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="ET-025-create-institutional-document-i18n-table-170626" author="tiu">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="institutional_document_i18n"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="institutional_document_i18n">
+            <column name="id" type="bigint unsigned" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="institutional_document_id" type="bigint unsigned">
+                <constraints nullable="false"/>
+            </column>
+            <column name="locale" type="varchar(10)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="title" type="varchar(512)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="description" type="text">
+                <constraints nullable="true"/>
+            </column>
+            <column name="updated_at" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+            <column name="created_at" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="institutional_document_i18n"
+                                 baseColumnNames="institutional_document_id"
+                                 referencedTableName="institutional_documents"
+                                 referencedColumnNames="id"
+                                 onDelete="CASCADE"
+                                 onUpdate="CASCADE"
+                                 constraintName="fk_institutional_document_i18n_doc"/>
+
+        <addUniqueConstraint tableName="institutional_document_i18n"
+                             columnNames="institutional_document_id,locale"
+                             constraintName="uk_institutional_document_i18n_doc_locale"/>
+
+        <createIndex tableName="institutional_document_i18n" indexName="idx_institutional_document_i18n_locale">
+            <column name="locale"/>
+        </createIndex>
+    </changeSet>
+</databaseChangeLog>

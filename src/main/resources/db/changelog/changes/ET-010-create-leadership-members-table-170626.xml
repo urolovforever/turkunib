@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="ET-010-create-leadership-members-table-170626" author="tiu">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="leadership_members"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="leadership_members">
+            <column name="id" type="bigint unsigned" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="full_name" type="varchar(512)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="position" type="varchar(512)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="organization" type="varchar(512)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="photo_id" type="bigint unsigned">
+                <constraints nullable="true"/>
+            </column>
+            <column name="bio" type="text">
+                <constraints nullable="true"/>
+            </column>
+            <column name="display_order" type="int" defaultValueNumeric="0">
+                <constraints nullable="true"/>
+            </column>
+            <column name="enabled" type="boolean" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+            <column name="author_id" type="bigint unsigned">
+                <constraints nullable="true"/>
+            </column>
+            <column name="updated_at" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+            <column name="created_at" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="leadership_members"
+                                 baseColumnNames="photo_id"
+                                 referencedTableName="images"
+                                 referencedColumnNames="id"
+                                 onDelete="SET NULL"
+                                 onUpdate="CASCADE"
+                                 constraintName="fk_leadership_members_photo_id_images_id"/>
+
+        <addForeignKeyConstraint baseTableName="leadership_members"
+                                 baseColumnNames="author_id"
+                                 referencedTableName="users"
+                                 referencedColumnNames="id"
+                                 onDelete="SET NULL"
+                                 onUpdate="CASCADE"
+                                 constraintName="fk_leadership_members_author_id_users_id"/>
+    </changeSet>
+
+</databaseChangeLog>

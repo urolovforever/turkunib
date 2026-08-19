@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{web/fragments/layout :: layout (~{::content}, 'TIU TURKUNIB :: Orhun Exchange Program', 'orhun', ~{})}">
+<head>
+    <meta charset="UTF-8">
+    <title>TIU TURKUNIB - Orhun Exchange Program</title>
+</head>
+<body>
+<div th:fragment="content">
+
+    <th:block th:replace="~{web/fragments/hero-banner :: hero-banner(${banners})}"></th:block>
+
+    <!-- Orhun Exchange Program -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 mx-auto">
+                    <h1 class="h2-bigger mb-3" th:text="#{page.orhun.title}">Orhun Exchange Program</h1>
+                    <p class="lead text-muted mb-3" th:text="#{page.orhun.intro.p1}">
+                        The Orhun Exchange Program, operating under the Turkic Universities Union (TURKUNIB), has
+                        emerged as the principal higher education mobility mechanism of the Organization of Turkic
+                        States (OTS).
+                    </p>
+                    <p class="text-muted mb-4" th:text="#{page.orhun.intro.p2}">
+                        Beyond its immediate academic outcomes, the Orhun Exchange Program constitutes a strategic
+                        instrument for fostering a cohesive and competitive Turkic Higher Education Area.
+                    </p>
+                    <a class="btn btn-outline-brand" th:href="@{/{lang}/orhun-guide(lang=${lang})}">
+                        <i class="bi bi-journal-text me-1"></i><span th:text="#{page.orhun.guidelink}">Application Guide</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Regulation -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 mx-auto">
+                    <h2 class="h4 mb-3" th:text="#{page.orhun.regulation.title}">Regulation</h2>
+                    <p class="mb-4" th:text="#{page.orhun.regulation.text}">
+                        The goals of these regulations are to determine the basis for the exchange of teachers and
+                        students between higher educational institutions that are members of the Turkic Council Turkic
+                        Universities Union. This Regulation covers the basics of the exchange of teachers and students
+                        between higher education institutions that are members of the Turkic Council Turkic Universities
+                        Union.
+                    </p>
+                    <a class="btn btn-outline-brand d-inline-flex align-items-center" target="_blank" th:href="@{/resources/web/files/orhun/yonetmenlikEng.docx}">
+                        <i class="bi bi-filetype-docx me-2"></i> <span th:text="#{page.orhun.regulation.download}">Download Regulation (DOCX)</span>
+                        <i class="bi bi-box-arrow-up-right ms-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Announcement -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 mx-auto">
+                    <h2 class="h2-bigger mb-3" th:text="#{page.orhun.announcement.title}">Announcement</h2>
+
+                    <!-- No open round: applications closed -->
+                    <div th:if="${activeRound == null}" class="alert alert-warning d-flex align-items-center mb-4" role="alert">
+                        <i class="bi bi-calendar-x me-2"></i>
+                        <span th:text="#{page.apply.closed}">Applications are currently closed. There is no open Orhun Exchange call at the moment.</span>
+                    </div>
+
+                    <!-- Active round: title, description and note come from the round (admin-managed) -->
+                    <th:block th:if="${activeRound != null}">
+                        <h5 class="mb-3" th:text="${activeRound.title}">2026/2027 Orhun Exchange Program Application</h5>
+                        <p class="mb-3" th:if="${activeRound.description != null and !activeRound.description.isBlank()}" th:text="${activeRound.description}">
+                            The Orhun Exchange Program will commence in the Fall Term of the 2026/2027 Academic Year for
+                            students and academic staff of TURKUNIB member universities within the Organization of Turkic States.
+                        </p>
+                    </th:block>
+
+                    <p class="mb-4"><small class="text-muted"
+                        th:text="${activeRound != null and activeRound.note != null and !activeRound.note.isBlank()} ? ${activeRound.note} : #{page.orhun.announcement.countries}">Participating countries and universities include
+                        Azerbaijan, Kazakhstan, Kyrgyzstan, Hungary, Uzbekistan, and Turkey.</small></p>
+
+                    <h5 class="mb-3" th:text="#{page.orhun.timeline.title}">Application Timeline</h5>
+                    <ul class="list-group shadow-sm mb-4">
+                        <li class="list-group-item d-flex align-items-center">
+                            <i class="bi bi-calendar-event me-3 text-brand"></i>
+                            <div>
+                                <div class="fw-semibold" th:text="#{page.orhun.timeline.item1}">Notify departments and quotas</div>
+                                <small class="text-muted" th:if="${activeRound != null and activeRound.timeline1Start != null}"
+                                       th:text="${#temporals.format(activeRound.timeline1Start,'dd MMMM yyyy')} + (${activeRound.timeline1End != null} ? ' – ' + ${#temporals.format(activeRound.timeline1End,'dd MMMM yyyy')} : '')">25 November – 20 December, 2025</small>
+                            </div>
+                        </li>
+                        <li class="list-group-item d-flex align-items-center">
+                            <i class="bi bi-calendar-event me-3 text-brand"></i>
+                            <div>
+                                <div class="fw-semibold" th:text="#{page.orhun.timeline.item2}">General announcement of the Coordinator University</div>
+                                <small class="text-muted" th:if="${activeRound != null and activeRound.timeline2Start != null}"
+                                       th:text="${#temporals.format(activeRound.timeline2Start,'dd MMMM yyyy')} + (${activeRound.timeline2End != null} ? ' – ' + ${#temporals.format(activeRound.timeline2End,'dd MMMM yyyy')} : '')">20 – 24 December, 2025</small>
+                            </div>
+                        </li>
+                        <li class="list-group-item d-flex align-items-center">
+                            <i class="bi bi-calendar-event me-3 text-brand"></i>
+                            <div>
+                                <div class="fw-semibold" th:text="#{page.orhun.timeline.item3}">Announcement of requirements and receiving applications</div>
+                                <small class="text-muted" th:if="${activeRound != null and activeRound.timeline3Start != null}"
+                                       th:text="${#temporals.format(activeRound.timeline3Start,'dd MMMM yyyy')} + (${activeRound.timeline3End != null} ? ' – ' + ${#temporals.format(activeRound.timeline3End,'dd MMMM yyyy')} : '')">24 December, 2025 – 6 January, 2026</small>
+                            </div>
+                        </li>
+                        <li class="list-group-item d-flex align-items-center">
+                            <i class="bi bi-calendar-event me-3 text-brand"></i>
+                            <div>
+                                <div class="fw-semibold" th:text="#{page.orhun.timeline.item4}">Notify quotas and evaluate applications</div>
+                                <small class="text-muted" th:if="${activeRound != null and activeRound.timeline4Start != null}"
+                                       th:text="${#temporals.format(activeRound.timeline4Start,'dd MMMM yyyy')} + (${activeRound.timeline4End != null} ? ' – ' + ${#temporals.format(activeRound.timeline4End,'dd MMMM yyyy')} : '')">6 – 15 January, 2026</small>
+                            </div>
+                        </li>
+                        <li class="list-group-item d-flex align-items-center">
+                            <i class="bi bi-calendar-check me-3 text-brand"></i>
+                            <div>
+                                <div class="fw-semibold" th:text="#{page.orhun.timeline.item5}">Announcement of results</div>
+                                <small class="text-muted" th:if="${activeRound != null and activeRound.timeline5Date != null}"
+                                       th:text="${#temporals.format(activeRound.timeline5Date,'dd MMMM yyyy')}">17 January, 2026</small>
+                            </div>
+                        </li>
+                    </ul>
+
+                    <h5 class="mb-3" th:text="#{page.orhun.documents.required.title}">Documents required in the application</h5>
+                    <ul class="list-unstyled mb-4">
+                        <li class="d-flex align-items-start gap-2 mb-2">
+                            <i class="bi bi-check2-circle text-brand mt-1"></i><span th:text="#{page.orhun.documents.required.item1}">Transcript</span></li>
+                        <li class="d-flex align-items-start gap-2 mb-2">
+                            <i class="bi bi-check2-circle text-brand mt-1"></i><span th:text="#{page.orhun.documents.required.item2}">Student Information Form (Only one university will be chosen for applications)</span>
+                        </li>
+                        <li class="d-flex align-items-start gap-2">
+                            <i class="bi bi-info-circle text-muted mt-1"></i><span th:text="#{page.orhun.documents.required.item3}">All documents must be filled electronically.</span>
+                        </li>
+                    </ul>
+
+                    <!-- Application period + apply buttons -->
+                    <div th:if="${activeRound != null}" class="card border-1 shadow-sm mb-4">
+                        <div class="card-body d-flex flex-wrap align-items-center justify-content-between gap-3">
+                            <div>
+                                <div class="fw-semibold">
+                                    <i class="bi bi-calendar-event me-1 text-brand"></i>
+                                    <span th:text="#{page.orhun.apply.period}">Application period</span>
+                                </div>
+                                <div class="text-muted"
+                                     th:if="${activeRound.applicationStart != null or activeRound.deadline != null}"
+                                     th:text="(${activeRound.applicationStart != null} ? ${#temporals.format(activeRound.applicationStart,'dd MMMM yyyy')} : '…') + ' – ' + (${activeRound.deadline != null} ? ${#temporals.format(activeRound.deadline,'dd MMMM yyyy')} : '…')">
+                                    16 August 2026 – 13 September 2026
+                                </div>
+                            </div>
+                            <div class="d-flex gap-2 flex-wrap" th:if="${activeRound.openNow}">
+                                <a th:href="@{/{lang}/application/form(lang=${lang},scholarship=${activeRound.id})}" class="btn btn-dark" th:text="#{page.orhun.rounds.student}">Student application</a>
+                                <a th:href="@{/{lang}/application/teacher-form(lang=${lang},scholarship=${activeRound.id})}" class="btn btn-outline-brand" th:text="#{page.orhun.rounds.teacher}">Teacher application</a>
+                            </div>
+                            <span th:unless="${activeRound.openNow}" class="btn btn-outline-secondary disabled" th:text="#{page.apply.closed.short}">Applications closed</span>
+                        </div>
+                    </div>
+
+                    <!-- Exchange quotas announced by member universities (admin + university-admin managed) -->
+                    <div th:if="${quotas != null and !quotas.isEmpty()}" class="mb-4">
+                        <h5 class="mb-2">
+                            <span th:text="#{page.orhun.quota.title}">Exchange Quotas</span>
+                            <span th:if="${activeRound != null and activeRound.academicYear != null}" th:text="'(' + ${activeRound.academicYear} + ')'">(2026/2027)</span>
+                        </h5>
+                        <p class="text-muted small mb-3" th:text="#{page.orhun.quota.subtitle}">Student and teacher exchange quotas announced by the member universities for the current round.</p>
+                        <div class="table-responsive">
+                            <table class="table table-bordered align-middle shadow-sm mb-0 directive-members-table">
+                                <thead class="table-light">
+                                <tr>
+                                    <th rowspan="2" class="align-middle" th:text="#{page.orhun.quota.col.country}">Country</th>
+                                    <th rowspan="2" class="align-middle" th:text="#{page.orhun.quota.col.university}">University</th>
+                                    <th colspan="2" class="text-center" th:text="#{page.orhun.quota.col.students}">Students</th>
+                                    <th colspan="2" class="text-center" th:text="#{page.orhun.quota.col.teachers}">Teachers</th>
+                                </tr>
+                                <tr>
+                                    <th class="text-center small" th:text="#{page.orhun.quota.col.accept}">Accepts</th>
+                                    <th class="text-center small" th:text="#{page.orhun.quota.col.send}">Sends</th>
+                                    <th class="text-center small" th:text="#{page.orhun.quota.col.accept}">Accepts</th>
+                                    <th class="text-center small" th:text="#{page.orhun.quota.col.send}">Sends</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="q : ${quotas}">
+                                    <td th:text="${q.countryName}">Country</td>
+                                    <td>
+                                        <span th:text="${q.memberName}">University</span>
+                                        <div th:if="${q.note != null}" class="text-muted small" th:text="${q.note}">note</div>
+                                    </td>
+                                    <td class="text-center" th:text="${q.studentAccept} ?: '—'">0</td>
+                                    <td class="text-center" th:text="${q.studentSend} ?: '—'">0</td>
+                                    <td class="text-center" th:text="${q.teacherAccept} ?: '—'">0</td>
+                                    <td class="text-center" th:text="${q.teacherSend} ?: '—'">0</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="alert alert-light border d-flex align-items-center" role="alert">
+                        <i class="bi bi-envelope me-2"></i>
+                        <div th:utext="#{page.orhun.contact.info}">
+                            For detailed information, please write to
+                            <a href="mailto:orhun@manas.edu.kg" class="fw-semibold">orhun@manas.edu.kg</a>.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Documents (modeled after Directive & Downloads) -->
+    <section id="documents" class="py-5 bg-light">
+        <div class="container">
+            <div class="row mb-3">
+                <div class="col-lg-12 mx-auto">
+                    <h2 class="h2-bigger" th:text="#{page.orhun.downloads.title}">Documents &amp; Downloads</h2>
+                    <p class="text-muted" th:text="#{page.orhun.downloads.subtitle}">Official templates and forms for students and academic staff.</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 mx-auto">
+                    <div class="list-group shadow-sm">
+                        <!-- Inter-Institutional Agreement -->
+                        <a class="list-group-item list-group-item-action d-flex align-items-center" target="_blank" th:href="@{/resources/web/files/orhun/Kurumlararası-Protokol-2021.docx}">
+                            <i class="bi bi-filetype-docx me-3 text-primary fs-4"></i>
+                            <div>
+                                <div class="fw-semibold" th:text="#{page.orhun.doc.agreement}">Inter-Institutional Agreement</div>
+                                <small class="text-muted" th:text="#{page.orhun.doc.archived}">Archived DOCX</small>
+                            </div>
+                            <i class="bi bi-box-arrow-up-right ms-auto"></i>
+                        </a>
+
+                        <!-- Forms for Students -->
+                        <a class="list-group-item list-group-item-action d-flex align-items-center" target="_blank" th:href="@{/resources/web/files/orhun/form.docx}">
+                            <i class="bi bi-filetype-docx me-3 text-primary fs-4"></i>
+                            <div>
+                                <div class="fw-semibold" th:text="#{page.orhun.doc.candidate}">1. Candidate Student Application Form</div>
+                                <small class="text-muted" th:text="#{page.orhun.doc.docxtemplate}">DOCX template</small>
+                            </div>
+                            <i class="bi bi-box-arrow-up-right ms-auto"></i>
+                        </a>
+                        <a class="list-group-item list-group-item-action d-flex align-items-center" target="_blank" th:href="@{/resources/web/files/orhun/bilgi.docx}">
+                            <i class="bi bi-filetype-docx me-3 text-primary fs-4"></i>
+                            <div>
+                                <div class="fw-semibold" th:text="#{page.orhun.doc.studentinfo}">2. Student Information Form</div>
+                                <small class="text-muted" th:text="#{page.orhun.doc.docxtemplate}">DOCX template</small>
+                            </div>
+                            <i class="bi bi-box-arrow-up-right ms-auto"></i>
+                        </a>
+                        <a class="list-group-item list-group-item-action d-flex align-items-center" target="_blank" th:href="@{/resources/web/files/orhun/protokol.docx}">
+                            <i class="bi bi-filetype-docx me-3 text-primary fs-4"></i>
+                            <div>
+                                <div class="fw-semibold" th:text="#{page.orhun.doc.learning}">3. Learning Agreement</div>
+                                <small class="text-muted" th:text="#{page.orhun.doc.docxtemplate}">DOCX template</small>
+                            </div>
+                            <i class="bi bi-box-arrow-up-right ms-auto"></i>
+                        </a>
+                        <a class="list-group-item list-group-item-action d-flex align-items-center" target="_blank" th:href="@{/resources/web/files/orhun/kabul_belgesi.docx}">
+                            <i class="bi bi-filetype-docx me-3 text-primary fs-4"></i>
+                            <div>
+                                <div class="fw-semibold" th:text="#{page.orhun.doc.acceptance}">4. Letter of Acceptance</div>
+                                <small class="text-muted" th:text="#{page.orhun.doc.docxtemplate}">DOCX template</small>
+                            </div>
+                            <i class="bi bi-box-arrow-up-right ms-auto"></i>
+                        </a>
+
+                        <!-- Forms for Academic Staff -->
+                        <a class="list-group-item list-group-item-action d-flex align-items-center" target="_blank" th:href="@{/resources/web/files/orhun/bilgi_form.docx}">
+                            <i class="bi bi-filetype-docx me-3 text-primary fs-4"></i>
+                            <div>
+                                <div class="fw-semibold" th:text="#{page.orhun.doc.staffinfo}">Academic Staff Information Form</div>
+                                <small class="text-muted" th:text="#{page.orhun.doc.docxtemplate}">DOCX template</small>
+                            </div>
+                            <i class="bi bi-box-arrow-up-right ms-auto"></i>
+                        </a>
+                        <a class="list-group-item list-group-item-action d-flex align-items-center" target="_blank" th:href="@{/resources/web/files/orhun/hareketlik.docx}">
+                            <i class="bi bi-filetype-docx me-3 text-primary fs-4"></i>
+                            <div>
+                                <div class="fw-semibold" th:text="#{page.orhun.doc.staffmobility}">Academic Staff Mobility Programme</div>
+                                <small class="text-muted" th:text="#{page.orhun.doc.docxtemplate}">DOCX template</small>
+                            </div>
+                            <i class="bi bi-box-arrow-up-right ms-auto"></i>
+                        </a>
+                        <a class="list-group-item list-group-item-action d-flex align-items-center" target="_blank" th:href="@{/resources/web/files/orhun/katilim_belge.docx}">
+                            <i class="bi bi-filetype-docx me-3 text-primary fs-4"></i>
+                            <div>
+                                <div class="fw-semibold" th:text="#{page.orhun.doc.staffcertificate}">Academic Staff Certificate of Attendance</div>
+                                <small class="text-muted" th:text="#{page.orhun.doc.docxtemplate}">DOCX template</small>
+                            </div>
+                            <i class="bi bi-box-arrow-up-right ms-auto"></i>
+                        </a>
+                        <a class="list-group-item list-group-item-action d-flex align-items-center" target="_blank" th:href="@{/resources/web/files/orhun/rapor_formu.docx}">
+                            <i class="bi bi-filetype-docx me-3 text-primary fs-4"></i>
+                            <div>
+                                <div class="fw-semibold" th:text="#{page.orhun.doc.staffreport}">Academic Staff Mobility Final Report Form</div>
+                                <small class="text-muted" th:text="#{page.orhun.doc.docxtemplate}">DOCX template</small>
+                            </div>
+                            <i class="bi bi-box-arrow-up-right ms-auto"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="py-5"></div>
+    </section>
+
+    <th:block th:replace="~{web/fragments/student-testimonials :: student-testimonials('')}"></th:block>
+
+</div>
+
+</body>
+</html>

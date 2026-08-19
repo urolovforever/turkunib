@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="ET-008-create-webinars-table-160626" author="tiu">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="webinars"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="webinars">
+            <column name="id" type="bigint unsigned" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="title" type="varchar(512)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="text">
+                <constraints nullable="true"/>
+            </column>
+            <column name="start_at" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="duration_minutes" type="int">
+                <constraints nullable="true"/>
+            </column>
+            <column name="online_link" type="varchar(1024)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="capacity" type="int">
+                <constraints nullable="true"/>
+            </column>
+            <column name="enabled" type="boolean" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+            <column name="author_id" type="bigint unsigned">
+                <constraints nullable="true"/>
+            </column>
+            <column name="updated_at" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+            <column name="created_at" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="webinars"
+                                 baseColumnNames="author_id"
+                                 referencedTableName="users"
+                                 referencedColumnNames="id"
+                                 onDelete="SET NULL"
+                                 onUpdate="CASCADE"
+                                 constraintName="fk_webinars_author_id_users_id"/>
+    </changeSet>
+
+    <changeSet id="ET-008-create-webinar-registrations-table-160626" author="tiu">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="webinar_registrations"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="webinar_registrations">
+            <column name="id" type="bigint unsigned" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="webinar_id" type="bigint unsigned">
+                <constraints nullable="false"/>
+            </column>
+            <column name="full_name" type="varchar(512)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="webinar_registrations"
+                                 baseColumnNames="webinar_id"
+                                 referencedTableName="webinars"
+                                 referencedColumnNames="id"
+                                 onDelete="CASCADE"
+                                 onUpdate="CASCADE"
+                                 constraintName="fk_webinar_registrations_webinar_id"/>
+    </changeSet>
+
+</databaseChangeLog>

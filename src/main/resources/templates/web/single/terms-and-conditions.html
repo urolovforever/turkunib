@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{web/fragments/layout :: layout (~{::content}, 'TIU TURKUNIB :: Terms and Conditions', 'terms', ~{})}">
+<head>
+    <meta charset="UTF-8">
+    <title>TIU TURKUNIB - Terms and Conditions</title>
+    <meta name="description" content="Read the Terms and Conditions governing the use of TIU TURKUNIB website, user responsibilities, intellectual property, liability limitations, and contact information.">
+    <meta name="robots" content="noindex, follow">
+    <!-- The layout fragment is expected to provide Bootstrap and icons -->
+    
+    <!-- Optional microdata for last update -->
+    <meta itemprop="dateModified" content="2025-11-12" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="TIU TURKUNIB — Terms and Conditions" />
+    <meta property="og:description" content="Terms and Conditions governing the use of the TIU TURKUNIB website." />
+</head>
+<body>
+<div th:fragment="content">
+
+    <!-- Header / Intro -->
+    <section class="py-5 bg-light-blue border-bottom">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-9">
+                    <h1 class="h2-bigger mb-2" th:text="#{page.terms.title}">Terms and Conditions</h1>
+                    <p class="text-muted mb-0"><span th:text="#{page.terms.lastupdated}">Last updated:</span> <span>12 November 2025</span></p>
+                </div>
+                <div class="col-lg-3 d-none d-lg-flex justify-content-lg-end">
+                    <i class="bi bi-file-earmark-text" style="font-size: 2.25rem; color: var(--brand, #10626b);"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Content -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row g-5">
+                <!-- Main content -->
+                <div class="col-lg-8">
+                    <p class="lead" th:text="#{page.terms.intro}">Welcome to turkunib.org (the “Site”). These Terms and Conditions (the “Terms”, “Agreement”) govern
+                        your access to and use of the Site. By accessing or using the Site, you agree to be bound by these Terms. If you
+                        do not agree to these Terms, please do not use the Site.</p>
+
+                    <h2 class="h4 mt-4" id="definitions" th:text="#{page.terms.s1.title}">1. Definitions</h2>
+                    <p th:text="#{page.terms.s1.text}">“We”, “our”, and “us” refer to the operator of the Site. “You” or “User” refers to any visitor, user, or other
+                        person who accesses the Site.</p>
+
+                    <h2 class="h4 mt-4" id="acceptance" th:text="#{page.terms.s2.title}">2. Acceptance of Terms</h2>
+                    <p th:text="#{page.terms.s2.text}">Your use of the Site is subject to these Terms and all applicable laws and regulations. If you use the Site on
+                        behalf of an organization, you represent that you are authorized to accept these Terms on its behalf.</p>
+
+                    <h2 class="h4 mt-4" id="use" th:text="#{page.terms.s3.title}">3. Permitted Use</h2>
+                    <ul>
+                        <li th:text="#{page.terms.s3.item1}">Use the Site only for lawful purposes and in a manner that does not infringe the rights of others.</li>
+                        <li th:text="#{page.terms.s3.item2}">Do not attempt to gain unauthorized access to the Site, its servers, or any associated systems.</li>
+                        <li th:text="#{page.terms.s3.item3}">Do not introduce malware, harmful code, or engage in activities that disrupt or degrade the Site.</li>
+                    </ul>
+
+                    <h2 class="h4 mt-4" id="accounts" th:text="#{page.terms.s4.title}">4. Accounts and Security</h2>
+                    <p th:text="#{page.terms.s4.text}">If the Site offers the ability to create an account, you are responsible for safeguarding your credentials and
+                        for all activities that occur under your account. We reserve the right to suspend or terminate accounts that
+                        violate these Terms or applicable law.</p>
+
+                    <h2 class="h4 mt-4" id="ip" th:text="#{page.terms.s5.title}">5. Intellectual Property</h2>
+                    <p th:text="#{page.terms.s5.text}">All content on the Site, including text, graphics, logos, icons, images, and design elements, is owned by us or
+                        our licensors and is protected by applicable copyright and other intellectual property laws. You may not copy,
+                        reproduce, modify, distribute, or publicly display any content without our prior written consent.</p>
+
+                    <h2 class="h4 mt-4" id="content-accuracy" th:text="#{page.terms.s6.title}">6. Content and Accuracy</h2>
+                    <p th:text="#{page.terms.s6.text}">We make reasonable efforts to ensure that information on the Site is accurate and up to date; however, we do not
+                        warrant that the content is free from errors or omissions. We may update or correct information at any time
+                        without prior notice.</p>
+
+                    <h2 class="h4 mt-4" id="third-party" th:text="#{page.terms.s7.title}">7. Third‑Party Links</h2>
+                    <p th:text="#{page.terms.s7.text}">The Site may contain links to third‑party websites or services that are not owned or controlled by us. We are not
+                        responsible for the content, privacy policies, or practices of any third‑party websites.</p>
+
+                    <h2 class="h4 mt-4" id="prohibited" th:text="#{page.terms.s8.title}">8. Prohibited Activities</h2>
+                    <ul>
+                        <li th:text="#{page.terms.s8.item1}">Using the Site in any manner that could disable, overburden, or impair it.</li>
+                        <li th:text="#{page.terms.s8.item2}">Data mining, scraping, or similar data‑gathering methods without our consent.</li>
+                        <li th:text="#{page.terms.s8.item3}">Impersonating any person or entity or misrepresenting your affiliation.</li>
+                    </ul>
+
+                    <h2 class="h4 mt-4" id="disclaimer" th:text="#{page.terms.s9.title}">9. Disclaimers</h2>
+                    <p th:text="#{page.terms.s9.text}">The Site and its content are provided on an “as is” and “as available” basis without warranties of any kind,
+                        either express or implied, including but not limited to implied warranties of merchantability, fitness for a
+                        particular purpose, and non‑infringement.</p>
+
+                    <h2 class="h4 mt-4" id="liability" th:text="#{page.terms.s10.title}">10. Limitation of Liability</h2>
+                    <p th:text="#{page.terms.s10.text}">To the fullest extent permitted by law, we shall not be liable for any indirect, incidental, special,
+                        consequential, or punitive damages, or any loss of profits or revenues, whether incurred directly or indirectly,
+                        or any loss of data, use, goodwill, or other intangible losses, resulting from (a) your use of or inability to
+                        use the Site; (b) any unauthorized access to or use of our servers; or (c) any content obtained from the Site.</p>
+
+                    <h2 class="h4 mt-4" id="indemnification" th:text="#{page.terms.s11.title}">11. Indemnification</h2>
+                    <p th:text="#{page.terms.s11.text}">You agree to defend, indemnify, and hold harmless us and our affiliates, officers, employees, and agents from and
+                        against any claims, liabilities, damages, losses, and expenses arising out of or in any way connected with your
+                        use of the Site or violation of these Terms.</p>
+
+                    <h2 class="h4 mt-4" id="law" th:text="#{page.terms.s12.title}">12. Governing Law and Jurisdiction</h2>
+                    <p th:text="#{page.terms.s12.text}">These Terms shall be governed by and construed in accordance with the laws applicable in the jurisdiction of our
+                        principal place of business, without regard to its conflict of law provisions. Any disputes will be subject to
+                        the exclusive jurisdiction of the courts located in that jurisdiction.</p>
+
+                    <h2 class="h4 mt-4" id="changes" th:text="#{page.terms.s13.title}">13. Changes to These Terms</h2>
+                    <p th:text="#{page.terms.s13.text}">We may revise these Terms from time to time. The updated Terms will be posted on this page with the “Last
+                        updated” date. Your continued use of the Site after changes become effective constitutes acceptance of the
+                        revised Terms.</p>
+
+                    <h2 class="h4 mt-4" id="contact" th:text="#{page.terms.s14.title}">14. Contact Us</h2>
+                    <p class="mb-1" th:text="#{page.terms.s14.text}">If you have any questions about these Terms and Conditions, please contact:</p>
+                    <p class="mb-4"><a href="mailto:info@tiu.uz">info@tiu.uz</a></p>
+                </div>
+
+                <!-- Side panel / quick nav -->
+                <div class="col-lg-4">
+                    <div class="card shadow-sm sticky-top" style="top: 100px;">
+                        <div class="card-body">
+                            <h3 class="h6 text-uppercase text-muted mb-3" th:text="#{page.terms.nav.onthispage}">On this page</h3>
+                            <ul class="list-unstyled small mb-0">
+                                <li class="mb-2"><a href="#definitions" class="text-decoration-none"><i class="bi bi-dot"></i> <span th:text="#{page.terms.nav.definitions}">Definitions</span></a></li>
+                                <li class="mb-2"><a href="#acceptance" class="text-decoration-none"><i class="bi bi-dot"></i> <span th:text="#{page.terms.nav.acceptance}">Acceptance of Terms</span></a></li>
+                                <li class="mb-2"><a href="#use" class="text-decoration-none"><i class="bi bi-dot"></i> <span th:text="#{page.terms.nav.use}">Permitted Use</span></a></li>
+                                <li class="mb-2"><a href="#accounts" class="text-decoration-none"><i class="bi bi-dot"></i> <span th:text="#{page.terms.nav.accounts}">Accounts &amp; Security</span></a></li>
+                                <li class="mb-2"><a href="#ip" class="text-decoration-none"><i class="bi bi-dot"></i> <span th:text="#{page.terms.nav.ip}">Intellectual Property</span></a></li>
+                                <li class="mb-2"><a href="#content-accuracy" class="text-decoration-none"><i class="bi bi-dot"></i> <span th:text="#{page.terms.nav.content}">Content &amp; Accuracy</span></a></li>
+                                <li class="mb-2"><a href="#third-party" class="text-decoration-none"><i class="bi bi-dot"></i> <span th:text="#{page.terms.nav.thirdparty}">Third‑Party Links</span></a></li>
+                                <li class="mb-2"><a href="#prohibited" class="text-decoration-none"><i class="bi bi-dot"></i> <span th:text="#{page.terms.nav.prohibited}">Prohibited Activities</span></a></li>
+                                <li class="mb-2"><a href="#disclaimer" class="text-decoration-none"><i class="bi bi-dot"></i> <span th:text="#{page.terms.nav.disclaimer}">Disclaimers</span></a></li>
+                                <li class="mb-2"><a href="#liability" class="text-decoration-none"><i class="bi bi-dot"></i> <span th:text="#{page.terms.nav.liability}">Limitation of Liability</span></a></li>
+                                <li class="mb-2"><a href="#indemnification" class="text-decoration-none"><i class="bi bi-dot"></i> <span th:text="#{page.terms.nav.indemnification}">Indemnification</span></a></li>
+                                <li class="mb-2"><a href="#law" class="text-decoration-none"><i class="bi bi-dot"></i> <span th:text="#{page.terms.nav.law}">Governing Law</span></a></li>
+                                <li class="mb-2"><a href="#changes" class="text-decoration-none"><i class="bi bi-dot"></i> <span th:text="#{page.terms.nav.changes}">Changes</span></a></li>
+                                <li><a href="#contact" class="text-decoration-none"><i class="bi bi-dot"></i> <span th:text="#{page.terms.nav.contact}">Contact</span></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA / Application form -->
+    <th:block th:replace="~{web/fragments/application-form :: application-form('')}"></th:block>
+
+</div>
+
+</body>
+</html>

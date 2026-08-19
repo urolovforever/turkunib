@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="ET-001-create-application-process-table-241225" author="Ruslan Skaldin">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="applications_process"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="applications_process">
+            <column name="id" type="bigint unsigned" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="university_sent_id" type="bigint unsigned">
+                <constraints nullable="false"/>
+            </column>
+            
+            <column name="university_received_id" type="bigint unsigned">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="file_id" type="bigint unsigned">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="comment" type="text">
+                <constraints nullable="true"/>
+            </column>
+
+            <column name="status" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="author_id" type="bigint unsigned">
+                <constraints nullable="true"/>
+            </column>
+
+            <column name="updated_at" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+
+            <column name="created_at" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="applications_process"
+                                 baseColumnNames="university_sent_id"
+                                 referencedTableName="members"
+                                 referencedColumnNames="id"
+                                 onDelete="CASCADE"
+                                 onUpdate="CASCADE"
+                                 constraintName="fk_ap_sent_id_members_id"/>
+
+        <addForeignKeyConstraint baseTableName="applications_process"
+                                 baseColumnNames="university_received_id"
+                                 referencedTableName="members"
+                                 referencedColumnNames="id"
+                                 onDelete="CASCADE"
+                                 onUpdate="CASCADE"
+                                 constraintName="fk_ap_received_id_members_id"/>
+
+        <addForeignKeyConstraint baseTableName="applications_process"
+                                 baseColumnNames="file_id"
+                                 referencedTableName="files"
+                                 referencedColumnNames="id"
+                                 onDelete="RESTRICT"
+                                 onUpdate="CASCADE"
+                                 constraintName="fk_ap_file_id_files_id"/>
+
+        <addForeignKeyConstraint baseTableName="applications_process"
+                                 baseColumnNames="author_id"
+                                 referencedTableName="users"
+                                 referencedColumnNames="id"
+                                 onDelete="SET NULL"
+                                 onUpdate="CASCADE"
+                                 constraintName="fk_ap_author_id_users_id"/>
+    </changeSet>
+</databaseChangeLog>

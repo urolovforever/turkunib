@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{admin/fragments/layout :: layout (~{::content}, 'TIU TURKUNIB :: Edit User', 'users', ~{::pageScripts})}">
+<head>
+    <meta charset="UTF-8">
+    <title>TIU TURKUNIB - Edit User User</title>
+</head>
+<body>
+<div th:fragment="content">
+    <h1 class="h3 mb-4 text-gray-800 ">Editing User</h1>
+
+    <th:block th:replace="~{admin/fragments/message :: message(${error}, ${success})}"></th:block>
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 d-flex align-items-center justify-content-between">
+            <h6 class="m-0 font-weight-bold text-primary">Form to Update User</h6>
+            <span class="small badge badge-info">ID: <span th:text="${user.id}">—</span></span>
+        </div>
+        <div class="card-body">
+
+            <form th:object="${user}" th:action="@{/admin/user/update}" method="post" enctype="multipart/form-data">
+
+                <!-- CSRF (если включен Spring Security CSRF) -->
+                <input type="hidden" th:if="${_csrf != null}" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                <input th:field="*{id}" type="hidden"/>
+
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="email">Email <span class="text-danger">*</span></label>
+                        <input id="email" th:field="*{email}" type="email" class="form-control" aria-describedby="emailHelp">
+                        <small id="emailHelp" class="form-text text-muted">
+                            Email address is required and will be used as the user's login identifier.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="password">Password</label>
+                        <input id="password" name="password" type="password" class="form-control" aria-describedby="passwordHelp">
+                        <small id="passwordHelp" class="form-text text-muted">
+                            Leave empty to keep the current password.
+                            New password should be at least 8 characters long.
+                        </small>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="passwordConfirmation">Confirm Password</label>
+                        <input id="passwordConfirmation" name="passwordConfirmation" type="password" class="form-control" aria-describedby="passwordConfirmationHelp">
+                        <small id="passwordConfirmationHelp" class="form-text text-muted">
+                            Please re-enter the password to confirm.
+                        </small>
+                        <div id="passwordMismatch" class="invalid-feedback" style="display: none;">
+                            Passwords do not match.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="firstName">First name <span class="text-danger">*</span></label>
+                        <input id="firstName" th:field="*{firstName}" type="text" class="form-control" aria-describedby="firstNameHelp">
+                        <small id="firstNameHelp" class="form-text text-muted">
+                            User's first name as it will appear in the system.
+                        </small>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="lastName">Last name <span class="text-danger">*</span></label>
+                        <input id="lastName" th:field="*{lastName}" type="text" class="form-control" aria-describedby="lastNameHelp">
+                        <small id="lastNameHelp" class="form-text text-muted">
+                            User's last name as it will appear in the system.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="roles">Roles <span class="text-danger">*</span></label>
+                        <select id="roles" name="roleId" class="form-control" aria-describedby="rolesHelp">
+                            <option th:each="role : ${roles}" th:value="${role.id}" th:text="${role.fullName}" th:selected="${user.roles().contains(role)}"></option>
+                        </select>
+                        <small id="rolesHelp" class="form-text text-muted">
+                            Assign one role to the user to define their permissions.
+                        </small>
+                    </div>
+                </div>
+
+
+                <div class="form-row">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" th:field="*{enabled}" class="custom-control-input" id="enabledHelp">
+                        <label class="custom-control-label" for="enabledHelp">
+                            Enabled <span class="text-danger">*</span>
+                        </label>
+                    </div>
+                </div>
+
+                <hr/>
+                <div class="actions-bar p-3 d-flex justify-content-between">
+                    <a th:href="@{/admin/user/}" class="btn btn-outline-secondary border-secondary shadow-sm">Cancel</a>
+                    <div>
+                        <button type="submit" class="btn btn-success border-success shadow-sm">Update User</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+<th:block th:fragment="pageScripts">
+    <script th:inline="javascript">
+        $(document).ready(function() {
+            var $password = $('#password');
+            var $passwordConfirmation = $('#passwordConfirmation');
+            var $mismatchError = $('#passwordMismatch');
+            var $form = $('form');
+
+            function validatePasswords() {
+                var password = $password.val();
+                var confirmation = $passwordConfirmation.val();
+
+                // Only validate if password field is not empty (optional on edit)
+                if (password.length === 0 && confirmation.length === 0) {
+                    $passwordConfirmation.removeClass('is-invalid');
+                    $mismatchError.hide();
+                    return true;
+                }
+
+                if (confirmation.length > 0 && password !== confirmation) {
+                    $passwordConfirmation.addClass('is-invalid');
+                    $mismatchError.show();
+                    return false;
+                } else {
+                    $passwordConfirmation.removeClass('is-invalid');
+                    $mismatchError.hide();
+                    return true;
+                }
+            }
+
+            $password.on('input', validatePasswords);
+            $passwordConfirmation.on('input', validatePasswords);
+
+            $form.on('submit', function(e) {
+                var password = $password.val();
+
+                if (!validatePasswords()) {
+                    e.preventDefault();
+                    $passwordConfirmation.focus();
+                    return false;
+                }
+
+                // Only validate length if password is being changed
+                if (password.length > 0 && password.length < 8) {
+                    e.preventDefault();
+                    alert('Password should be at least 8 characters long.');
+                    $password.focus();
+                    return false;
+                }
+            });
+        });
+    </script>
+</th:block>
+
+</body>
+</html>

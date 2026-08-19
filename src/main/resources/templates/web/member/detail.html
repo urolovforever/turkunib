@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{web/fragments/layout :: layout (~{::content}, ${member.name() + ' :: Member University'}, 'members', ~{})}">
+<head>
+    <meta charset="UTF-8">
+    <title>TIU TURKUNIB - Member University</title>
+</head>
+<body>
+<div th:fragment="content">
+
+    <th:block th:replace="~{web/fragments/hero-banner :: hero-banner(${banners})}"></th:block>
+
+    <section class="py-5">
+        <div class="container">
+            <a th:href="@{/{lang}/members/(lang=${lang})}" class="btn btn-sm btn-outline-brand mb-4">
+                <i class="bi bi-arrow-left me-1"></i> <span th:text="#{page.member.back}">All member universities</span>
+            </a>
+
+            <div class="row g-5">
+                <!-- Logo + key facts -->
+                <div class="col-lg-4">
+                    <div class="card border-1 shadow-sm">
+                        <div class="card-body text-center p-4">
+                            <img th:if="${member.image() != null and member.image().url != null}"
+                                 th:src="${member.image().url}" th:alt="${member.name()}"
+                                 class="img-fluid mb-3" style="max-height: 140px; object-fit: contain;">
+                            <h1 class="h4 mb-1" th:text="${member.name()}">University</h1>
+                            <p class="text-muted mb-0" th:if="${member.country() != null}">
+                                <i class="bi bi-geo-alt me-1"></i><span th:text="${member.country().name()}">Country</span>
+                            </p>
+                            <a th:if="${member.url() != null and !member.url().isBlank()}"
+                               th:href="${member.url()}" target="_blank" rel="noopener"
+                               class="btn btn-outline-brand btn-sm mt-3">
+                                <i class="bi bi-globe me-1"></i> <span th:text="#{page.member.visit}">Visit website</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Details -->
+                <div class="col-lg-8">
+                    <div class="row g-3 mb-4">
+                        <div class="col-6 col-md-4" th:if="${member.founded() != null}">
+                            <div class="card border-1 bg-light h-100">
+                                <div class="card-body">
+                                    <div class="text-muted small" th:text="#{page.member.founded}">Founded</div>
+                                    <div class="fs-5 fw-semibold" th:text="${member.founded()}">—</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-4" th:if="${member.studentsNumber() != null}">
+                            <div class="card border-1 bg-light h-100">
+                                <div class="card-body">
+                                    <div class="text-muted small" th:text="#{page.member.students}">Students</div>
+                                    <div class="fs-5 fw-semibold" th:text="${#numbers.formatInteger(member.studentsNumber(), 0, 'WHITESPACE')}">—</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-4" th:if="${member.facultiesNumber() != null}">
+                            <div class="card border-1 bg-light h-100">
+                                <div class="card-body">
+                                    <div class="text-muted small" th:text="#{page.member.faculties}">Faculties</div>
+                                    <div class="fs-5 fw-semibold" th:text="${member.facultiesNumber()}">—</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <ul class="list-unstyled">
+                        <li class="mb-2" th:if="${member.address() != null and !member.address().isBlank()}">
+                            <i class="bi bi-pin-map me-2 text-brand"></i><span th:text="${member.address()}">Address</span>
+                        </li>
+                        <li class="mb-2" th:if="${member.url() != null and !member.url().isBlank()}">
+                            <i class="bi bi-link-45deg me-2 text-brand"></i>
+                            <a th:href="${member.url()}" th:text="${member.url()}" target="_blank" rel="noopener">website</a>
+                        </li>
+                    </ul>
+
+                    <div th:if="${member.additionalInfo() != null and !member.additionalInfo().isBlank()}" class="mt-4">
+                        <h2 class="h5" th:text="#{page.member.about}">About</h2>
+                        <p th:utext="${member.additionalInfo()}" class="text-muted"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</div>
+
+</body>
+</html>

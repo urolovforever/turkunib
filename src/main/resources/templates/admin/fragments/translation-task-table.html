@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Translation Task Table</title>
+</head>
+<body>
+
+<th:block th:fragment="translation-task-table(items)">
+    <table class="table table-hover table-bordered table-sm align-middle mb-0">
+        <thead class="bg-light">
+        <tr>
+            <th class="font-weight-bold" style="min-width: 50px;">Task Id</th>
+            <th class="font-weight-bold" style="min-width: 50px;">Entity Id</th>
+            <th class="font-weight-bold" style="min-width: 100px;">Module</th>
+            <th class="font-weight-bold" style="min-width: 50px;">Source Locale</th>
+            <th class="font-weight-bold" style="min-width: 50px;">Target Locale</th>
+            <th class="font-weight-bold" style="min-width: 100px;">Status</th>
+            <th class="font-weight-bold" style="min-width: 50px;">Attempts</th>
+            <th class="font-weight-bold" style="min-width: 200px;">Error Message</th>
+            <th class="font-weight-bold" style="min-width: 170px;">Started At</th>
+            <th class="font-weight-bold" style="min-width: 170px;">Updated At</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="item : ${items}">
+            <td th:text="${item.id}"></td>
+            <td th:text="${item.entityId}"></td>
+            <td th:text="${item.module}"></td>
+            <td th:text="${item.sourceLocale}"></td>
+            <td th:text="${item.targetLocale}"></td>
+            <td>
+                <span th:switch="${item.status}">
+                    <span th:case="'PENDING'" class="badge badge-warning">Pending</span>
+                    <span th:case="'IN_PROGRESS'" class="badge badge-info">In Progress</span>
+                    <span th:case="'DONE'" class="badge badge-success">Completed</span>
+                    <span th:case="'FAILED'" class="badge badge-danger">Failed</span>
+                    <span th:case="*" class="badge badge-light text-dark">Unknown</span>
+                </span>
+            </td>
+            <td th:text="${item.attempt}"></td>
+            <td th:text="${item.errorMessage}"></td>
+            <td th:text="${#temporals.format(item.startedAt, 'yyyy-MM-dd HH:mm')}"></td>
+            <td th:text="${#temporals.format(item.updatedAt, 'yyyy-MM-dd HH:mm')}"></td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(page.content)}">
+            <td colspan="10" class="text-center text-muted py-4">No logs were found.</td>
+        </tr>
+        </tbody>
+    </table>
+</th:block>
+
+</body>
+</html>

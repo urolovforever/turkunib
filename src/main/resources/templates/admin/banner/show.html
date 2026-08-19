@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{admin/fragments/layout :: layout (~{::content}, 'TIU TURKUNIB :: Show Banner', 'banner', ~{})}">
+<head>
+    <meta charset="UTF-8">
+    <title>TIU TURKUNIB - Show Banner</title>
+</head>
+<body>
+<div th:fragment="content">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h3 text-gray-800 mb-0">Banner Details</h1>
+        <div class="btn-group">
+            <a th:href="@{|/admin/banner/edit/${banner.id}|}" class="btn btn-primary btn-sm border-primary shadow-sm mr-2"><i class="fas fa-edit"></i> Edit</a>
+            <a th:href="@{'/admin/banner/translate/' + ${banner.id}}"
+               class="btn btn-warning btn-sm border-warning text-black-100 font-weight-bold shadow-sm mr-2">
+                <i class="fas fa-language pr-2"></i>Translate with AI
+            </a>
+            <a th:href="@{'/admin/translation-tasks/show/banner/' + ${banner.id}}" class="btn btn-info btn-sm border-info shadow-sm"><i class="fas fa-language"></i> Translation logs</a>
+        </div>
+    </div>
+
+    <th:block th:replace="~{admin/fragments/message :: message(${error}, ${success})}"></th:block>
+
+    <div class="row">
+        <div class="col-lg-7 mb-4">
+            <div class="card shadow h-100">
+                <div class="card-header py-3 d-flex align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">General Information</h6>
+                    <span class="small badge badge-info">ID: <span th:text="${banner.id}">—</span></span>
+                </div>
+                <div class="card-body">
+                    <nav class="inline-tabs">
+                        <div class="nav nav-tabs mb-3" id="nav-tab" role="tablist">
+                            <a th:if="${banner.translations.containsKey('EN')}" class="nav-item nav-link active" id="lang-EN-tab" data-toggle="tab" href="#lang-EN"
+                               role="tab" aria-controls="lang-EN" aria-selected="true">EN</a>
+                            <a th:if="${banner.translations.containsKey('KG')}" class="nav-item nav-link" id="lang-KG-tab" data-toggle="tab" href="#lang-KG"
+                               role="tab" aria-controls="lang-KG" aria-selected="false">KG</a>
+                            <a th:if="${banner.translations.containsKey('KZ')}" class="nav-item nav-link" id="lang-KZ-tab" data-toggle="tab" href="#lang-KZ"
+                               role="tab" aria-controls="lang-KZ" aria-selected="false">KZ</a>
+                            <a th:if="${banner.translations.containsKey('TR')}" class="nav-item nav-link" id="lang-TR-tab" data-toggle="tab" href="#lang-TR"
+                               role="tab" aria-controls="lang-TR" aria-selected="false">TR</a>
+                            <a th:if="${banner.translations.containsKey('UZ')}" class="nav-item nav-link" id="lang-UZ-tab" data-toggle="tab" href="#lang-UZ"
+                               role="tab" aria-controls="lang-UZ" aria-selected="false">UZ</a>
+                            <a th:if="${banner.translations.containsKey('HG')}" class="nav-item nav-link" id="lang-HG-tab" data-toggle="tab" href="#lang-HG"
+                               role="tab" aria-controls="lang-HG" aria-selected="false">HG</a>
+                            <a th:if="${banner.translations.containsKey('AZ')}" class="nav-item nav-link" id="lang-AZ-tab" data-toggle="tab" href="#lang-AZ"
+                               role="tab" aria-controls="lang-AZ" aria-selected="false">AZ</a>
+                        </div>
+                    </nav>
+
+                    <div class="tab-content" id="nav-tabContent">
+                        <div th:each="e, iter : ${banner.translations.entrySet()}" class="tab-pane fade"
+                             th:classappend="${e.key == 'EN'} ? ' show active' : ''"
+                             th:id="${'lang-' + e.key}" role="tabpanel"
+                             th:aria-labelledby="${'lang-' + e.key + '-tab'}">
+
+                            <ul class="list-unstyled show-info-list">
+                                <li class="border-bottom-dotted">
+                                    <span class="badge badge-light-blue d-flex justify-content-between align-items-center">
+                                        <span>Title:</span>
+                                        <span class="ml-3 text-truncate" th:text="${e.value.title}"></span>
+                                    </span>
+                                </li>
+                                <li class="border-bottom-dotted">
+                                    <span class="badge badge-light-blue d-flex justify-content-between align-items-center">
+                                        <span>Short Title:</span>
+                                        <span class="ml-3 text-truncate" th:text="${e.value.shortTitle}"></span>
+                                    </span>
+                                </li>
+                                <li class="border-bottom-dotted">
+                                    <span class="badge badge-light-blue d-flex justify-content-between align-items-center">
+                                        <span>Description:</span>
+                                        <span class="ml-3 text-truncate" th:text="${e.value.description}"></span>
+                                    </span>
+                                </li>
+                                <li class="border-bottom-dotted">
+                                    <span class="badge badge-light-blue d-flex justify-content-between align-items-center">
+                                        <span>URL Title:</span>
+                                        <span class="ml-3 text-truncate" th:text="${e.value.urlTitle}"></span>
+                                    </span>
+                                </li>
+                                <li class="border-bottom-dotted">
+                                    <span class="badge badge-light-blue d-flex justify-content-between align-items-center">
+                                        <span>URL:</span>
+                                        <span><a th:href="${banner.url}" th:text="${banner.url}" target="_blank" rel="noopener">-</a></span>
+                                    </span>
+                                </li>
+                                <li class="border-bottom-dotted">
+                                    <span class="badge badge-light-blue d-flex justify-content-between align-items-center">
+                                        <span>Position:</span>
+                                        <span th:text="${banner.position}"></span>
+                                    </span>
+                                </li>
+                                <li class="border-bottom-dotted">
+                                    <span class="badge badge-light-blue d-flex justify-content-between align-items-center">
+                                        <span>Created:</span>
+                                        <span th:text="${#temporals.format(banner.updatedAt, 'dd MMM yyyy HH:mm')}"></span>
+                                    </span>
+                                </li>
+                                <li class="border-bottom-dotted">
+                                    <span class="badge badge-light-blue d-flex justify-content-between align-items-center">
+                                        <span>Updated:</span>
+                                        <span th:text="${#temporals.format(banner.updatedAt, 'dd MMM yyyy HH:mm')}"></span>
+                                    </span>
+                                </li>
+                                <li class="border-bottom-dotted">
+                                    <span class="badge badge-light-blue d-flex justify-content-between align-items-center">
+                                        <span>Published:</span>
+                                        <span th:if="${banner.enabled}" class="text-success font-weight-bold">Yes</span>
+                                        <span th:if="${!banner.enabled}" class="text-danger font-weight-bold">No</span>
+                                    </span>
+                                </li>
+                                <li class="border-bottom-dotted">
+                                    <span class="badge badge-light-blue d-flex justify-content-between align-items-center">
+                                        <span>Author:</span>
+                                        <span th:if="${banner.author}" th:text="${banner.author.fullName}"></span>
+                                    </span>
+                                </li>
+                            </ul>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-5 mb-4">
+            <div class="card shadow h-100">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Banner Image</h6>
+                </div>
+                <div class="card-body">
+                    <div th:if="${banner.image != null}" class="border rounded p-2 bg-light text-center">
+                        <img th:src="@{${banner.image.url}}" alt="Banner image" class="img-fluid" style="max-height:260px; object-fit:contain;">
+                        <small class="text-muted d-block mt-2" th:text="${banner.image.imageName}">image.png</small>
+                    </div>
+                    <div th:if="${banner.image == null}" class="text-muted small">No image attached.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow mb-4">
+        <div class="card-body d-flex justify-content-between">
+            <a th:href="@{/admin/banner/}" class="btn btn-outline-secondary border-secondary shadow-sm">Back to list</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

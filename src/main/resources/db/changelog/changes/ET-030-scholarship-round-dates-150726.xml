@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="ET-030-scholarship-round-dates-150726" author="tiu">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <columnExists tableName="scholarships" columnName="academic_year"/>
+            </not>
+        </preConditions>
+
+        <addColumn tableName="scholarships">
+            <column name="academic_year" type="varchar(20)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="timeline1_start" type="date"><constraints nullable="true"/></column>
+            <column name="timeline1_end" type="date"><constraints nullable="true"/></column>
+            <column name="timeline2_start" type="date"><constraints nullable="true"/></column>
+            <column name="timeline2_end" type="date"><constraints nullable="true"/></column>
+            <column name="timeline3_start" type="date"><constraints nullable="true"/></column>
+            <column name="timeline3_end" type="date"><constraints nullable="true"/></column>
+            <column name="timeline4_start" type="date"><constraints nullable="true"/></column>
+            <column name="timeline4_end" type="date"><constraints nullable="true"/></column>
+            <column name="timeline5_date" type="date"><constraints nullable="true"/></column>
+        </addColumn>
+    </changeSet>
+</databaseChangeLog>

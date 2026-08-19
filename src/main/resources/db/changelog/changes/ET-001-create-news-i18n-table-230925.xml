@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="ET-001-create-news-i18n-table-130925" author="Ruslan Skaldin">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="news_i18n"/>
+            </not>
+        </preConditions>
+
+        <!-- Create a news-i18n table -->
+        <createTable tableName="news_i18n">
+            <column name="id" type="bigint unsigned" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="news_id" type="bigint unsigned">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="locale" type="varchar(10)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="title" type="varchar(512)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="slug" type="varchar(512)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="content" type="text">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="description" type="varchar(1024)">
+                <constraints nullable="true"/>
+            </column>
+
+            <column name="updated_at" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+
+            <column name="created_at" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+
+        <!-- FK на news_id -->
+        <addForeignKeyConstraint baseTableName="news_i18n"
+                                 baseColumnNames="news_id"
+                                 referencedTableName="news"
+                                 referencedColumnNames="id"
+                                 onDelete="CASCADE"
+                                 onUpdate="CASCADE"
+
+                                 constraintName="fk_news_i18n_news"/>
+        <!-- Уникальный индекс на (news_id, locale) -->
+        <addUniqueConstraint tableName="news_i18n"
+                             columnNames="news_id,locale"
+                             constraintName="uk_news_i18n_news_locale"/>
+
+
+        <!-- Индекс для быстрого фильтра по локали -->
+        <createIndex tableName="news_i18n" indexName="idx_news_i18n_locale">
+            <column name="locale"/>
+        </createIndex>
+
+
+        <!-- Полнотекстовый индекс (по желанию, для поиска): title + content -->
+        <!-- Работает в MariaDB/InnoDB -->
+        <!--        <createIndex tableName="news" indexName="ft_news_title_content" associatedWith="index">-->
+        <!--            <column name="title" type="FULLTEXT"/>-->
+        <!--            <column name="content" type="FULLTEXT"/>-->
+        <!--        </createIndex>-->
+
+    </changeSet>
+</databaseChangeLog>

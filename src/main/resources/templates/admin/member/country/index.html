@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{admin/fragments/layout :: layout (~{::content}, 'TIU TURKUNIB :: Country List', 'member', ~{::pageScripts})}">
+<head>
+    <meta charset="UTF-8">
+    <title>TIU TURKUNIB - Country List</title>
+</head>
+<body>
+<div th:fragment="content" th:object="${country}">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h3 text-gray-800 mb-0">Country List</h1>
+        <div class="btn-group">
+            <button type="button" class="btn btn-primary btn-sm border-primary shadow-sm" data-toggle="modal" data-target="#createCountryModal">
+                <i class="fas fa-plus"></i> Add Country
+            </button>
+        </div>
+    </div>
+
+    <th:block th:replace="~{admin/fragments/message :: message(${error}, ${success})}"></th:block>
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 d-flex align-items-center justify-content-between">
+            <h6 class="m-0 font-weight-bold text-primary">Manage Countries</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover table-bordered table-sm align-middle mb-0">
+                    <thead class="bg-light">
+                    <tr>
+                        <th class="font-weight-bold" style="min-width: 100px;">Image</th>
+                        <th class="font-weight-bold" style="min-width: 120px;">Name</th>
+                        <th class="font-weight-bold" style="min-width: 120px;">Author</th>
+                        <th class="font-weight-bold" style="min-width: 120px;">Updated</th>
+                        <th class="font-weight-bold text-center" style="min-width: 120px;">Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="item : ${page.content}">
+                        <td>
+                            <img th:src="${item.image.url}" alt="preview" class="img-thumbnail" style="width:64px;height:64px;object-fit:cover;">
+                        </td>
+                        <td th:text="${item.name}"></td>
+                        <td>
+                            <span th:if="${item.author}" th:text="${item.author.fullName}"></span>
+                        </td>
+                        <td th:text="${#temporals.format(item.updatedAt, 'yyyy-MM-dd HH:mm')}"></td>
+                        <td class="text-center">
+                            <!-- Edit button triggers edit modal -->
+                            <button type="button" class="btn btn-link p-0 mx-1" title="Edit" data-toggle="modal" data-target="#editCountryModal"
+                                    th:attr="data-id=${item.id},data-name=${item.name},data-image=${item.image.url}">
+                                <i class="fas fa-edit text-primary"></i>
+                            </button>
+                            <form th:action="@{/admin/member/country/delete/{id}(id=${item.id})}" method="post" class="d-inline" onsubmit="return confirm('Delete this country permanently?');">
+                                <input type="hidden" th:if="${_csrf != null}" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                                <input type="hidden" name="_method" value="delete"/>
+                                <button type="submit" class="btn btn-link p-0 mx-1" title="Delete">
+                                    <i class="fas fa-trash text-danger"></i>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    <tr th:if="${#lists.isEmpty(page.content)}">
+                        <td colspan="6" class="text-center text-muted py-4">No countries found.</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div th:replace="~{admin/fragments/pagination :: pagination(${page}, '/admin/member/country/')}"></div>
+
+        </div>
+    </div>
+
+    <!-- Create Country Modal -->
+    <div class="modal fade" id="createCountryModal" tabindex="-1" role="dialog" aria-labelledby="createCountryModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <form th:action="@{/admin/member/country/create}" method="post" enctype="multipart/form-data">
+                    <div class="modal-header">
+                        <h5 class="modal-title text-black-100" id="createCountryModalLabel">Create Country</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body card-body">
+
+                        <div class="form-group">
+                            <label for="countryName">Name</label>
+                            <input type="text" class="form-control" id="countryName" name="name" placeholder="Enter country name" required maxlength="512">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="countryImage">Image</label>
+                            <input type="file" class="form-control-file" id="countryImage" name="file" accept="image/*" required>
+                            <small class="form-text text-muted">Optional image representing the country.</small>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary border-secondary shadow-sm" data-dismiss="modal">
+                            Cancel
+                        </button>
+                        <button type="submit" class="btn btn-success border-success shadow-sm">Create</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Country Modal -->
+    <div class="modal fade" id="editCountryModal" tabindex="-1" role="dialog" aria-labelledby="editCountryModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <form th:action="@{/admin/member/country/update}" method="post" enctype="multipart/form-data" id="editCountryForm">
+                    <div class="modal-header">
+                        <h5 class="modal-title text-black-100" id="editCountryModalLabel">Edit Country</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body card-body">
+                        <input type="hidden" name="id" id="editCountryId"/>
+                        <input type="hidden" th:if="${_csrf != null}" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+
+                        <div class="form-group">
+                            <label for="editCountryName">Name</label>
+                            <input type="text" class="form-control" id="editCountryName" name="name" required maxlength="512">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Current Image</label>
+                            <div class="mb-2">
+                                <img id="editCountryImagePreview" src="" alt="Image" class="img-thumbnail d-none" style="width:72px;height:72px;object-fit:cover;">
+                            </div>
+                            <label for="editCountryImage">Change Image (optional)</label>
+                            <input type="file" class="form-control-file" id="editCountryImage" name="file" accept="image/*">
+                            <small class="form-text text-muted">Leave empty to keep existing image.</small>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary border-secondary shadow-sm" data-dismiss="modal">
+                            Cancel
+                        </button>
+                        <button type="submit" class="btn btn-primary border-primary shadow-sm">Update</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<th:block th:fragment="pageScripts">
+    <script th:inline="javascript">
+        // Reset create form on close
+        $('#createCountryModal').on('hidden.bs.modal', function () {
+            const form = $(this).find('form')[0];
+            if (form) {
+                form.reset();
+            }
+        });
+
+        // Populate edit modal
+        $('#editCountryModal').on('show.bs.modal', function (event) {
+            const button = $(event.relatedTarget);
+            const id = button.data('id');
+            const name = button.data('name');
+            const image = button.data('image');
+            const modal = $(this);
+
+            modal.find('#editCountryId').val(id);
+            modal.find('#editCountryName').val(name);
+
+            const preview = modal.find('#editCountryImagePreview');
+            if (image) {
+                preview.attr('src', image).removeClass('d-none');
+            } else {
+                preview.addClass('d-none');
+            }
+            // Clear file input
+            modal.find('#editCountryImage').val('');
+        });
+
+        // Optional: live preview for replaced image
+        $('#editCountryImage').on('change', function () {
+            const file = this.files && this.files[0];
+            if (!file) return;
+            if (!file.type.startsWith('image')) return;
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                $('#editCountryImagePreview').attr('src', e.target.result).removeClass('d-none');
+            };
+            reader.readAsDataURL(file);
+        });
+
+        // Reset edit form on close
+        $('#editCountryModal').on('hidden.bs.modal', function () {
+            const form = $(this).find('form')[0];
+            if (form) {
+                form.reset();
+            }
+            $('#editCountryImagePreview').addClass('d-none').attr('src', '');
+        });
+    </script>
+</th:block>
+
+</body>
+</html>

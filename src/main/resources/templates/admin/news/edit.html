@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{admin/fragments/layout :: layout (~{::content}, 'TIU TURKUNIB :: Update News', 'news', ~{::pageScripts})}">
+<head>
+    <meta charset="UTF-8">
+    <title>TIU TURKUNIB - Update News</title>
+</head>
+<body>
+<div th:fragment="content">
+    <form th:object="${news}" th:action="@{/admin/news/update}" method="post" enctype="multipart/form-data">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1 class="h3 text-gray-800 mb-0">Update News</h1>
+            <div class="btn-group">
+                <a th:href="@{'/admin/news/translate/' + ${news.id}}"
+                   class="btn btn-warning btn-sm border-warning text-black-100 font-weight-bold shadow-sm mr-2">
+                    <i class="fas fa-language pr-2"></i>Translate with AI
+                </a>
+            </div>
+        </div>
+
+        <th:block th:replace="~{admin/fragments/message :: message-with-validation(${error}, ${success})}"></th:block>
+
+        <input th:field="*{id}" type="hidden"/>
+
+        <div class="card shadow mb-4">
+            <div class="card-header py-3 d-flex align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">Form to Update News</h6>
+                <span class="small badge badge-info">ID: <span th:text="${news.id}">—</span></span>
+            </div>
+
+            <div class="card-body">
+
+                <th:block th:replace="~{admin/fragments/language-tab :: language-tabs}"></th:block>
+
+                <div class="tab-content" id="nav-tabContent">
+                    <div class="tab-pane fade show active" id="lang-en" role="tabpanel" aria-labelledby="lang-en-tab">
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="titleEn">Title <span class="text-danger">*</span></label>
+                                <input id="titleEn" th:field="*{translations['EN']?.title}" type="text"
+                                       class="form-control"
+                                       th:classappend="${#fields.hasErrors('translations[EN].title')} ? 'is-invalid' : ''"
+                                       aria-describedby="titleHelpEn">
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('translations[EN].title')}" th:errors="*{translations['EN'].title}"></div>
+                                <small id="titleHelpEn" class="form-text text-muted">Main public name of the news.</small>
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label for="slugEn">Slug</label>
+                                <input id="slugEn" th:field="*{translations['EN']?.slug}" type="text" class="form-control" aria-describedby="slugHelpEn" readonly>
+                                <small id="slugHelpEn" class="form-text text-muted">
+                                    URL-friendly slug. Auto-filled from Title.
+                                </small>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="contentInputEn" class="text-dark">News Text
+                                    <span class="text-danger">*</span></label>
+                                <textarea class="form-control col-6 wysiwyg" id="contentInputEn" rows="8"
+                                          th:classappend="${#fields.hasErrors('translations[EN].content')} ? 'is-invalid' : ''"
+                                          th:utext="*{translations['EN']?.content}" name="translations['EN']?.content" aria-describedby="contentHelpEn"></textarea>
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('translations[EN].content')}" th:errors="*{translations['EN'].content}"></div>
+                                <small id="contentHelpEn" class="form-text text-muted">
+                                    Full text of the news article or announcement.
+                                </small>
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label for="descriptionInputEn" class="text-dark">News Summary</label>
+                                <textarea class="form-control col-6" id="descriptionInputEn" rows="6"
+                                          th:field="*{translations['EN']?.description}"
+                                          th:classappend="${#fields.hasErrors('translations[EN].description')} ? 'is-invalid' : ''"
+                                          aria-describedby="descriptionHelpEn"></textarea>
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('translations[EN].description')}" th:errors="*{translations['EN'].description}"></div>
+                                <small id="descriptionHelpEn" class="form-text text-muted">
+                                    A brief summary or explanation of the news's purpose.
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="lang-kg" role="tabpanel" aria-labelledby="lang-kg-tab">
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="titleKg">Title <span class="text-danger">*</span></label>
+                                <input id="titleKg" th:field="*{translations['KG']?.title}" type="text"
+                                       class="form-control"
+                                       th:classappend="${#fields.hasErrors('translations[KG].title')} ? 'is-invalid' : ''"
+                                       aria-describedby="titleHelpKg">
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('translations[KG].title')}" th:errors="*{translations['KG'].title}"></div>
+                                <small id="titleHelpKg" class="form-text text-muted">Main public name of the
+                                    news.</small>
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label for="slugKg">Slug</label>
+                                <input id="slugKg" th:field="*{translations['KG']?.slug}" type="text"
+                                       class="form-control"
+                                       th:classappend="${#fields.hasErrors('translations[KG].slug')} ? 'is-invalid' : ''"
+                                       aria-describedby="slugHelpKg" readonly>
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('translations[KG].slug')}" th:errors="*{translations['KG'].slug}"></div>
+                                <small id="slugHelpKg" class="form-text text-muted">
+                                    URL-friendly slug. Auto-filled from Title.
+                                </small>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="contentInputKg" class="text-dark">News Text
+                                    <span class="text-danger">*</span></label>
+                                <textarea class="form-control col-6 wysiwyg" id="contentInputKg" rows="8"
+                                          th:classappend="${#fields.hasErrors('translations[KG].content')} ? 'is-invalid' : ''"
+                                          th:utext="*{translations['KG']?.content}" name="translations['KG']?.content" aria-describedby="contentHelpKg"></textarea>
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('translations[KG].content')}" th:errors="*{translations['KG'].content}"></div>
+                                <small id="contentHelpKg" class="form-text text-muted">
+                                    Full text of the news article or announcement.
+                                </small>
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label for="descriptionInputKg" class="text-dark">News Summary</label>
+                                <textarea class="form-control col-6" id="descriptionInputKg" rows="6"
+                                          th:field="*{translations['KG']?.description}"
+                                          th:classappend="${#fields.hasErrors('translations[KG].description')} ? 'is-invalid' : ''"
+                                          aria-describedby="descriptionHelpKg"></textarea>
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('translations[KG].description')}" th:errors="*{translations['KG'].description}"></div>
+                                <small id="descriptionHelpKg" class="form-text text-muted">
+                                    A brief summary or explanation of the news's purpose.
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="lang-kz" role="tabpanel" aria-labelledby="lang-kz-tab">
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="titleKz">Title <span class="text-danger">*</span></label>
+                                <input id="titleKz" th:field="*{translations['KZ']?.title}" type="text"
+                                       class="form-control"
+                                       th:classappend="${#fields.hasErrors('translations[KZ].title')} ? 'is-invalid' : ''"
+                                       aria-describedby="titleHelpKz">
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('translations[KZ].title')}" th:errors="*{translations['KZ'].title}"></div>
+                                <small id="titleHelpKz" class="form-text text-muted">Main public name of the
+                                    news.</small>
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label for="slugKz">Slug</label>
+                                <input id="slugKz" th:field="*{translations['KZ']?.slug}" type="text"
+                                       class="form-control"
+                                       th:classappend="${#fields.hasErrors('translations[KZ].slug')} ? 'is-invalid' : ''"
+                                       aria-describedby="slugHelpKz" readonly>
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('translations[KZ].slug')}" th:errors="*{translations['KZ'].slug}"></div>
+                                <small id="slugHelpKz" class="form-text text-muted">
+                                    URL-friendly slug. Auto-filled from Title.
+                                </small>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="contentInputKz" class="text-dark">News Text
+                                    <span class="text-danger">*</span></label>
+                                <textarea class="form-control col-6 wysiwyg" id="contentInputKz" rows="8"
+                                          th:classappend="${#fields.hasErrors('translations[KZ].content')} ? 'is-invalid' : ''"
+                                          th:utext="*{translations['KZ']?.content}" name="translations['KZ']?.content" aria-describedby="contentHelpKz"></textarea>
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('translations[KZ].content')}" th:errors="*{translations['KZ'].content}"></div>
+                                <small id="contentHelpKz" class="form-text text-muted">
+                                    Full text of the news article or announcement.
+                                </small>
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label for="descriptionInputKz" class="text-dark">News Summary</label>
+                                <textarea class="form-control col-6" id="descriptionInputKz" rows="6"
+                                          th:field="*{translations['KZ']?.description}"
+                                          th:classappend="${#fields.hasErrors('translations[KZ].description')} ? 'is-invalid' : ''"
+                                          aria-describedby="descriptionHelpKz"></textarea>
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('translations[KZ].description')}" th:errors="*{translations['KZ'].description}"></div>
+                                <small id="descriptionHelpKz" class="form-text text-muted">
+                                    A brief summary or explanation of the news's purpose.
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="lang-tr" role="tabpanel" aria-labelledby="lang-tr-tab">
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="titleTr">Title <span class="text-danger">*</span></label>
+                                <input id="titleTr" th:field="*{translations['TR']?.title}" type="text"
+                                       class="form-control"
+                                       th:classappend="${#fields.hasErrors('translations[TR].title')} ? 'is-invalid' : ''"
+                                       aria-describedby="titleHelpTr">
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('translations[TR].title')}" th:errors="*{translations['TR'].title}"></div>
+                                <small id="titleHelpTr" class="form-text text-muted">Main public name of the
+                                    news.</small>
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label for="slugTr">Slug</label>
+                                <input id="slugTr" th:field="*{translations['TR']?.slug}" type="text"
+                                       class="form-control"
+                                       th:classappend="${#fields.hasErrors('translations[TR].slug')} ? 'is-invalid' : ''"
+                                       aria-describedby="slugHelpTr" readonly>
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('translations[TR].slug')}" th:errors="*{translations['TR'].slug}"></div>
+                                <small id="slugHelpTr" class="form-text text-muted">
+                                    URL-friendly slug. Auto-filled from Title.
+                                </small>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="contentInputTr" class="text-dark">News Text
+                                    <span class="text-danger">*</span></label>
+                                <textarea class="form-control col-6 wysiwyg" id="contentInputTr" rows="8"
+                                          th:classappend="${#fields.hasErrors('translations[TR].content')} ? 'is-invalid' : ''"
+                                          th:utext="*{translations['TR']?.content}" name="translations['TR']?.content" aria-describedby="contentHelpTr"></textarea>
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('translations[TR].content')}" th:errors="*{translations['TR'].content}"></div>
+                                <small id="contentHelpTr" class="form-text text-muted">
+                                    Full text of the news article or announcement.
+                                </small>
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label for="descriptionInputTr" class="text-dark">News Summary</label>
+                                <textarea class="form-control col-6" id="descriptionInputTr" rows="6"
+                                          th:field="*{translations['TR']?.description}"
+                                          th:classappend="${#fields.hasErrors('translations[TR].description')} ? 'is-invalid' : ''"
+                                          aria-describedby="descriptionHelpTr"></textarea>
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('translations[TR].description')}" th:errors="*{translations['TR'].description}"></div>
+                                <small id="descriptionHelpTr" class="form-text text-muted">
+                                    A brief summary or explanation of the news's purpose.
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="lang-uz" role="tabpanel" aria-labelledby="lang-uz-tab">
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="titleUz">Title <span class="text-danger">*</span></label>
+                                <input id="titleUz" th:field="*{translations['UZ']?.title}" type="text"
+                                       class="form-control"
+                                       th:classappend="${#fields.hasErrors('translations[UZ].title')} ? 'is-invalid' : ''"
+                                       aria-describedby="titleHelpUz">
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('translations[UZ].title')}" th:errors="*{translations['UZ'].title}"></div>
+                                <small id="titleHelpUz" class="form-text text-muted">Main public name of the
+                                    news.</small>
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label for="slugUz">Slug</label>
+                                <input id="slugUz" th:field="*{translations['UZ']?.slug}" type="text"
+                                       class="form-control"
+                                       th:classappend="${#fields.hasErrors('translations[UZ].slug')} ? 'is-invalid' : ''"
+                                       aria-describedby="slugHelpUz" readonly>
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('translations[UZ].slug')}" th:errors="*{translations['UZ'].slug}"></div>
+                                <small id="slugHelpUz" class="form-text text-muted">
+                                    URL-friendly slug. Auto-filled from Title.
+                                </small>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="contentInputUz" class="text-dark">News Text
+                                    <span class="text-danger">*</span></label>
+                                <textarea class="form-control col-6 wysiwyg" id="contentInputUz" rows="8"
+                                          th:classappend="${#fields.hasErrors('translations[UZ].content')} ? 'is-invalid' : ''"
+                                          th:utext="*{translations['UZ']?.content}" name="translations['UZ']?.content" aria-describedby="contentHelpUz"></textarea>
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('translations[UZ].content')}" th:errors="*{translations['UZ'].content}"></div>
+                                <small id="contentHelpUz" class="form-text text-muted">
+                                    Full text of the news article or announcement.
+                                </small>
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label for="descriptionInputUz" class="text-dark">News Summary</label>
+                                <textarea class="form-control col-6" id="descriptionInputUz" rows="6"
+                                          th:field="*{translations['UZ']?.description}"
+                                          th:classappend="${#fields.hasErrors('translations[UZ].description')} ? 'is-invalid' : ''"
+                                          aria-describedby="descriptionHelpUz"></textarea>
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('translations[UZ].description')}" th:errors="*{translations['UZ'].description}"></div>
+                                <small id="descriptionHelpUz" class="form-text text-muted">
+                                    A brief summary or explanation of the news's purpose.
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="lang-hg" role="tabpanel" aria-labelledby="lang-hg-tab">
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="titleHg">Title <span class="text-danger">*</span></label>
+                                <input id="titleHg" th:field="*{translations['HG']?.title}" type="text"
+                                       class="form-control"
+                                       th:classappend="${#fields.hasErrors('translations[HG].title')} ? 'is-invalid' : ''"
+                                       aria-describedby="titleHelpHg">
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('translations[HG].title')}" th:errors="*{translations['HG'].title}"></div>
+                                <small id="titleHelpHg" class="form-text text-muted">Main public name of the
+                                    news.</small>
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label for="slugHg">Slug</label>
+                                <input id="slugHg" th:field="*{translations['HG']?.slug}" type="text"
+                                       class="form-control"
+                                       th:classappend="${#fields.hasErrors('translations[HG].slug')} ? 'is-invalid' : ''"
+                                       aria-describedby="slugHelpHg" readonly>
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('translations[HG].slug')}" th:errors="*{translations['HG'].slug}"></div>
+                                <small id="slugHelpHg" class="form-text text-muted">
+                                    URL-friendly slug. Auto-filled from Title.
+                                </small>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="contentInputHg" class="text-dark">News Text
+                                    <span class="text-danger">*</span></label>
+                                <textarea class="form-control col-6 wysiwyg" id="contentInputHg" rows="8"
+                                          th:classappend="${#fields.hasErrors('translations[HG].content')} ? 'is-invalid' : ''"
+                                          th:utext="*{translations['HG']?.content}" name="translations['HG']?.content" aria-describedby="contentHelpHg"></textarea>
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('translations[HG].content')}" th:errors="*{translations['HG'].content}"></div>
+                                <small id="contentHelpHg" class="form-text text-muted">
+                                    Full text of the news article or announcement.
+                                </small>
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label for="descriptionInputHg" class="text-dark">News Summary</label>
+                                <textarea class="form-control col-6" id="descriptionInputHg" rows="6"
+                                          th:field="*{translations['HG']?.description}"
+                                          th:classappend="${#fields.hasErrors('translations[HG].description')} ? 'is-invalid' : ''"
+                                          aria-describedby="descriptionHelpHg"></textarea>
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('translations[HG].description')}" th:errors="*{translations['HG'].description}"></div>
+                                <small id="descriptionHelpHg" class="form-text text-muted">
+                                    A brief summary or explanation of the news's purpose.
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="lang-az" role="tabpanel" aria-labelledby="lang-az-tab">
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="titleAz">Title <span class="text-danger">*</span></label>
+                                <input id="titleAz" th:field="*{translations['AZ']?.title}" type="text"
+                                       class="form-control"
+                                       th:classappend="${#fields.hasErrors('translations[AZ].title')} ? 'is-invalid' : ''"
+                                       aria-describedby="titleHelpAz">
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('translations[AZ].title')}" th:errors="*{translations['AZ'].title}"></div>
+                                <small id="titleHelpAz" class="form-text text-muted">Main public name of the
+                                    news.</small>
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label for="slugAz">Slug</label>
+                                <input id="slugAz" th:field="*{translations['AZ']?.slug}" type="text"
+                                       class="form-control"
+                                       th:classappend="${#fields.hasErrors('translations[AZ].slug')} ? 'is-invalid' : ''"
+                                       aria-describedby="slugHelpAz" readonly>
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('translations[AZ].slug')}" th:errors="*{translations['AZ'].slug}"></div>
+                                <small id="slugHelpAz" class="form-text text-muted">
+                                    URL-friendly slug. Auto-filled from Title.
+                                </small>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="contentInputAz" class="text-dark">News Text
+                                    <span class="text-danger">*</span></label>
+                                <textarea class="form-control col-6 wysiwyg" id="contentInputAz" rows="8"
+                                          th:classappend="${#fields.hasErrors('translations[AZ].content')} ? 'is-invalid' : ''"
+                                          th:utext="*{translations['AZ']?.content}" name="translations['AZ']?.content" aria-describedby="contentHelpAz"></textarea>
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('translations[AZ].content')}" th:errors="*{translations['AZ'].content}"></div>
+                                <small id="contentHelpAz" class="form-text text-muted">
+                                    Full text of the news article or announcement.
+                                </small>
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label for="descriptionInputAz" class="text-dark">News Summary</label>
+                                <textarea class="form-control col-6" id="descriptionInputAz" rows="6"
+                                          th:field="*{translations['AZ']?.description}"
+                                          th:classappend="${#fields.hasErrors('translations[AZ].description')} ? 'is-invalid' : ''"
+                                          aria-describedby="descriptionHelpAz"></textarea>
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('translations[AZ].description')}" th:errors="*{translations['AZ'].description}"></div>
+                                <small id="descriptionHelpAz" class="form-text text-muted">
+                                    A brief summary or explanation of the news's purpose.
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card shadow mb-4">
+            <div class="card-body">
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="categorySelect" class="text-dark">Category
+                            <span class="text-danger">*</span></label>
+                        <select id="categorySelect" class="form-control col-6" name="categoryId" aria-describedby="categoryHelp">
+                            <option value="" disabled>Select a category</option>
+                            <option th:each="cat : ${categories}"
+                                    th:value="${cat.id}"
+                                    th:text="${cat.translations['EN']?.title}"
+                                    th:selected="${cat.id} == ${news.category.id}">
+                            </option>
+                        </select>
+                        <small id="categoryHelp" class="form-text text-muted">
+                            Select the category this news belongs to.
+                        </small>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="authorName">Author Name</label>
+                        <input id="authorName" th:field="*{authorName}" type="text"
+                               class="form-control"
+                               th:classappend="${#fields.hasErrors('authorName')} ? 'is-invalid' : ''"
+                               aria-describedby="authorNameHelp">
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('authorName')}" th:errors="*{authorName}"></div>
+                        <small id="authorNameHelp" class="form-text text-muted">Name of the news author.</small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="attachFileInput" class="text-dark">News Image</label>
+                    <input type="file" class="form-control col-6" id="attachFileInput" name="file" aria-describedby="imageHelp">
+                    <small id="imageHelp" class="form-text text-muted">
+                        Optional image representing the news (e.g., icon or banner).
+                    </small>
+
+                    <th:block th:if="${news.image}">
+                        <div class="mt-3 col-6" th:if="*{image}">
+                            <div class="border rounded p-2">
+                                <img th:src="@{${news.image.url}}" alt="Current image" class="img-fluid d-block" style="max-height:240px; object-fit:contain;">
+                            </div>
+                            <small class="text-muted d-block mt-1" th:text="*{image.imageName}">current-image.png</small>
+                        </div>
+                    </th:block>
+                </div>
+
+                <div class="form-row">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" th:field="*{enabled}" class="custom-control-input" id="enabledHelp">
+                        <label class="custom-control-label" for="enabledHelp">
+                            Published <span class="text-danger">*</span>
+                        </label>
+                    </div>
+                </div>
+
+                <hr/>
+                <div class="actions-bar p-3 d-flex justify-content-between">
+                    <a th:href="@{/admin/news/}" class="btn btn-outline-secondary border-secondary shadow-sm">Cancel</a>
+                    <div>
+                        <button type="submit" class="btn btn-primary border-primary shadow-sm">Update News</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </form>
+</div>
+
+<th:block th:fragment="pageScripts">
+    <script th:src="@{/resources/admin/js/transliteration.min.js}"></script>
+    <script th:src="@{/resources/admin/js/tinymce/tinymce.min.js}"></script>
+
+    <script>
+        $(function () {
+            // 1) Автогенерация slug в пределах той же вкладки
+            $(document).on('input', "input[id^='title']", function () {
+                const $pane = $(this).closest('.tab-pane');
+                $pane.find("input[id^='slug']").first().val(slugify($(this).val()));
+            });
+        });
+    </script>
+
+    <script>
+        tinymce.init({
+            selector: 'textarea.wysiwyg',
+            height: 500,
+            plugins: [
+                'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
+                'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
+                'insertdatetime', 'media', 'table', 'help', 'wordcount'
+            ],
+            toolbar: 'undo redo | blocks | ' +
+                'bold italic backcolor | alignleft aligncenter ' +
+                'alignright alignjustify | bullist numlist outdent indent | ' +
+                'removeformat | help',
+            license_key: 'gpl'
+        });
+    </script>
+</th:block>
+
+</body>
+</html>
