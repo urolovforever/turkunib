@@ -20,3 +20,6 @@ target/
 
 # Yuklangan fayllar
 uploads/
+
+# Lokal seed/ma'lumot fayllari
+/turkunib_*.sql

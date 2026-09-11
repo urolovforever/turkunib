@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="https://www.thymeleaf.org"
-      th:replace="~{admin/fragments/layout :: layout (~{::content}, 'TIU TURKUNIB :: Orhun Quotas', 'orhun-quotas', ~{})}">
+      th:replace="~{admin/fragments/layout :: layout (~{::content}, 'TIU TURKUNIB :: Orhun Quotas', 'orhun-quotas', ~{::scripts})}">
 <head>
     <meta charset="UTF-8">
     <title>TIU TURKUNIB - Orhun Quotas</title>
@@ -41,6 +41,20 @@
                 </p>
                 <form method="post" th:action="@{/admin/orhun-quotas/save}">
                     <input type="hidden" name="scholarshipId" th:value="${round.id}">
+                    <div class="form-row align-items-center mb-3" id="quotaFilterBar" hidden>
+                        <div class="col-auto">
+                            <select id="quotaCountry" class="form-control form-control-sm">
+                                <option value="">All countries</option>
+                            </select>
+                        </div>
+                        <div class="col-12 col-sm-4">
+                            <input type="search" id="quotaSearch" class="form-control form-control-sm"
+                                   placeholder="Search university...">
+                        </div>
+                        <div class="col-auto ml-auto">
+                            <span class="text-muted small" id="quotaCount"></span>
+                        </div>
+                    </div>
                     <div class="table-responsive">
                         <table class="table table-bordered table-sm align-middle">
                             <thead class="thead-light">
@@ -55,7 +69,8 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr th:each="row, it : ${gridRows}">
+                            <tr th:each="row, it : ${gridRows}" class="quota-row"
+                                th:attr="data-country=${row.countryName},data-name=${row.memberName}">
                                 <td th:text="${row.countryName}">Country</td>
                                 <td>
                                     <span th:text="${row.memberName}">University</span>
@@ -72,14 +87,66 @@
                                 <td><input type="text" maxlength="512" class="form-control form-control-sm"
                                            th:name="'rows[' + ${it.index} + '].note'" th:value="${row.note}"></td>
                             </tr>
+                            <tr id="quotaEmptyRow" hidden>
+                                <td colspan="7" class="text-center text-muted py-4">No universities match the filter.</td>
+                            </tr>
                             </tbody>
                         </table>
                     </div>
                     <button type="submit" class="btn btn-primary">Save all quotas</button>
+                    <span class="text-muted small ml-2">Filtering only hides rows &mdash; saving still covers every university.</span>
                 </form>
             </div>
         </div>
     </th:block>
 </div>
+
+<th:block th:fragment="scripts">
+<script>
+(function () {
+    var rows = Array.prototype.slice.call(document.querySelectorAll('tr.quota-row'));
+    if (!rows.length) return;
+    var bar = document.getElementById('quotaFilterBar');
+    var sel = document.getElementById('quotaCountry');
+    var box = document.getElementById('quotaSearch');
+    var out = document.getElementById('quotaCount');
+    var none = document.getElementById('quotaEmptyRow');
+
+    rows.map(function (r) { return r.getAttribute('data-country') || ''; })
+        .filter(function (c, i, a) { return c && a.indexOf(c) === i; })
+        .sort()
+        .forEach(function (c) {
+            var o = document.createElement('option');
+            o.value = c; o.textContent = c;
+            sel.appendChild(o);
+        });
+
+    function norm(s) {
+        s = (s || '').toLowerCase();
+        try { s = s.normalize('NFD').replace(/[\u0300-\u036f]/g, ''); } catch (e) {}
+        return s.replace(/\u0131/g, 'i').replace(/\u0130/g, 'i').replace(/\u0259/g, 'a');
+    }
+
+    // Qatorlar faqat YASHIRILADI (DOM'dan olib tashlanmaydi) —
+    // shuning uchun saqlashda hamma universitet forma bilan birga yuboriladi.
+    function apply() {
+        var c = sel.value, q = norm(box.value.trim()), shown = 0;
+        rows.forEach(function (r) {
+            var ok = (!c || r.getAttribute('data-country') === c) &&
+                     (!q || norm(r.getAttribute('data-name')).indexOf(q) !== -1);
+            r.hidden = !ok;
+            if (ok) shown++;
+        });
+        none.hidden = shown > 0;
+        out.textContent = shown + ' / ' + rows.length + ' universities';
+    }
+
+    sel.addEventListener('change', apply);
+    box.addEventListener('input', apply);
+    bar.hidden = false;
+    apply();
+})();
+</script>
+</th:block>
 </body>
 </html>

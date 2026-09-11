@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="https://www.thymeleaf.org"
-      th:replace="~{web/fragments/layout :: layout (~{::content}, 'TIU TURKUNIB :: Orhun Exchange Program', 'orhun', ~{})}">
+      th:replace="~{web/fragments/layout :: layout (~{::content}, 'TIU TURKUNIB :: Orhun Exchange Program', 'orhun', ~{::scripts})}">
 <head>
     <meta charset="UTF-8">
     <title>TIU TURKUNIB - Orhun Exchange Program</title>
@@ -166,6 +166,24 @@
                             <span th:if="${activeRound != null and activeRound.academicYear != null}" th:text="'(' + ${activeRound.academicYear} + ')'">(2026/2027)</span>
                         </h5>
                         <p class="text-muted small mb-3" th:text="#{page.orhun.quota.subtitle}">Student and teacher exchange quotas announced by the member universities for the current round.</p>
+                        <div class="row g-2 align-items-center mb-3" id="quotaFilterBar" hidden>
+                            <div class="col-12 col-sm-auto">
+                                <label class="visually-hidden" for="quotaCountry"
+                                       th:text="#{page.orhun.quota.col.country}">Country</label>
+                                <select id="quotaCountry" class="form-select form-select-sm">
+                                    <option value="" th:text="#{page.orhun.quota.filter.allcountries}">All countries</option>
+                                </select>
+                            </div>
+                            <div class="col-12 col-sm-5 col-md-4">
+                                <label class="visually-hidden" for="quotaSearch"
+                                       th:text="#{page.orhun.quota.col.university}">University</label>
+                                <input type="search" id="quotaSearch" class="form-control form-control-sm"
+                                       th:placeholder="#{page.orhun.quota.filter.search}" placeholder="Search university...">
+                            </div>
+                            <div class="col-12 col-sm-auto ms-sm-auto">
+                                <span class="text-muted small" id="quotaCount"></span>
+                            </div>
+                        </div>
                         <div class="table-responsive">
                             <table class="table table-bordered align-middle shadow-sm mb-0 directive-members-table">
                                 <thead class="table-light">
@@ -183,7 +201,8 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr th:each="q : ${quotas}">
+                                <tr th:each="q : ${quotas}" class="quota-row"
+                                    th:attr="data-country=${q.countryName},data-name=${q.memberName}">
                                     <td th:text="${q.countryName}">Country</td>
                                     <td>
                                         <span th:text="${q.memberName}">University</span>
@@ -193,6 +212,10 @@
                                     <td class="text-center" th:text="${q.studentSend} ?: '—'">0</td>
                                     <td class="text-center" th:text="${q.teacherAccept} ?: '—'">0</td>
                                     <td class="text-center" th:text="${q.teacherSend} ?: '—'">0</td>
+                                </tr>
+                                <tr id="quotaEmptyRow" hidden>
+                                    <td colspan="6" class="text-center text-muted py-4"
+                                        th:text="#{page.orhun.quota.filter.empty}">No universities match the filter.</td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -310,6 +333,59 @@
     <th:block th:replace="~{web/fragments/student-testimonials :: student-testimonials('')}"></th:block>
 
 </div>
+
+<th:block th:fragment="scripts">
+<script th:inline="javascript">
+/*<![CDATA[*/
+(function () {
+    var rows = Array.prototype.slice.call(document.querySelectorAll('tr.quota-row'));
+    if (!rows.length) return;
+    var bar = document.getElementById('quotaFilterBar');
+    var sel = document.getElementById('quotaCountry');
+    var box = document.getElementById('quotaSearch');
+    var out = document.getElementById('quotaCount');
+    var none = document.getElementById('quotaEmptyRow');
+    var countTpl = /*[[#{page.orhun.quota.filter.count}]]*/ '{0} of {1} universities';
+
+    // Davlat ro'yxati jadvalning o'zidan yig'iladi
+    Array.prototype.slice.call(rows)
+        .map(function (r) { return r.getAttribute('data-country') || ''; })
+        .filter(function (c, i, a) { return c && a.indexOf(c) === i; })
+        .sort()
+        .forEach(function (c) {
+            var o = document.createElement('option');
+            o.value = c; o.textContent = c;
+            sel.appendChild(o);
+        });
+
+    function norm(s) {
+        s = (s || '').toLowerCase();
+        try { s = s.normalize('NFD').replace(/[\u0300-\u036f]/g, ''); } catch (e) {}
+        return s.replace(/\u0131/g, 'i').replace(/\u0130/g, 'i').replace(/\u0259/g, 'a');
+    }
+
+    function apply() {
+        var c = sel.value;
+        var q = norm(box.value.trim());
+        var shown = 0;
+        rows.forEach(function (r) {
+            var ok = (!c || r.getAttribute('data-country') === c) &&
+                     (!q || norm(r.getAttribute('data-name')).indexOf(q) !== -1);
+            r.hidden = !ok;
+            if (ok) shown++;
+        });
+        none.hidden = shown > 0;
+        out.textContent = countTpl.replace('{0}', shown).replace('{1}', rows.length);
+    }
+
+    sel.addEventListener('change', apply);
+    box.addEventListener('input', apply);
+    bar.hidden = false;   // JS ishlayotgan bo'lsagina ko'rsatiladi
+    apply();
+})();
+/*]]>*/
+</script>
+</th:block>
 
 </body>
 </html>
